@@ -1,0 +1,10 @@
+.side-nav-container {
+  min-width: 200px;
+  background-color: var(--background-2);
+  border-right: var(--border);
+  padding: 16px;
+
+  .logo {
+    font-weight: 700;
+  }
+}

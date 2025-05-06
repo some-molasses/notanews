@@ -1,0 +1,26 @@
+.right-content {
+  padding: 16px;
+  height: 100vh;
+  width: 100%;
+
+  #articles-table-container {
+    width: 100%;
+  }
+
+  #articles-table {
+    border-radius: 4px;
+    width: 100%;
+
+    th,
+    td {
+      border: var(--border);
+      padding: 4px;
+    }
+
+    th {
+      font-weight: 400;
+      text-align: left;
+      font-size: 11px;
+    }
+  }
+}
