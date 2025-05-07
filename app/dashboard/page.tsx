@@ -7,18 +7,22 @@ interface Article {
   body: string;
   pseudonym: string;
   created_at: string;
+  id: string;
 }
 
 export default async function Home() {
-  const articles = (await fetch(`${process.env.LOCAL_DOMAIN}/api/python`).then(
-    (r) => r.json(),
-  )) as Article[];
-
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");
   }
+
+  const { data: sessionData } = await supabase.auth.getSession();
+  const jwt = sessionData?.session?.access_token;
+
+  const articles = (await fetch(`${process.env.LOCAL_DOMAIN}/api/python`, {
+    headers: { Authorization: `Bearer ${jwt}` },
+  }).then((r) => r.json())) as Article[];
 
   return (
     <main className="right-content">
@@ -34,7 +38,7 @@ export default async function Home() {
           <tbody>
             {articles.map((article: Article) => {
               return (
-                <tr>
+                <tr key={article.id}>
                   <td>{article.title}</td>
                   <td>{article.pseudonym}</td>
                 </tr>
