@@ -50,3 +50,17 @@ export async function signup(formData: FormData) {
   revalidatePath("/dashboard", "layout");
   redirect("/dashboard");
 }
+
+// custom from https://supabase.com/docs/guides/auth/signout?queryGroups=language&language=js
+export async function signOut() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    redirect("/error");
+  }
+
+  // @ts-expect-error layout not recognized
+  revalidatePath("/login", "layout");
+  redirect("/login");
+}
