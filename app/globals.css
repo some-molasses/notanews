@@ -21,9 +21,10 @@ body {
   background-color: var(--background);
   display: flex;
   flex-direction: row;
+  font-size: 0.75rem;
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 500;
 }

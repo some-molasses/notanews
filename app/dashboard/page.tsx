@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
 import "./articles-overview.scss";
+import { Row } from "../components/layout/layout";
+import { Button } from "../components/button/button";
+import { nothing } from "./actions";
 
 interface Article {
   title: string;
@@ -26,7 +29,12 @@ export default async function Home() {
 
   return (
     <main className="right-content">
-      <h1>Articles</h1>
+      <Row className="title-row">
+        <h1>Articles</h1>
+        <div>
+          <Button handler={nothing}>Create article</Button>
+        </div>
+      </Row>
       <div id="articles-table-container">
         <table id="articles-table">
           <thead>
