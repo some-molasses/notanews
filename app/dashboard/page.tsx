@@ -31,9 +31,9 @@ export default async function Home() {
     <main className="right-content">
       <Row className="title-row">
         <h1>Articles</h1>
-        <div>
+        <Row>
           <Button handler={nothing}>Create article</Button>
-        </div>
+        </Row>
       </Row>
       <div id="articles-table-container">
         <table id="articles-table">
