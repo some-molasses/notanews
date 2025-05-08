@@ -1,17 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
-import "./articles-overview.scss";
 import { Row } from "../components/layout/layout-components";
-import { Button } from "../components/button/button";
-import { nothing } from "./actions";
-
-interface Article {
-  title: string;
-  body: string;
-  pseudonym: string;
-  created_at: string;
-  id: string;
-}
+import { CreateArticleButton } from "./components/create-article-button";
+import "./articles-overview.scss";
+import Link from "next/link";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -23,16 +15,16 @@ export default async function Home() {
   const { data: sessionData } = await supabase.auth.getSession();
   const jwt = sessionData?.session?.access_token;
 
-  const articles = (await fetch(`${process.env.LOCAL_DOMAIN}/api/python`, {
+  const articles = (await fetch(`${process.env.LOCAL_DOMAIN}/api/articles`, {
     headers: { Authorization: `Bearer ${jwt}` },
   }).then((r) => r.json())) as Article[];
 
   return (
-    <main className="right-content">
+    <>
       <Row className="title-row">
         <h1>Articles</h1>
         <Row>
-          <Button handler={nothing}>Create article</Button>
+          <CreateArticleButton />
         </Row>
       </Row>
       <div id="articles-table-container">
@@ -47,7 +39,11 @@ export default async function Home() {
             {articles.map((article: Article) => {
               return (
                 <tr key={article.id}>
-                  <td>{article.title}</td>
+                  <td>
+                    <Link href={`/dashboard/article/${article.id}`}>
+                      {article.title}
+                    </Link>
+                  </td>
                   <td>{article.pseudonym}</td>
                 </tr>
               );
@@ -55,6 +51,6 @@ export default async function Home() {
           </tbody>
         </table>
       </div>
-    </main>
+    </>
   );
 }

@@ -10,12 +10,6 @@ from supabase import Client, create_client
 app = Flask(__name__)
 
 
-class GetArticleResponse(TypedDict):
-    author: str
-    title: str
-    date: str
-
-
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
@@ -23,22 +17,47 @@ supabase: Client = create_client(url, key)
 
 def get_current_user() -> User:
     if not request.headers.get("Authorization"):
-        raise "failed"
+        raise Exception("failed: no jwt")
 
     auth_parts = request.headers.get("Authorization").split(" ")
 
     if len(auth_parts) != 2:
-        raise "failed"
+        raise Exception("failed: malformed token")
     if auth_parts[0].strip() != "Bearer":
-        raise "failed"
+        raise Exception("failed: malformed token")
 
     jwt = auth_parts[1]
     return supabase.auth.get_user(jwt).user
 
 
-@app.route("/api/python")
+class GetArticleResponse(TypedDict):
+    author: str
+    title: str
+    date: str
+
+
+@app.route("/api/articles", methods=["GET"])
 def get_article() -> GetArticleResponse:
     user = get_current_user()
-    response = supabase.table("articles").select("*").eq("user", user.id).execute()
+    response = supabase.table("articles").select("*").eq("user_id", user.id).execute()
+
+    return jsonify(response.data)
+
+
+class GetArticleResponse(TypedDict):
+    author: str
+    title: str
+    date: str
+
+
+@app.route("/api/articles", methods=["POST"])
+def create_article() -> GetArticleResponse:
+    user = get_current_user()
+    print(user.id)
+    response = (
+        supabase.table("articles")
+        .insert({"user_id": user.id, "title": "untitled"})
+        .execute()
+    )
 
     return jsonify(response.data)

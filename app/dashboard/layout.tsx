@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <>
       <SideNav />
-      {children}
+      <main className="right-content">{children}</main>
     </>
   );
 }
