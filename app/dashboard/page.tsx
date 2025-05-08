@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
 import "./articles-overview.scss";
-import { Row } from "../components/layout/layout";
+import { Row } from "../components/layout/layout-components";
 import { Button } from "../components/button/button";
 import { nothing } from "./actions";
 
