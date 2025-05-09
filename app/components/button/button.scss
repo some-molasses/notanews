@@ -1,4 +1,11 @@
 .main-button {
-  padding: 4px;
-  border: var(--border);
+  padding: 12px 40px;
+  border: 1px solid var(--accent);
+  transition: var(--transition);
+  color: var(--accent);
+
+  &:hover {
+    background-color: var(--accent);
+    color: #fff;
+  }
 }

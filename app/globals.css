@@ -2,12 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
 :root {
   --background: #fff;
   --background-2: #fff;
+  --accent: #000;
+  --light-text: #666;
 
   --border: 1px solid var(--border-color);
   --border-color: #dddddd;
+
+  --transition: 0.15s linear;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,10 +35,10 @@ body {
   background-color: var(--background);
   display: flex;
   flex-direction: row;
+  align-items: stretch;
   font-size: 0.75rem;
 }
 
 h1 {
   font-size: 2rem;
-  font-weight: 500;
 }

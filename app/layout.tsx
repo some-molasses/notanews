@@ -1,7 +1,7 @@
 import "./globals.css";
-import { Roboto_Serif } from "next/font/google";
+import { Domine, Trocchi } from "next/font/google";
 
-const font = Roboto_Serif({ subsets: ["latin"] });
+const bodyFont = Domine({ subsets: ["latin"] });
 
 export const metadata = {
   title: "not a n*ws",
@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-ca">
-      <body className={font.className}>{children}</body>
+      <body className={bodyFont.className}>{children}</body>
     </html>
   );
 }

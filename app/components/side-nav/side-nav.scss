@@ -4,9 +4,10 @@
   border-right: var(--border);
   padding: 16px;
 
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 
   .logo {
-    font-weight: 700;
+    font-size: 2em;
   }
 }

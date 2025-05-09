@@ -1,12 +1,17 @@
 .right-content {
   padding: 16px;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
 
-  padding-top: 80px;
+  padding-top: 96px;
 
-  .title-row {
+  #title-row {
     justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  #button-row {
+    margin-bottom: 16px;
   }
 
   #articles-table-container {
@@ -17,16 +22,29 @@
     border-radius: 4px;
     width: 100%;
 
-    th,
+    td,
+    tr {
+      text-align: right;
+    }
+
+    td:first-child,
+    th:first-child {
+      text-align: left;
+    }
+
     td {
-      border: var(--border);
-      padding: 4px;
+      border-top: var(--border);
     }
 
     th {
       font-weight: 400;
-      text-align: left;
-      font-size: 11px;
+      text-align: right;
+      color: var(--light-text);
+    }
+
+    .cell {
+      padding: 20px;
+      display: block;
     }
   }
 }
