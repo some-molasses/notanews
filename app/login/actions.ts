@@ -22,11 +22,13 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
+    console.error(error);
     redirect("/error");
   }
 
   // @ts-expect-error layout not recognized
   revalidatePath("/dashboard", "layout");
+  revalidatePath("/dashboard/papers");
   redirect("/dashboard");
 }
 
@@ -43,11 +45,13 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data);
 
   if (error) {
+    console.error(error);
     redirect("/error");
   }
 
   // @ts-expect-error layout not recognized
   revalidatePath("/dashboard", "layout");
+  revalidatePath("/dashboard/papers");
   redirect("/dashboard");
 }
 
@@ -57,6 +61,7 @@ export async function signOut() {
   const { error } = await supabase.auth.signOut();
 
   if (error) {
+    console.error(error);
     redirect("/error");
   }
 

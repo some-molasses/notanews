@@ -22,13 +22,10 @@ export const getJWT = async (supabase?: SupabaseClient): Promise<string> => {
   return jwt;
 };
 
-export const redirectIfNotLoggedIn = async (supabase?: SupabaseClient) => {
-  if (!supabase) {
-    supabase = await createClient();
-  }
-
+export const redirectIfNotLoggedIn = async (supabase: SupabaseClient) => {
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
+    console.error(error, data?.user);
     redirect("/login");
   }
 };

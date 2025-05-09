@@ -19,10 +19,13 @@ export async function createClient() {
         },
         setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              // @ts-expect-error options is bad?
-              cookieStore.set(name, value, options),
-            );
+            cookiesToSet.forEach(({ name, value, options }) => {
+              // if (options) {
+              //   cookieStore.set(options);
+              // } else {
+              cookieStore.set(name, value);
+              // }
+            });
           } catch {
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing

@@ -1,5 +1,6 @@
 import { Row } from "@/app/components/layout/layout-components";
 import { redirectIfNotLoggedIn } from "@/app/utils/auth-utils";
+import { createClient } from "@/app/utils/supabase/server";
 import React from "react";
 
 export default async function ArticleEditor({
@@ -7,7 +8,8 @@ export default async function ArticleEditor({
 }: {
   params: Promise<{ uuid: string }>;
 }) {
-  await redirectIfNotLoggedIn();
+  const supabase = await createClient();
+  await redirectIfNotLoggedIn(supabase);
 
   return (
     <>
