@@ -1,17 +1,7 @@
 import { redirect } from "next/navigation";
-import { createClient } from "./supabase/client";
 import { SupabaseClient } from "@supabase/supabase-js";
 
-export const getJWT = async (supabase?: SupabaseClient): Promise<string> => {
-  if (!supabase) {
-    supabase = await createClient();
-  }
-
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    redirect("/login");
-  }
-
+export const getJWT = async (supabase: SupabaseClient): Promise<string> => {
   const { data: sessionData } = await supabase.auth.getSession();
   const jwt = sessionData?.session?.access_token;
 

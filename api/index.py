@@ -28,28 +28,27 @@ def get_current_user() -> User:
     return supabase.auth.get_user(jwt).user
 
 
-class GetArticleResponse(TypedDict):
-    author: str
-    title: str
-    date: str
-
-
 @app.route("/api/articles", methods=["GET"])
-def get_article() -> GetArticleResponse:
-    user = get_current_user()
-    response = supabase.table("articles").select("*").eq("user_id", user.id).execute()
+def get_article():
+    if request.args.get("id"):
+        return get_single_article(request.args.get("id"))
+    else:
+        return get_all_articles()
 
+
+def get_single_article(id: str):
+    response = supabase.table("articles").select("*").eq("id", id).execute()
     return jsonify(response.data)
 
 
-class GetArticleResponse(TypedDict):
-    author: str
-    title: str
-    date: str
+def get_all_articles():
+    user = get_current_user()
+    response = supabase.table("articles").select("*").eq("user_id", user.id).execute()
+    return jsonify(response.data)
 
 
 @app.route("/api/articles", methods=["POST"])
-def create_article() -> GetArticleResponse:
+def create_article():
     user = get_current_user()
     print(user.id)
     response = (
