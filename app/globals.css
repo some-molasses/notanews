@@ -24,13 +24,6 @@
   --transition: 0.15s linear;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* --background: #fff;
-    --background-2: #ddd; */
-  }
-}
-
 body {
   background-color: var(--background);
   display: flex;
@@ -41,4 +34,8 @@ body {
 
 h1 {
   font-size: 2rem;
+}
+
+input {
+  outline: none;
 }

@@ -10,6 +10,12 @@ export const Row: React.FC<{
   </div>
 );
 
-export const Column: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => <div className="layout-col">{children}</div>;
+export const Column: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}> = ({ children, className, id }) => (
+  <div className={`layout-col ${className ?? ""}`} id={id}>
+    {children}
+  </div>
+);

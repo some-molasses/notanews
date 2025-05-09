@@ -5,15 +5,13 @@ import { CreateArticleButton } from "./components/create-article-button";
 import "./articles-overview.scss";
 import Link from "next/link";
 import { Trocchi } from "next/font/google";
+import { redirectIfNotLoggedIn } from "../utils/auth-utils";
 
 const titleFont = Trocchi({ subsets: ["latin"], weight: "400" });
 
 export default async function Home() {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    redirect("/login");
-  }
+  await redirectIfNotLoggedIn(supabase);
 
   const { data: sessionData } = await supabase.auth.getSession();
   const jwt = sessionData?.session?.access_token;

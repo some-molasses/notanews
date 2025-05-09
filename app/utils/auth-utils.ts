@@ -1,8 +1,12 @@
 import { redirect } from "next/navigation";
 import { createClient } from "./supabase/client";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export const getJWT = async (): Promise<string> => {
-  const supabase = await createClient();
+export const getJWT = async (supabase?: SupabaseClient): Promise<string> => {
+  if (!supabase) {
+    supabase = await createClient();
+  }
+
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");
@@ -16,4 +20,15 @@ export const getJWT = async (): Promise<string> => {
   }
 
   return jwt;
+};
+
+export const redirectIfNotLoggedIn = async (supabase?: SupabaseClient) => {
+  if (!supabase) {
+    supabase = await createClient();
+  }
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
 };

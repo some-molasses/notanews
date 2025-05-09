@@ -1,7 +1,7 @@
 "use client";
 
 import { getJWT } from "@/app/utils/auth-utils";
-import { Button } from "../../components/button/button";
+import { Button } from "../../components/button/button.client";
 import { redirect, useRouter } from "next/navigation";
 
 export const CreateArticleButton: React.FC = () => {

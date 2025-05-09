@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const nodeExternals = require("webpack-node-externals");
+
 const nextConfig = {
   redirects: () => [
     {
@@ -20,6 +22,13 @@ const nextConfig = {
   },
   experimental: {
     serverActions: true,
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.externals = [nodeExternals()];
+    }
+
+    return config;
   },
 };
 
