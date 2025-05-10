@@ -2,7 +2,7 @@
 
 import { getJWT } from "@/app/utils/auth-utils";
 import { Button } from "../../components/button/button.client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/app/utils/supabase/client";
 
 export const CreateArticleButton: React.FC = () => {

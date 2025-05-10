@@ -1,4 +1,5 @@
 import { SideNav } from "../components/side-nav/side-nav";
+import "./layout.scss";
 
 export default function RootLayout({
   children,

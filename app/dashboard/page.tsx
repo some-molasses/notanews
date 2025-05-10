@@ -21,7 +21,7 @@ export default async function Home() {
   }).then((r) => r.json())) as Article[];
 
   return (
-    <>
+    <div id="articles-overview">
       <Row id="title-row">
         <h1 className={titleFont.className}>my articles</h1>
       </Row>
@@ -105,6 +105,6 @@ export default async function Home() {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }

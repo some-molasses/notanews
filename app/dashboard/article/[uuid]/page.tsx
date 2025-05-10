@@ -1,7 +1,11 @@
-import { Row } from "@/app/components/layout/layout-components";
+import { Column, Row } from "@/app/components/layout/layout-components";
 import { getJWT, redirectIfNotLoggedIn } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
 import React from "react";
+import "./article-editor.scss";
+import Tiptap from "@/app/components/tiptap/tiptap";
+import { Button } from "@/app/components/button/button.server";
+import { UpdateArticleButton } from "./components/update-article-button";
 
 export default async function ArticleEditor({
   params,
@@ -27,11 +31,21 @@ export default async function ArticleEditor({
   const article = articles[0];
 
   return (
-    <>
-      <Row className="title-row">
-        <h1>{article.title}</h1>
-        <p>{article.body}</p>
-      </Row>
-    </>
+    <div id="article-editor">
+      <Column className="metadata-inputs">
+        <input
+          id="title-input"
+          placeholder="your title here"
+          defaultValue={article.title ?? ""}
+        />
+        <input
+          id="pseudonym-input"
+          placeholder="a creative author name"
+          defaultValue={article.pseudonym ?? ""}
+        />
+      </Column>
+      <Tiptap defaultContent={article.body} />
+      <UpdateArticleButton />
+    </div>
   );
 }

@@ -3,6 +3,7 @@
   border: 1px solid var(--accent);
   transition: var(--transition);
   color: var(--accent);
+  max-width: 200px;
 
   &:hover {
     background-color: var(--accent);

@@ -1,0 +1,19 @@
+#article-editor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .metadata-inputs {
+    width: 100%;
+    margin-bottom: 16px;
+
+    #title-input {
+      font-size: 2.5em;
+    }
+  }
+
+  .tiptap-editor {
+    flex-grow: 1;
+  }
+}
