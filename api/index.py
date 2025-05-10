@@ -1,4 +1,6 @@
+import logging
 import os
+from pprint import pprint
 from typing import TypedDict
 
 from flask import Flask, jsonify, request
@@ -54,6 +56,27 @@ def create_article():
     response = (
         supabase.table("articles")
         .insert({"user_id": user.id, "title": "untitled"})
+        .execute()
+    )
+
+    return jsonify(response.data)
+
+
+@app.route("/api/articles", methods=["PATCH"])
+def update_article():
+    user = get_current_user()
+    article = request.get_json()
+
+    response = (
+        supabase.table("articles")
+        .update(
+            {
+                "title": article["title"],
+                "body": article["body"],
+                "pseudonym": article["pseudonym"],
+            }
+        )
+        .eq("id", "26703936-b03d-4e1d-b99a-78e062f54680")
         .execute()
     )
 
