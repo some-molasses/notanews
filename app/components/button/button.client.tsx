@@ -11,7 +11,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={`main-button variant-${variant}`}
-      onClick={() => handler()}
+      onClick={() => (handler as () => void)()}
     >
       {children}
     </button>
