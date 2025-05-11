@@ -26,9 +26,7 @@ export async function login(formData: FormData) {
     redirect("/error");
   }
 
-  // @ts-expect-error layout not recognized
-  revalidatePath("/dashboard", "layout");
-  revalidatePath("/dashboard/papers");
+  revalidatePath("/");
   redirect("/dashboard");
 }
 
@@ -49,9 +47,7 @@ export async function signup(formData: FormData) {
     redirect("/error");
   }
 
-  // @ts-expect-error layout not recognized
-  revalidatePath("/dashboard", "layout");
-  revalidatePath("/dashboard/papers");
+  revalidatePath("/");
   redirect("/dashboard");
 }
 
@@ -65,7 +61,6 @@ export async function signOut() {
     redirect("/error");
   }
 
-  // @ts-expect-error layout not recognized
-  revalidatePath("/login", "layout");
+  revalidatePath("/login");
   redirect("/login");
 }
