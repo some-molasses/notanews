@@ -4,17 +4,24 @@ from pprint import pprint
 
 from flask import Flask, jsonify, request
 from gotrue import User  # no idea what gotrue is but it's where supabase gets its users
-from supabase import Client, create_client
+from supabase import Client, ClientOptions, create_client
 
 app = Flask(__name__)
 
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(url, key)
+def get_logged_in_supabase() -> Client:
+    return create_client(
+        url,
+        key,
+        ClientOptions(
+            headers={
+                "Authorization": f"Bearer {get_current_jwt()}",
+            }
+        ),
+    )
 
 
-def get_current_user() -> User:
+def get_current_jwt() -> str:
     if not request.headers.get("Authorization"):
         raise Exception("failed: no jwt")
 
@@ -25,7 +32,16 @@ def get_current_user() -> User:
     if auth_parts[0].strip() != "Bearer":
         raise Exception("failed: malformed token")
 
-    jwt = auth_parts[1]
+    return auth_parts[1]
+
+
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
+
+
+def get_current_user() -> User:
+    supabase = get_logged_in_supabase()
+    jwt = get_current_jwt()
     return supabase.auth.get_user(jwt).user
 
 
@@ -38,11 +54,13 @@ def get_article():
 
 
 def get_single_article(id: str):
+    supabase = get_logged_in_supabase()
     response = supabase.table("articles").select("*").eq("id", id).execute()
     return jsonify(response.data)
 
 
 def get_all_articles():
+    supabase = get_logged_in_supabase()
     user = get_current_user()
     response = supabase.table("articles").select("*").eq("user_id", user.id).execute()
     return jsonify(response.data)
@@ -50,8 +68,8 @@ def get_all_articles():
 
 @app.route("/api/articles", methods=["POST"])
 def create_article():
+    supabase = get_logged_in_supabase()
     user = get_current_user()
-    print(user.id)
     response = (
         supabase.table("articles")
         .insert(
@@ -69,7 +87,7 @@ def create_article():
 
 @app.route("/api/articles", methods=["PATCH"])
 def update_article():
-    user = get_current_user()
+    supabase = get_logged_in_supabase()
     article = request.get_json()
 
     response = (
