@@ -6,6 +6,7 @@ import React from "react";
 import "./article-editor.scss";
 import { getArticleById } from "@/app/utils/queries";
 import { ArticleEditorClient } from "./components/editor";
+import { Article } from "@/app/utils/data-types";
 
 export default async function ArticleEditor({
   params,

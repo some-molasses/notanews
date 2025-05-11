@@ -4,6 +4,7 @@ import { Column } from "@/app/components/layout/layout-components";
 import Tiptap from "@/app/components/tiptap/tiptap";
 import { UpdateArticleButton } from "./update-article-button";
 import { useState } from "react";
+import { Article } from "@/app/utils/data-types";
 
 export const ArticleEditorClient: React.FC<{ article: Article }> = ({
   article,

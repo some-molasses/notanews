@@ -4,6 +4,7 @@ import { getJWT } from "@/app/utils/auth-utils";
 import { Button } from "../../components/button/button.client";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/app/utils/supabase/client";
+import { Article } from "@/app/utils/data-types";
 
 export const CreateArticleButton: React.FC = () => {
   const router = useRouter();

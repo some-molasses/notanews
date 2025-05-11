@@ -1,6 +1,7 @@
 import { getJWT } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/client";
 import { clearDashboardCacheAction } from "./actions";
+import { Article } from "@/app/utils/data-types";
 
 export async function updateArticle(article: Article) {
   const supabase = await createClient();

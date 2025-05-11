@@ -6,6 +6,7 @@ import "./articles-overview.scss";
 import Link from "next/link";
 import { Trocchi } from "next/font/google";
 import { redirectIfNotLoggedIn } from "../utils/auth-utils";
+import { Article } from "../utils/data-types";
 
 const titleFont = Trocchi({ subsets: ["latin"], weight: "400" });
 
@@ -84,7 +85,7 @@ export default async function Home() {
                       href={`/dashboard/article/${article.id}`}
                       className="cell"
                     >
-                      draft
+                      {article.state}
                     </Link>
                   </td>
                   <td>

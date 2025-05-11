@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { getJWT } from "./auth-utils";
+import { Article } from "./data-types";
 
 export const getArticleById = async (
   supabase: SupabaseClient,
