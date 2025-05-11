@@ -16,12 +16,11 @@ export default async function Home() {
   const { data: sessionData } = await supabase.auth.getSession();
   const jwt = sessionData?.session?.access_token;
 
-  const articles = (await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/articles`,
-    {
+  const articles = (
+    (await fetch(`${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/articles`, {
       headers: { Authorization: `Bearer ${jwt}` },
-    },
-  ).then((r) => r.json())) as Article[];
+    }).then((r) => r.json())) as Article[]
+  ).sort((a, b) => (a.updated_at > b.updated_at ? -1 : 1));
 
   return (
     <div id="articles-overview">

@@ -2,6 +2,10 @@
   border: var(--border);
   outline: none;
 
+  > div {
+    height: 100%;
+  }
+
   * {
     outline: none;
   }

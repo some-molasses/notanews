@@ -1,7 +1,6 @@
-import logging
 import os
+from datetime import datetime
 from pprint import pprint
-from typing import TypedDict
 
 from flask import Flask, jsonify, request
 from gotrue import User  # no idea what gotrue is but it's where supabase gets its users
@@ -53,7 +52,17 @@ def get_all_articles():
 def create_article():
     user = get_current_user()
     print(user.id)
-    response = supabase.table("articles").insert({"user_id": user.id}).execute()
+    response = (
+        supabase.table("articles")
+        .insert(
+            {
+                "user_id": user.id,
+                "created_at": datetime.now().isoformat(),
+                "updated_at": datetime.now().isoformat(),
+            }
+        )
+        .execute()
+    )
 
     return jsonify(response.data)
 
@@ -70,9 +79,10 @@ def update_article():
                 "title": article["title"],
                 "body": article["body"],
                 "pseudonym": article["pseudonym"],
+                "updated_at": datetime.now().isoformat(),
             }
         )
-        .eq("id", "26703936-b03d-4e1d-b99a-78e062f54680")
+        .eq("id", article["id"])
         .execute()
     )
 

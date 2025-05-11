@@ -25,6 +25,5 @@ export const getArticleById = async (
     throw new Error(`Bad article given?`);
   }
 
-  console.log(`Queried article:`, articles);
   return articles[0];
 };
