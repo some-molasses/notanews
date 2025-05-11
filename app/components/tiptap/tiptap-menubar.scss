@@ -1,0 +1,11 @@
+.control-group {
+  button {
+    border: var(--border);
+    margin: 4px;
+    padding: 4px;
+
+    &.is-active {
+      background-color: #f6c28a;
+    }
+  }
+}
