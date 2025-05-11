@@ -1,5 +1,5 @@
 export type ButtonProps = {
   children: React.ReactNode;
-  handler: () => void;
+  handler: (formData: FormData) => void;
   variant?: "default" | "destructive";
 };
