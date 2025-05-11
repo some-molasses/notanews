@@ -17,7 +17,7 @@ export const CreateArticleButton: React.FC = () => {
       method: "POST",
     }).then((r) => r.json())) as [Article];
 
-    console.log(newArticles[0]);
+    console.log(`New article created: ${newArticles[0].id}`);
     router.push(`/dashboard/article/${newArticles[0].id}`);
   };
 

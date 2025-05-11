@@ -53,11 +53,7 @@ def get_all_articles():
 def create_article():
     user = get_current_user()
     print(user.id)
-    response = (
-        supabase.table("articles")
-        .insert({"user_id": user.id, "title": "untitled"})
-        .execute()
-    )
+    response = supabase.table("articles").insert({"user_id": user.id}).execute()
 
     return jsonify(response.data)
 

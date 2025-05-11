@@ -16,9 +16,12 @@ export default async function Home() {
   const { data: sessionData } = await supabase.auth.getSession();
   const jwt = sessionData?.session?.access_token;
 
-  const articles = (await fetch(`${process.env.LOCAL_DOMAIN}/api/articles`, {
-    headers: { Authorization: `Bearer ${jwt}` },
-  }).then((r) => r.json())) as Article[];
+  const articles = (await fetch(
+    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/articles`,
+    {
+      headers: { Authorization: `Bearer ${jwt}` },
+    },
+  ).then((r) => r.json())) as Article[];
 
   return (
     <div id="articles-overview">

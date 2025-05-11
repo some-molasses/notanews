@@ -1,11 +1,11 @@
-import { Column, Row } from "@/app/components/layout/layout-components";
-import { getJWT, redirectIfNotLoggedIn } from "@/app/utils/auth-utils";
+"use server";
+
+import { redirectIfNotLoggedIn } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
 import React from "react";
 import "./article-editor.scss";
-import Tiptap from "@/app/components/tiptap/tiptap";
-import { Button } from "@/app/components/button/button.server";
-import { UpdateArticleButton } from "./components/update-article-button";
+import { getArticleById } from "@/app/utils/queries";
+import { ArticleEditorClient } from "./components/editor";
 
 export default async function ArticleEditor({
   params,
@@ -15,37 +15,12 @@ export default async function ArticleEditor({
   const supabase = await createClient();
   await redirectIfNotLoggedIn(supabase);
 
-  const jwt = await getJWT(supabase);
+  const uuid = (await params).uuid;
+  const article: Article | null = await getArticleById(supabase, uuid);
 
-  const articles = (await fetch(
-    `${process.env.LOCAL_DOMAIN}/api/articles?id=${(await params).uuid}`,
-    {
-      headers: { Authorization: `Bearer ${jwt}` },
-    },
-  ).then((r) => r.json())) as Article[];
-
-  if (articles.length !== 1) {
-    throw new Error(`Bad article given?`);
+  if (article === null) {
+    return null;
   }
 
-  const article = articles[0];
-
-  return (
-    <div id="article-editor">
-      <Column className="metadata-inputs">
-        <input
-          id="title-input"
-          placeholder="your title here"
-          defaultValue={article.title ?? ""}
-        />
-        <input
-          id="pseudonym-input"
-          placeholder="a creative author name"
-          defaultValue={article.pseudonym ?? ""}
-        />
-      </Column>
-      <Tiptap defaultContent={article.body} />
-      <UpdateArticleButton />
-    </div>
-  );
+  return <ArticleEditorClient article={article} />;
 }
