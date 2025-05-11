@@ -16,4 +16,9 @@
   .tiptap-editor {
     flex-grow: 1;
   }
+
+  #editor-article-buttons {
+    gap: 8px;
+    justify-content: flex-end;
+  }
 }

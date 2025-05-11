@@ -20,3 +20,18 @@ export async function updateArticle(article: Article) {
 
   clearDashboardCacheAction();
 }
+
+export async function deleteArticle(article: Article) {
+  const supabase = await createClient();
+
+  const jwt = await getJWT(supabase);
+  await fetch(`/api/articles/${article.id}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+      "Content-Type": "application/json",
+    },
+    method: "DELETE",
+  }).then((r) => r.json());
+
+  clearDashboardCacheAction();
+}

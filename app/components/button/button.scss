@@ -9,4 +9,14 @@
     background-color: var(--accent);
     color: #fff;
   }
+
+  &.variant-destructive {
+    border-color: var(--error);
+    color: var(--error);
+
+    &:hover {
+      background-color: var(--error);
+      color: #fff;
+    }
+  }
 }

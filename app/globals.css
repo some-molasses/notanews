@@ -18,6 +18,10 @@
   --accent: #000;
   --light-text: #666;
 
+  --success: #00960f;
+  --caution: #9d6b00;
+  --error: #7a0000;
+
   --border: 1px solid var(--border-color);
   --border-color: #dddddd;
 

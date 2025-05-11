@@ -1,10 +1,11 @@
 "use client";
 
-import { Column } from "@/app/components/layout/layout-components";
+import { Column, Row } from "@/app/components/layout/layout-components";
 import Tiptap from "@/app/components/tiptap/tiptap";
-import { UpdateArticleButton } from "./update-article-button";
 import { useState } from "react";
 import { Article } from "@/app/utils/data-types";
+import { Button } from "@/app/components/button/button.client";
+import { deleteArticle, updateArticle } from "./queries";
 
 export const ArticleEditorClient: React.FC<{ article: Article }> = ({
   article,
@@ -42,7 +43,17 @@ export const ArticleEditorClient: React.FC<{ article: Article }> = ({
         defaultContent={contents}
         onUpdate={(props) => setContents(props.editor.getHTML())}
       />
-      <UpdateArticleButton getArticle={getCurrentArticle} />
+      <Row id="editor-article-buttons">
+        <Button handler={() => updateArticle(getCurrentArticle())}>
+          Update article
+        </Button>
+        <Button
+          handler={() => deleteArticle(getCurrentArticle())}
+          variant="destructive"
+        >
+          Delete article
+        </Button>
+      </Row>
     </div>
   );
 };
