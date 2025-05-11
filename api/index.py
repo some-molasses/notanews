@@ -105,3 +105,11 @@ def update_article():
     )
 
     return jsonify(response.data)
+
+
+@app.route("/api/articles/<id>", methods=["DELETE"])
+def delete_article(id):
+    supabase = get_logged_in_supabase()
+    response = supabase.table("articles").delete().eq("id", id).execute()
+
+    return jsonify(response.data)

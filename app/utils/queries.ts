@@ -23,7 +23,7 @@ export const getArticleById = async (
   ).then((r) => r.json())) as Article[];
 
   if (articles.length !== 1) {
-    throw new Error(`Bad article given?`);
+    return null;
   }
 
   return articles[0];

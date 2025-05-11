@@ -6,10 +6,13 @@ import { useState } from "react";
 import { Article } from "@/app/utils/data-types";
 import { Button } from "@/app/components/button/button.client";
 import { deleteArticle, updateArticle } from "./queries";
+import { useRouter } from "next/navigation";
 
 export const ArticleEditorClient: React.FC<{ article: Article }> = ({
   article,
 }) => {
+  const router = useRouter();
+
   const [title, setTitle] = useState(article.title);
   const [pseudonym, setPseudonym] = useState(article.pseudonym);
   const [contents, setContents] = useState(article.body);
@@ -48,7 +51,11 @@ export const ArticleEditorClient: React.FC<{ article: Article }> = ({
           Update article
         </Button>
         <Button
-          handler={() => deleteArticle(getCurrentArticle())}
+          handler={() =>
+            deleteArticle(getCurrentArticle(), () => {
+              router.push("/dashboard");
+            })
+          }
           variant="destructive"
         >
           Delete article

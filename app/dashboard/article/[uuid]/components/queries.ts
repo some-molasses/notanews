@@ -2,6 +2,7 @@ import { getJWT } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/client";
 import { clearDashboardCacheAction } from "./actions";
 import { Article } from "@/app/utils/data-types";
+import { useRouter } from "next/navigation";
 
 export async function updateArticle(article: Article) {
   const supabase = await createClient();
@@ -21,7 +22,7 @@ export async function updateArticle(article: Article) {
   clearDashboardCacheAction();
 }
 
-export async function deleteArticle(article: Article) {
+export async function deleteArticle(article: Article, onDelete: () => void) {
   const supabase = await createClient();
 
   const jwt = await getJWT(supabase);
@@ -34,4 +35,5 @@ export async function deleteArticle(article: Article) {
   }).then((r) => r.json());
 
   clearDashboardCacheAction();
+  onDelete();
 }
