@@ -3,10 +3,10 @@ from datetime import datetime
 from auth import get_current_user, get_logged_in_supabase
 from flask import Blueprint, jsonify, request
 
-articles = Blueprint("articles", __name__)
+articles_bp = Blueprint("articles", __name__)
 
 
-@articles.route("/api/articles", methods=["GET"])
+@articles_bp.route("/api/articles", methods=["GET"])
 def get_article():
     if request.args.get("id"):
         return get_single_article(request.args.get("id"))
@@ -27,7 +27,7 @@ def get_all_articles():
     return jsonify(response.data)
 
 
-@articles.route("/api/articles", methods=["POST"])
+@articles_bp.route("/api/articles", methods=["POST"])
 def create_article():
     supabase = get_logged_in_supabase()
     user = get_current_user()
@@ -46,7 +46,7 @@ def create_article():
     return jsonify(response.data)
 
 
-@articles.route("/api/articles", methods=["PATCH"])
+@articles_bp.route("/api/articles", methods=["PATCH"])
 def update_article():
     supabase = get_logged_in_supabase()
     article = request.get_json()
@@ -68,7 +68,7 @@ def update_article():
     return jsonify(response.data)
 
 
-@articles.route("/api/articles/<id>", methods=["DELETE"])
+@articles_bp.route("/api/articles/<id>", methods=["DELETE"])
 def delete_article(id):
     supabase = get_logged_in_supabase()
     response = supabase.table("articles").delete().eq("id", id).execute()

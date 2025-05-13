@@ -25,6 +25,7 @@
 
   --border: 1px solid var(--border-color);
   --border-color: #dddddd;
+  --hovered: var(--border-color);
 
   --transition: 0.15s linear;
 }

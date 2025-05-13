@@ -1,0 +1,33 @@
+#papers-page {
+  #papers-list {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 16px 0;
+
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .paper-card {
+    height: 100px;
+    width: 300px;
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: var(--border);
+    transition: var(--transition);
+    cursor: pointer;
+
+    .paper-name {
+      font-size: 1.5rem;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--hovered);
+    }
+  }
+}
