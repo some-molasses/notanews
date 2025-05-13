@@ -4,9 +4,16 @@ from flask import Blueprint, jsonify
 papers_bp = Blueprint("papers", __name__)
 
 
-# @todo only return current user's joined organizatoins
+# @todo only return current user's joined organizations
 @papers_bp.route("/api/papers", methods=["GET"])
 def get_papers():
     supabase = get_logged_in_supabase()
     response = supabase.table("papers").select("*").execute()
+    return jsonify(response.data)
+
+
+@papers_bp.route("/api/papers/<id>", methods=["GET"])
+def get_paper_by_id(id: str):
+    supabase = get_logged_in_supabase()
+    response = supabase.table("papers").select("*").eq("id", id).execute()
     return jsonify(response.data)

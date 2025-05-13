@@ -4,6 +4,7 @@ import { Paper } from "@/app/utils/data-types";
 import { createClient } from "@/app/utils/supabase/server";
 import "./papers.scss";
 import { TITLE_FONT } from "@/app/layout";
+import Link from "next/link";
 
 const PapersPage = async () => {
   const supabase = await createClient();
@@ -34,17 +35,19 @@ const PapersPage = async () => {
 
 const PaperCard: React.FC<{ paper: Paper }> = ({ paper }) => {
   return (
-    <div className="paper-card">
-      <h2 className={`paper-name ${TITLE_FONT.className}`}>{paper.name}</h2>
-      <span className="paper-date">
-        est.{" "}
-        {new Date(paper.created_at).toLocaleDateString("en-CA", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })}
-      </span>
-    </div>
+    <Link href={`/dashboard/papers/${paper.id}`}>
+      <div className="paper-card">
+        <h2 className={`paper-name ${TITLE_FONT.className}`}>{paper.name}</h2>
+        <span className="paper-date">
+          est.{" "}
+          {new Date(paper.created_at).toLocaleDateString("en-CA", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </span>
+      </div>
+    </Link>
   );
 };
 
