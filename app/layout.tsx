@@ -1,7 +1,8 @@
 import "./globals.css";
 import { Domine, Trocchi } from "next/font/google";
 
-const bodyFont = Domine({ subsets: ["latin"] });
+export const BODY_FONT = Domine({ subsets: ["latin"] });
+export const TITLE_FONT = Trocchi({ subsets: ["latin"], weight: "400" });
 
 export const metadata = {
   title: "not a n*ws",
@@ -15,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-ca">
-      <body className={bodyFont.className}>{children}</body>
+      <body className={BODY_FONT.className}>{children}</body>
     </html>
   );
 }

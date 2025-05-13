@@ -1,15 +1,11 @@
-import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
 import { Row } from "../components/layout/layout-components";
 import { CreateArticleButton } from "./components/create-article-button";
 import "./articles-overview.scss";
-import Link from "next/link";
-import { Trocchi } from "next/font/google";
 import { redirectIfNotLoggedIn } from "../utils/auth-utils";
 import { Article } from "../utils/data-types";
 import { ArticlesTable } from "./components/articles-table";
-
-const titleFont = Trocchi({ subsets: ["latin"], weight: "400" });
+import { PageTitle } from "../components/page-title/page-title";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -26,9 +22,7 @@ export default async function Home() {
 
   return (
     <div id="articles-overview">
-      <Row id="title-row">
-        <h1 className={titleFont.className}>my articles</h1>
-      </Row>
+      <PageTitle>my articles</PageTitle>
       <Row id="button-row">
         <CreateArticleButton />
       </Row>
