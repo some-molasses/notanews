@@ -1,6 +1,10 @@
 .layout-row {
   display: flex;
   flex-direction: row;
+
+  &.row-reverse {
+    flex-direction: row-reverse;
+  }
 }
 
 .layout-col {

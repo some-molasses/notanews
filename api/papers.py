@@ -29,3 +29,10 @@ def get_paper_members(paper_id: str):
         .execute()
     )
     return jsonify(response.data)
+
+
+@papers_bp.route("/api/papers/<paper_id>/issues", methods=["GET"])
+def get_paper_issues(paper_id: str):
+    supabase = get_logged_in_supabase()
+    response = supabase.table("issues").select("*").eq("paper_id", paper_id).execute()
+    return jsonify(response.data)

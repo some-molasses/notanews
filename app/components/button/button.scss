@@ -1,9 +1,9 @@
 .main-button {
-  padding: 12px 40px;
+  padding: 12px 24px;
   border: 1px solid var(--accent);
   transition: var(--transition);
   color: var(--accent);
-  max-width: 200px;
+  min-width: 200px;
 
   &:hover,
   &:focus-visible {
