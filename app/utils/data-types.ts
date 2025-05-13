@@ -34,3 +34,14 @@ export type Paper = {
   created_at: string;
   name: string;
 };
+
+export type PaperMember = {
+  id: string;
+  paper_id: string;
+  user_id: string;
+  type: "member";
+};
+
+export type PaperMemberDetailed = PaperMember & {
+  email: string;
+};

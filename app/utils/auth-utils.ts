@@ -19,3 +19,24 @@ export const redirectIfNotLoggedIn = async (supabase: SupabaseClient) => {
     redirect("/login");
   }
 };
+
+// @example url "/papers"
+export const fetchApi = async <T>(
+  url: string,
+  jwt: string,
+  options: { method: string },
+): Promise<T> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/${url}`,
+    {
+      headers: { Authorization: `Bearer ${jwt}` },
+      method: options.method,
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Request to ${url} failed`);
+  }
+
+  return res.json();
+};
