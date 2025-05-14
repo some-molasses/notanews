@@ -9,6 +9,7 @@ import { Row, RowReverse } from "@/app/components/layout/layout-components";
 import { Button } from "@/app/components/button/button.server";
 import { nothing } from "./actions";
 import { fetchApi } from "@/app/utils/queries";
+import Link from "next/link";
 
 export default async function PaperView({
   params,
@@ -78,29 +79,35 @@ const makeIssueRow = (issue: Issue, paper: Paper) => {
   return (
     <tr key={issue.id}>
       <td>
-        <div className="cell">
-          {paper.name} {issue.volume_number}.{issue.issue_number}
-        </div>
+        <Link href={`/dashboard/issues/${issue.id}`}>
+          <div className="cell">
+            {paper.name} {issue.volume_number}.{issue.issue_number}
+          </div>
+        </Link>
       </td>
       <td>
-        <div className="cell">
-          {new Date(issue.created_at).toLocaleDateString("en-CA", {
-            year: "numeric",
-            day: "numeric",
-            month: "long",
-          })}
-        </div>
+        <Link href={`/dashboard/issues/${issue.id}`}>
+          <div className="cell">
+            {new Date(issue.created_at).toLocaleDateString("en-CA", {
+              year: "numeric",
+              day: "numeric",
+              month: "long",
+            })}
+          </div>
+        </Link>
       </td>
       <td>
-        <div className="cell">
-          {issue.published_at
-            ? new Date(issue.published_at).toLocaleDateString("en-CA", {
-                year: "numeric",
-                day: "numeric",
-                month: "long",
-              })
-            : "unpublished"}
-        </div>
+        <Link href={`/dashboard/issues/${issue.id}`}>
+          <div className="cell">
+            {issue.published_at
+              ? new Date(issue.published_at).toLocaleDateString("en-CA", {
+                  year: "numeric",
+                  day: "numeric",
+                  month: "long",
+                })
+              : "unpublished"}
+          </div>
+        </Link>
       </td>
     </tr>
   );

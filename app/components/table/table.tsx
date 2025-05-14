@@ -11,6 +11,7 @@ export function Table<T>({
   headers: string[];
   id?: string;
 }) {
+  console.log(data);
   return (
     <table className="nan-table" id={id}>
       <thead>
@@ -22,7 +23,7 @@ export function Table<T>({
           ))}
         </tr>
       </thead>
-      <tbody>{data.map((item) => rowGenerator(item))}</tbody>
+      <tbody>{data?.map((item) => rowGenerator(item))}</tbody>
     </table>
   );
 }
