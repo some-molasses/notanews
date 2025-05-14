@@ -10,9 +10,12 @@ export const SideNav: React.FC<{}> = () => {
         <div className={`logo ${TITLE_FONT.className}`}>notanews</div>
       </Link>
       <div id="upper-menu">
-        <Link href="/dashboard">articles</Link>
-        <Link href="/dashboard/issues">issues</Link>
-        <Link href="/dashboard/papers">papers</Link>
+        <Link href="/dashboard">
+          <span>articles</span>
+        </Link>
+        <Link href="/dashboard/papers">
+          <span>papers</span>
+        </Link>
       </div>
       <form>
         <button formAction={signOut}>sign out</button>

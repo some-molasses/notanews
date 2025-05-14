@@ -11,7 +11,6 @@ export function Table<T>({
   headers: string[];
   id?: string;
 }) {
-  console.log(data);
   return (
     <table className="nan-table" id={id}>
       <thead>

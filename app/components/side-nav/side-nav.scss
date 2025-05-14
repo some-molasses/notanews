@@ -25,9 +25,16 @@
       transition: var(--transition);
       color: var(--text);
 
+      > span {
+        transition: var(--transition);
+        border-bottom: 1px solid var(--background-2);
+      }
+
       &:hover,
       &:focus-visible {
-        color: rgb(0, 129, 75);
+        > span {
+          border-color: black;
+        }
       }
     }
   }
