@@ -1,11 +1,9 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Article } from "./data-types";
+import { ArticleExpanded } from "./data-types";
 
 export const getArticleById = async (
-  supabase: SupabaseClient,
   id: string,
   jwt: string,
-): Promise<Article | null> => {
+): Promise<ArticleExpanded | null> => {
   if (!id) {
     return null;
   }
@@ -19,7 +17,7 @@ export const getArticleById = async (
     {
       headers: { Authorization: `Bearer ${jwt}` },
     },
-  ).then((r) => r.json())) as Article[];
+  ).then((r) => r.json())) as ArticleExpanded[];
 
   if (articles.length !== 1) {
     return null;

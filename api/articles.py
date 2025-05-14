@@ -16,14 +16,24 @@ def get_article():
 
 def get_single_article(id: str):
     supabase = get_logged_in_supabase()
-    response = supabase.table("articles").select("*").eq("id", id).execute()
+    response = (
+        supabase.table("articles")
+        .select("*, issues(issue_number, volume_number, papers(name))")
+        .eq("id", id)
+        .execute()
+    )
     return jsonify(response.data)
 
 
 def get_all_articles():
     supabase = get_logged_in_supabase()
     user = get_current_user()
-    response = supabase.table("articles").select("*").eq("user_id", user.id).execute()
+    response = (
+        supabase.table("articles")
+        .select("*, issues(issue_number, volume_number, papers(name))")
+        .eq("user_id", user.id)
+        .execute()
+    )
     return jsonify(response.data)
 
 
@@ -58,6 +68,7 @@ def update_article():
                 "title": article["title"],
                 "body": article["body"],
                 "pseudonym": article["pseudonym"],
+                "issue_id": article["issue_id"],
                 "updated_at": datetime.now().isoformat(),
             }
         )

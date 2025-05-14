@@ -1,9 +1,9 @@
-import { Article } from "@/app/utils/data-types";
+import { Article, ArticleExpanded } from "@/app/utils/data-types";
 import Link from "next/link";
 import "./articles-table.scss";
 import { Table } from "@/app/components/table/table";
 
-export const ArticlesTable: React.FC<{ articles: Article[] }> = ({
+export const ArticlesTable: React.FC<{ articles: ArticleExpanded[] }> = ({
   articles,
 }) => {
   return (
@@ -18,7 +18,7 @@ export const ArticlesTable: React.FC<{ articles: Article[] }> = ({
   );
 };
 
-const makeArticleRow = (article: Article) => {
+const makeArticleRow = (article: ArticleExpanded) => {
   return (
     <tr key={article.id}>
       <td>
@@ -33,7 +33,9 @@ const makeArticleRow = (article: Article) => {
       </td>
       <td>
         <Link href={`/dashboard/article/${article.id}`} className="cell">
-          notanews 2025.1
+          {article.issues?.papers
+            ? `${article.issues.papers.name} ${article.issues.volume_number}.${article.issues.issue_number}`
+            : "-"}
         </Link>
       </td>
       <td>

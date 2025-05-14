@@ -18,6 +18,17 @@ export type Article = {
   updated_at: string;
 };
 
+export type ArticleExpanded = Article & {
+  issues: {
+    issue_number: number;
+    volume_number: number;
+
+    papers: {
+      name: string;
+    };
+  };
+};
+
 export type Issue = {
   id: string;
   paper_id: string;
@@ -28,6 +39,8 @@ export type Issue = {
   created_at: string;
   published_at: string;
 };
+
+export type IssueExpanded = Issue & { papers: { name: string } };
 
 export type Paper = {
   id: string;
