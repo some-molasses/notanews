@@ -20,23 +20,18 @@ export const redirectIfNotLoggedIn = async (supabase: SupabaseClient) => {
   }
 };
 
-// @example url "/papers"
-export const fetchApi = async <T>(
-  url: string,
-  jwt: string,
-  options: { method: string },
-): Promise<T> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/${url}`,
-    {
-      headers: { Authorization: `Bearer ${jwt}` },
-      method: options.method,
-    },
-  );
+export const authenticatePage = async (
+  supabase: SupabaseClient,
+): Promise<{ jwt: string }> => {
+  await redirectIfNotLoggedIn(supabase);
 
-  if (!res.ok) {
-    throw new Error(`Request to ${url} failed`);
+  const { data: sessionData } = await supabase.auth.getSession();
+  const jwt = sessionData?.session?.access_token;
+
+  if (!jwt) {
+    console.error("No JWT");
+    redirect("/login");
   }
 
-  return res.json();
+  return { jwt };
 };

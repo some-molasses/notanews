@@ -1,10 +1,10 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { getJWT } from "./auth-utils";
 import { Article } from "./data-types";
 
 export const getArticleById = async (
   supabase: SupabaseClient,
   id: string,
+  jwt: string,
 ): Promise<Article | null> => {
   if (!id) {
     return null;
@@ -14,7 +14,6 @@ export const getArticleById = async (
     throw new Error("No local domain set");
   }
 
-  const jwt = await getJWT(supabase);
   const articles = (await fetch(
     `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/articles?id=${id}`,
     {
@@ -27,4 +26,25 @@ export const getArticleById = async (
   }
 
   return articles[0];
+};
+
+// @example url "/papers"
+export const fetchApi = async <T>(
+  url: string,
+  jwt: string,
+  options: { method: string },
+): Promise<T> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/${url}`,
+    {
+      headers: { Authorization: `Bearer ${jwt}` },
+      method: options.method,
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Request to ${url} failed`);
+  }
+
+  return res.json();
 };

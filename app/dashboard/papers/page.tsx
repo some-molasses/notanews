@@ -1,5 +1,5 @@
 import { PageTitle } from "@/app/components/page-title/page-title";
-import { redirectIfNotLoggedIn } from "@/app/utils/auth-utils";
+import { authenticatePage } from "@/app/utils/auth-utils";
 import { Paper } from "@/app/utils/data-types";
 import { createClient } from "@/app/utils/supabase/server";
 import "./papers.scss";
@@ -8,10 +8,7 @@ import Link from "next/link";
 
 const PapersPage = async () => {
   const supabase = await createClient();
-  await redirectIfNotLoggedIn(supabase);
-
-  const { data: sessionData } = await supabase.auth.getSession();
-  const jwt = sessionData?.session?.access_token;
+  const { jwt } = await authenticatePage(supabase);
 
   const papers = (await fetch(
     `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/papers`,

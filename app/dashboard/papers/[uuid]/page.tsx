@@ -1,13 +1,14 @@
 import { PageTitle } from "@/app/components/page-title/page-title";
 import { Table } from "@/app/components/table/table";
 import { Heading2 } from "@/app/components/typography/typography";
-import { fetchApi, redirectIfNotLoggedIn } from "@/app/utils/auth-utils";
+import { authenticatePage } from "@/app/utils/auth-utils";
 import { Issue, Paper, PaperMemberDetailed } from "@/app/utils/data-types";
 import { createClient } from "@/app/utils/supabase/server";
 import "./paper.scss";
 import { Row, RowReverse } from "@/app/components/layout/layout-components";
 import { Button } from "@/app/components/button/button.server";
 import { nothing } from "./actions";
+import { fetchApi } from "@/app/utils/queries";
 
 export default async function PaperView({
   params,
@@ -15,14 +16,7 @@ export default async function PaperView({
   params: Promise<{ uuid: string }>;
 }) {
   const supabase = await createClient();
-  await redirectIfNotLoggedIn(supabase);
-
-  const { data: sessionData } = await supabase.auth.getSession();
-  const jwt = sessionData?.session?.access_token;
-
-  if (!jwt) {
-    throw new Error("No JWT");
-  }
+  const { jwt } = await authenticatePage(supabase);
 
   const paper_id = (await params).uuid;
 
