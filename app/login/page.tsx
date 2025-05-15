@@ -1,6 +1,6 @@
 import { Button } from "../components/button/button.server";
 import { Column, Row } from "../components/layout/layout-components";
-import { TITLE_FONT } from "../layout";
+import { TITLE_FONT } from "../styles";
 import { login, signup } from "./actions";
 import "./login.scss";
 

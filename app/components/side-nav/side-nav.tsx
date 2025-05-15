@@ -1,7 +1,7 @@
 import { signOut } from "@/app/login/actions";
 import "./side-nav.scss";
 import Link from "next/link";
-import { TITLE_FONT } from "@/app/layout";
+import { TITLE_FONT } from "@/app/styles";
 
 export const SideNav: React.FC<{}> = () => {
   return (

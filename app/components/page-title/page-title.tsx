@@ -1,6 +1,6 @@
 import React from "react";
 import { Row } from "../layout/layout-components";
-import { TITLE_FONT } from "@/app/layout";
+import { TITLE_FONT } from "@/app/styles";
 
 export const PageTitle: React.FC<{ children: React.ReactNode }> = ({
   children,

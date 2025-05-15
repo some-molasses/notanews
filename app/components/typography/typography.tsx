@@ -1,4 +1,4 @@
-import { TITLE_FONT } from "@/app/layout";
+import { TITLE_FONT } from "@/app/styles";
 
 export const Heading2: React.FC<{ children: React.ReactNode }> = ({
   children,

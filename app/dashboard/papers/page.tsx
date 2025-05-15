@@ -3,7 +3,7 @@ import { authenticatePage } from "@/app/utils/auth-utils";
 import { Paper } from "@/app/utils/data-types";
 import { createClient } from "@/app/utils/supabase/server";
 import "./papers.scss";
-import { TITLE_FONT } from "@/app/layout";
+import { TITLE_FONT } from "@/app/styles";
 import Link from "next/link";
 
 const PapersPage = async () => {
