@@ -6,11 +6,10 @@ import { useState } from "react";
 import {
   Article,
   ArticleExpanded,
-  Issue,
   IssueExpanded,
 } from "@/app/utils/data-types";
 import { Button } from "@/app/components/button/button.client";
-import { deleteArticle, updateArticle } from "./queries";
+import { deleteArticle, submitArticle, updateArticle } from "./queries";
 import { useRouter } from "next/navigation";
 
 export const ArticleEditorClient: React.FC<{
@@ -24,8 +23,6 @@ export const ArticleEditorClient: React.FC<{
   const [issue, setIssue] = useState(article.issue_id);
   const [contents, setContents] = useState(article.body);
 
-  console.log(issue);
-
   const getCurrentArticle = (): Article => {
     return {
       ...article,
@@ -34,6 +31,10 @@ export const ArticleEditorClient: React.FC<{
       body: contents,
       issue_id: issue,
     };
+  };
+
+  const redirectToDashboard = () => {
+    router.push("/dashboard");
   };
 
   return (
@@ -73,9 +74,14 @@ export const ArticleEditorClient: React.FC<{
         </Button>
         <Button
           handler={() =>
-            deleteArticle(getCurrentArticle(), () => {
-              router.push("/dashboard");
-            })
+            submitArticle(getCurrentArticle(), redirectToDashboard)
+          }
+        >
+          Submit article
+        </Button>
+        <Button
+          handler={() =>
+            deleteArticle(getCurrentArticle(), redirectToDashboard)
           }
           variant="destructive"
         >

@@ -30,13 +30,14 @@ export const getArticleById = async (
 export const fetchApi = async <T>(
   url: string,
   jwt: string,
-  options: { method: string },
+  options: { method: string; headers?: any; body?: any },
 ): Promise<T> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/${url}`,
     {
-      headers: { Authorization: `Bearer ${jwt}` },
+      headers: { ...options.headers, Authorization: `Bearer ${jwt}` },
       method: options.method,
+      body: options.body,
     },
   );
 

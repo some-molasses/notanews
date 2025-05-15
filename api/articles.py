@@ -79,6 +79,26 @@ def update_article():
     return jsonify(response.data)
 
 
+@articles_bp.route("/api/articles/<article_id>/submit", methods=["PATCH"])
+def submit_article(article_id: str):
+    supabase = get_logged_in_supabase()
+
+    # @todo add validation that the article is not already approved
+
+    response = (
+        supabase.table("articles")
+        .update(
+            {
+                "state": "submitted",
+            }
+        )
+        .eq("id", article_id)
+        .execute()
+    )
+
+    return jsonify(response.data)
+
+
 @articles_bp.route("/api/articles/<id>", methods=["DELETE"])
 def delete_article(id):
     supabase = get_logged_in_supabase()
