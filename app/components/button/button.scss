@@ -1,0 +1,24 @@
+.main-button {
+  padding: 12px 24px;
+  border: 1px solid var(--accent);
+  transition: var(--transition);
+  color: var(--accent);
+  min-width: 200px;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--accent);
+    color: #fff;
+  }
+
+  &.variant-destructive {
+    border-color: var(--error);
+    color: var(--error);
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--error);
+      color: #fff;
+    }
+  }
+}

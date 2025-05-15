@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  redirects: () => [
+    {
+      source: "/",
+      destination: "/login",
+      permanent: true,
+    },
+  ],
   rewrites: async () => {
     return [
       {
@@ -10,6 +17,9 @@ const nextConfig = {
             : "/api/",
       },
     ];
+  },
+  experimental: {
+    serverActions: true,
   },
 };
 

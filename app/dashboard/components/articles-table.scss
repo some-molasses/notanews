@@ -1,0 +1,49 @@
+#articles-table-container {
+  width: 100%;
+}
+
+#articles-table {
+  border-radius: 4px;
+  width: 100%;
+
+  td,
+  tr {
+    text-align: right;
+  }
+
+  td:first-child,
+  th:first-child {
+    text-align: left;
+  }
+
+  td {
+    border-top: var(--border);
+  }
+
+  th {
+    font-weight: 400;
+    text-align: right;
+    color: var(--light-text);
+  }
+
+  .cell {
+    padding: 20px;
+    display: block;
+
+    &.state-draft {
+      color: var(--light-text);
+    }
+
+    &.state-pending {
+      color: var(--caution);
+    }
+
+    &.state-rejected {
+      color: var(--error);
+    }
+
+    &.state-approved {
+      color: var(--success);
+    }
+  }
+}

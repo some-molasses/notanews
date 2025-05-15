@@ -2,28 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
 :root {
   --background: #fff;
   --background-2: #fff;
+  --accent: #000;
+  --text: #000;
+  --light-text: #666;
+
+  --success: #00960f;
+  --caution: #9d6b00;
+  --error: #7a0000;
 
   --border: 1px solid var(--border-color);
   --border-color: #dddddd;
-}
+  --hovered: var(--border-color);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* --background: #fff;
-    --background-2: #ddd; */
-  }
+  --transition: 0.15s linear;
 }
 
 body {
   background-color: var(--background);
   display: flex;
   flex-direction: row;
+  align-items: stretch;
+  font-size: 0.75rem;
 }
 
 h1 {
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+input {
+  outline: none;
 }
