@@ -5,18 +5,15 @@ import { createClient } from "@/app/utils/supabase/server";
 import "./papers.scss";
 import { TITLE_FONT } from "@/app/styles";
 import Link from "next/link";
+import { fetchApi } from "@/app/utils/queries";
 
 const PapersPage = async () => {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
 
-  const papers = (await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/papers`,
-    {
-      headers: { Authorization: `Bearer ${jwt}` },
-      method: "GET",
-    },
-  ).then((r) => r.json())) as Paper[];
+  const papers: Paper[] = await fetchApi(`/papers`, jwt, {
+    method: "GET",
+  });
 
   return (
     <div id="papers-page">

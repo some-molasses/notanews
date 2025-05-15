@@ -2,6 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 
-export const clearDashboardCacheAction = () => {
+export const clearDashboardCacheAction = async () => {
   revalidatePath("/dashboard");
 };

@@ -11,7 +11,7 @@ import {
 import { Button } from "@/app/components/button/button.client";
 import { deleteArticle, submitArticle, updateArticle } from "./queries";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useJWT } from "@/app/auth/components/jwt-context";
 
 export const ArticleEditorClient: React.FC<{

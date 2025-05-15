@@ -4,12 +4,13 @@ import { Heading2 } from "@/app/components/typography/typography";
 import { authenticatePage } from "@/app/utils/auth-utils";
 import { Issue, Paper, PaperMemberDetailed } from "@/app/utils/data-types";
 import { createClient } from "@/app/utils/supabase/server";
-import "./paper.scss";
-import { Row, RowReverse } from "@/app/components/layout/layout-components";
+import { RowReverse } from "@/app/components/layout/layout-components";
 import { Button } from "@/app/components/button/button.server";
-import { nothing } from "./actions";
+import { nothing } from "./queries";
 import { fetchApi } from "@/app/utils/queries";
 import Link from "next/link";
+import "./paper.scss";
+import { PaperMembersTable } from "./components/members-table";
 
 export default async function PaperView({
   params,
@@ -38,11 +39,7 @@ export default async function PaperView({
       <PageTitle>{paper.name}</PageTitle>
       <section>
         <Heading2>members</Heading2>
-        <Table
-          headers={["member", "role"]}
-          data={paper_members}
-          rowGenerator={makeMemberRow}
-        />
+        <PaperMembersTable paperMembers={paper_members} />
         <RowReverse>
           <Button handler={nothing}>Invite new member</Button>
         </RowReverse>
@@ -61,19 +58,6 @@ export default async function PaperView({
     </div>
   );
 }
-
-const makeMemberRow = (paperMember: PaperMemberDetailed) => {
-  return (
-    <tr key={paperMember.id}>
-      <td>
-        <div className="cell">{paperMember.email}</div>
-      </td>
-      <td>
-        <div className="cell">{paperMember.type}</div>
-      </td>
-    </tr>
-  );
-};
 
 const makeIssueRow = (issue: Issue, paper: Paper) => {
   return (
