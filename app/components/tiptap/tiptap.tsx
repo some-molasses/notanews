@@ -47,22 +47,8 @@ const Tiptap: React.FC<{
   return (
     <>
       <TiptapMenuBar editor={editor} />
-      <EditorContent
-        // slotBefore={<TiptapMenuBar />}
-        editor={editor}
-        className="tiptap-editor"
-      />
+      <EditorContent editor={editor} className="tiptap-editor" />
     </>
-
-    // <EditorProvider
-    //   slotBefore={<TiptapMenuBar />}
-    //   // editor={editor}
-    //   content={defaultContent}
-    //   immediatelyRender={false}
-    //   shouldRerenderOnTransaction={false}
-    //   onUpdate={onUpdate}
-    //   // className="tiptap-editor"
-    // />
   );
 };
 

@@ -1,5 +1,21 @@
 import { Editor } from "@tiptap/react";
 import "./tiptap-menubar.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBold,
+  faCode,
+  faEraser,
+  faHeading,
+  faItalic,
+  faListDots,
+  faListNumeric,
+  faParagraph,
+  faQuoteLeft,
+  faRotateLeft,
+  faRotateRight,
+  faStrikethrough,
+  faTerminal,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
   const getClassFor = (style: string, attributes?: {}): string => {
@@ -22,40 +38,41 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
           disabled={!editor.can().chain().focus().toggleBold().run()}
           className={getClassFor("bold")}
         >
-          Bold
+          <FontAwesomeIcon icon={faBold} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={!editor.can().chain().focus().toggleItalic().run()}
           className={getClassFor("italic")}
         >
-          Italic
+          <FontAwesomeIcon icon={faItalic} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editor.can().chain().focus().toggleStrike().run()}
           className={getClassFor("strike")}
         >
-          Strike
+          <FontAwesomeIcon icon={faStrikethrough} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editor.can().chain().focus().toggleCode().run()}
           className={getClassFor("code")}
         >
-          Code
+          <FontAwesomeIcon icon={faTerminal} />
         </button>
-        <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-          Clear marks
-        </button>
-        <button onClick={() => editor.chain().focus().clearNodes().run()}>
-          Clear nodes
+        <button
+          onClick={() =>
+            editor.chain().focus().unsetAllMarks().clearNodes().run()
+          }
+        >
+          <FontAwesomeIcon icon={faEraser} />
         </button>
         <button
           onClick={() => editor.chain().focus().setParagraph().run()}
           className={getClassFor("paragraph")}
         >
-          Paragraph
+          <FontAwesomeIcon icon={faParagraph} />
         </button>
         <button
           onClick={() =>
@@ -63,7 +80,7 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
           }
           className={getClassFor("heading", { level: 1 })}
         >
-          H1
+          Heading 1
         </button>
         <button
           onClick={() =>
@@ -71,7 +88,7 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
           }
           className={getClassFor("heading", { level: 2 })}
         >
-          H2
+          Heading 2
         </button>
         <button
           onClick={() =>
@@ -79,51 +96,48 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
           }
           className={getClassFor("heading", { level: 3 })}
         >
-          H3
+          Heading 3
         </button>
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={getClassFor("bulletList")}
         >
-          Bullet list
+          <FontAwesomeIcon icon={faListDots} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={getClassFor("orderedList")}
         >
-          Ordered list
+          <FontAwesomeIcon icon={faListNumeric} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={getClassFor("codeBlock")}
         >
-          Code block
+          <FontAwesomeIcon icon={faCode} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={getClassFor("blockquote")}
         >
-          Blockquote
+          <FontAwesomeIcon icon={faQuoteLeft} />
         </button>
         <button
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
-          Horizontal rule
-        </button>
-        <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-          Hard break
+          hr
         </button>
         <button
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().chain().focus().undo().run()}
         >
-          Undo
+          <FontAwesomeIcon icon={faRotateLeft} />
         </button>
         <button
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().chain().focus().redo().run()}
         >
-          Redo
+          <FontAwesomeIcon icon={faRotateRight} />
         </button>
         <button
           onClick={() => editor.chain().focus().setColor("#958DF1").run()}
