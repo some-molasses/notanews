@@ -1,4 +1,5 @@
 import { SideNav } from "../components/side-nav/side-nav";
+import { ClientLayout } from "./layout-client";
 import "./layout.scss";
 
 export default function RootLayout({
@@ -9,7 +10,10 @@ export default function RootLayout({
   return (
     <>
       <SideNav />
-      <main className="right-content">{children}</main>
+      <main className="right-content">
+        {children}
+        <ClientLayout />
+      </main>
     </>
   );
 }

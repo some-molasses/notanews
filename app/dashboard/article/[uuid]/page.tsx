@@ -9,12 +9,7 @@ import React from "react";
 import "./article-editor.scss";
 import { fetchApi, getArticleById } from "@/app/utils/queries";
 import { ArticleEditorClient } from "./components/editor";
-import {
-  Article,
-  ArticleExpanded,
-  Issue,
-  IssueExpanded,
-} from "@/app/utils/data-types";
+import { ArticleExpanded, IssueExpanded } from "@/app/utils/data-types";
 
 export default async function ArticleEditor({
   params,

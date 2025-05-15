@@ -11,6 +11,7 @@ import {
 import { Button } from "@/app/components/button/button.client";
 import { deleteArticle, submitArticle, updateArticle } from "./queries";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 export const ArticleEditorClient: React.FC<{
   article: ArticleExpanded;
@@ -31,10 +32,6 @@ export const ArticleEditorClient: React.FC<{
       body: contents,
       issue_id: issue,
     };
-  };
-
-  const redirectToDashboard = () => {
-    router.push("/dashboard");
   };
 
   return (
@@ -69,19 +66,31 @@ export const ArticleEditorClient: React.FC<{
         onUpdate={(props) => setContents(props.editor.getHTML())}
       />
       <Row id="editor-article-buttons">
-        <Button handler={() => updateArticle(getCurrentArticle())}>
+        <Button
+          handler={() => {
+            updateArticle(getCurrentArticle()).then(() =>
+              toast("Article updated", { type: "success", autoClose: 2500 }),
+            );
+          }}
+        >
           Update article
         </Button>
         <Button
           handler={() =>
-            submitArticle(getCurrentArticle(), redirectToDashboard)
+            submitArticle(getCurrentArticle(), () => {
+              router.push("/dashboard");
+              toast("Article submitted", { type: "success", autoClose: 2500 });
+            })
           }
         >
           Submit article
         </Button>
         <Button
           handler={() =>
-            deleteArticle(getCurrentArticle(), redirectToDashboard)
+            deleteArticle(getCurrentArticle(), () => {
+              router.push("/dashboard");
+              toast("Article deleted", { type: "success", autoClose: 2500 });
+            })
           }
           variant="destructive"
         >
