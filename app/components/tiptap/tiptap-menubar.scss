@@ -1,11 +1,17 @@
 .control-group {
+  .button-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
   button {
     border: var(--border);
-    margin: 4px;
     padding: 4px;
+    transition: 0.1s linear;
 
     &.is-active {
-      background-color: #f6c28a;
+      background-color: var(--active);
     }
   }
 }
