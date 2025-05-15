@@ -39,7 +39,7 @@ const makeMemberRow = (paperMember: PaperMemberDetailed, jwt: string) => {
             onChange={(event) => {
               updateRole(event.target.value, paperMember.id, jwt).then(() =>
                 toast(
-                  `Successfully updated river.stanley@uwaterloo.ca's role to contributor!`,
+                  `Successfully updated ${paperMember.email}'s role to ${event.target.value}!`,
                 ),
               );
             }}
