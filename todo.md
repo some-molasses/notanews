@@ -2,7 +2,7 @@
 
 ### supabase
 - Figure out row-level security SELECT needs on Supabase, especially pertaining to editor users vs normal users
-- improve paper_members RLS
+- improve paper_members, profiles RLS
 - add SQL indices
 - use supabase enum types
 

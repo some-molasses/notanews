@@ -6,7 +6,7 @@ export type ArticleState = "draft" | "pending" | "approved" | "rejected";
 export type Article = {
   id: string;
   user_id: string;
-  issue_id: string;
+  issue_id: string | null;
   state: ArticleState;
 
   title: string | null;

@@ -27,12 +27,14 @@ export const ArticleEditorClient: React.FC<{
   const [contents, setContents] = useState(article.body);
 
   const getCurrentArticle = (): Article => {
+    const selected_issue = issue === "null" ? null : issue;
+
     return {
       ...article,
       title: title ?? "",
       pseudonym: pseudonym ?? "",
       body: contents,
-      issue_id: issue,
+      issue_id: selected_issue,
     };
   };
 
@@ -57,9 +59,12 @@ export const ArticleEditorClient: React.FC<{
         />
         <select
           id="issue-select"
-          defaultValue={article.issue_id}
+          defaultValue={article.issue_id ?? "null"}
           onChange={(event) => setIssue(event.target.value)}
         >
+          <option key="none" value={"null"}>
+            no issue selected
+          </option>
           {eligibleIssues.map((issue) => (
             <option key={issue.id} value={issue.id}>
               {issue.papers.name} {issue.volume_number}.{issue.issue_number}

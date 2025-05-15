@@ -24,6 +24,11 @@ export async function submitArticle(
   // first save the existing state
   updateArticle(article, jwt);
 
+  // @todo add this check to the backend
+  if (article.issue_id === null) {
+    throw new Error(`Cannot submit an article without selecting an issue`);
+  }
+
   // then submit
   await fetchApi(`articles/${article.id}/submit`, jwt, {
     method: "PATCH",
