@@ -53,7 +53,7 @@ def create_article():
         .execute()
     )
 
-    return jsonify(response.data)
+    return jsonify(response.data[0])
 
 
 @articles_bp.route("/api/articles", methods=["PATCH"])

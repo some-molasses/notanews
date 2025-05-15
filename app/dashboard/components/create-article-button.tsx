@@ -5,6 +5,7 @@ import { Button } from "../../components/button/button.client";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/app/utils/supabase/client";
 import { Article } from "@/app/utils/data-types";
+import { fetchApi } from "@/app/utils/queries";
 
 export const CreateArticleButton: React.FC = () => {
   const router = useRouter();
@@ -13,13 +14,12 @@ export const CreateArticleButton: React.FC = () => {
     const supabase = await createClient();
 
     const jwt = await getJWT(supabase);
-    const newArticles = (await fetch("/api/articles", {
-      headers: { Authorization: `Bearer ${jwt}` },
+    const newArticle: Article = await fetchApi("/articles", jwt, {
       method: "POST",
-    }).then((r) => r.json())) as [Article];
+    });
 
-    console.log(`New article created: ${newArticles[0].id}`);
-    router.push(`/dashboard/article/${newArticles[0].id}`);
+    console.log(`New article created: ${newArticle.id}`);
+    router.push(`/dashboard/article/${newArticle.id}`);
   };
 
   return <Button handler={createArticle}>Create article</Button>;

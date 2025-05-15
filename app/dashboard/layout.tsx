@@ -1,3 +1,4 @@
+import { JWTProvider } from "../auth/components/jwt-context";
 import { SideNav } from "../components/side-nav/side-nav";
 import { ClientLayout } from "./layout-client";
 import "./layout.scss";
@@ -11,7 +12,7 @@ export default function RootLayout({
     <>
       <SideNav />
       <main className="right-content">
-        {children}
+        <JWTProvider>{children}</JWTProvider>
         <ClientLayout />
       </main>
     </>

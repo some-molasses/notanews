@@ -12,12 +12,14 @@ import { Button } from "@/app/components/button/button.client";
 import { deleteArticle, submitArticle, updateArticle } from "./queries";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import { useJWT } from "@/app/auth/components/jwt-context";
 
 export const ArticleEditorClient: React.FC<{
   article: ArticleExpanded;
   eligibleIssues: IssueExpanded[];
 }> = ({ article, eligibleIssues }) => {
   const router = useRouter();
+  const jwt = useJWT();
 
   const [title, setTitle] = useState(article.title);
   const [pseudonym, setPseudonym] = useState(article.pseudonym);
@@ -33,6 +35,10 @@ export const ArticleEditorClient: React.FC<{
       issue_id: issue,
     };
   };
+
+  if (!jwt) {
+    return null;
+  }
 
   return (
     <div id="article-editor">
@@ -68,7 +74,7 @@ export const ArticleEditorClient: React.FC<{
       <Row id="editor-article-buttons">
         <Button
           handler={() => {
-            updateArticle(getCurrentArticle()).then(() =>
+            updateArticle(getCurrentArticle(), jwt).then(() =>
               toast("Article updated", { type: "success", autoClose: 2500 }),
             );
           }}
@@ -77,7 +83,7 @@ export const ArticleEditorClient: React.FC<{
         </Button>
         <Button
           handler={() =>
-            submitArticle(getCurrentArticle(), () => {
+            submitArticle(getCurrentArticle(), jwt, () => {
               router.push("/dashboard");
               toast("Article submitted", { type: "success", autoClose: 2500 });
             })
@@ -87,7 +93,7 @@ export const ArticleEditorClient: React.FC<{
         </Button>
         <Button
           handler={() =>
-            deleteArticle(getCurrentArticle(), () => {
+            deleteArticle(getCurrentArticle(), jwt, () => {
               router.push("/dashboard");
               toast("Article deleted", { type: "success", autoClose: 2500 });
             })

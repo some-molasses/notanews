@@ -1,13 +1,8 @@
-import { getJWT } from "@/app/utils/auth-utils";
-import { createClient } from "@/app/utils/supabase/client";
 import { clearDashboardCacheAction } from "./actions";
 import { Article } from "@/app/utils/data-types";
 import { fetchApi } from "@/app/utils/queries";
 
-export async function updateArticle(article: Article) {
-  const supabase = await createClient();
-
-  const jwt = await getJWT(supabase);
+export async function updateArticle(article: Article, jwt: string) {
   const newState: [Article] = await fetchApi("articles", jwt, {
     headers: {
       "Content-Type": "application/json",
@@ -21,14 +16,15 @@ export async function updateArticle(article: Article) {
   clearDashboardCacheAction();
 }
 
-export async function submitArticle(article: Article, onSubmit: () => void) {
+export async function submitArticle(
+  article: Article,
+  jwt: string,
+  onSubmit: () => void,
+) {
   // first save the existing state
-  updateArticle(article);
+  updateArticle(article, jwt);
 
   // then submit
-  const supabase = await createClient();
-  const jwt = await getJWT(supabase);
-
   await fetchApi(`articles/${article.id}/submit`, jwt, {
     method: "PATCH",
   });
@@ -37,10 +33,11 @@ export async function submitArticle(article: Article, onSubmit: () => void) {
   onSubmit();
 }
 
-export async function deleteArticle(article: Article, onDelete: () => void) {
-  const supabase = await createClient();
-
-  const jwt = await getJWT(supabase);
+export async function deleteArticle(
+  article: Article,
+  jwt: string,
+  onDelete: () => void,
+) {
   await fetch(`/api/articles/${article.id}`, {
     headers: {
       Authorization: `Bearer ${jwt}`,

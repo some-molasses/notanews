@@ -12,13 +12,7 @@ export const getArticleById = async (
     throw new Error("No local domain set");
   }
 
-  const articles = (await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/articles?id=${id}`,
-    {
-      headers: { Authorization: `Bearer ${jwt}` },
-    },
-  ).then((r) => r.json())) as ArticleExpanded[];
-
+  const articles: ArticleExpanded[] = await fetchApi(`articles?id=${id}`, jwt);
   if (articles.length !== 1) {
     return null;
   }
@@ -30,14 +24,14 @@ export const getArticleById = async (
 export const fetchApi = async <T>(
   url: string,
   jwt: string,
-  options: { method: string; headers?: any; body?: any },
+  options?: { method?: string; headers?: any; body?: any },
 ): Promise<T> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/${url}`,
     {
-      headers: { ...options.headers, Authorization: `Bearer ${jwt}` },
-      method: options.method,
-      body: options.body,
+      headers: { ...options?.headers, Authorization: `Bearer ${jwt}` },
+      method: options?.method ?? "GET",
+      body: options?.body,
     },
   );
 
