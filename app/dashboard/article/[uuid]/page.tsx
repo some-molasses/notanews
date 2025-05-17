@@ -1,9 +1,6 @@
 "use server";
 
-import {
-  authenticatePage,
-  redirectIfNotLoggedIn,
-} from "@/app/utils/auth-utils";
+import { authenticatePage } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
 import React from "react";
 import "./article-editor.scss";
@@ -14,6 +11,7 @@ import {
   IssueExpanded,
   MembershipTypes as MembershipType,
 } from "@/app/utils/data-types";
+import { redirect } from "next/navigation";
 
 export default async function ArticleEditor({
   params,
@@ -42,11 +40,17 @@ export default async function ArticleEditor({
         {
           method: "GET",
         },
-      )) as { type: MembershipType }
-    ).type === "editor";
+      )) as { type: MembershipType } | null
+    )?.type === "editor";
 
   if (article === null) {
     return null;
+  }
+
+  const isUserOriginalAuthor =
+    (await supabase.auth.getUser()).data?.user?.id === article.user_id;
+  if (!isUserAnEditor && !isUserOriginalAuthor) {
+    redirect("/dashboard");
   }
 
   return (

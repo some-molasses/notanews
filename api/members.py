@@ -32,7 +32,10 @@ def get_membership_to(paper_id: str):
         .execute()
     )
 
-    return jsonify(response.data[0])
+    if len(response.data):
+        return jsonify(response.data[0])
+
+    return jsonify(None)
 
 
 @members_bp.route("/api/members/<membership_id>", methods=["PATCH"])
