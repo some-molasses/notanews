@@ -19,6 +19,22 @@ def get_my_memberships():
     return jsonify(response.data)
 
 
+@members_bp.route("/api/members/membership_to/<paper_id>", methods=["GET"])
+def get_membership_to(paper_id: str):
+    supabase = get_logged_in_supabase()
+    user = get_current_user()
+
+    response = (
+        supabase.table("paper_members")
+        .select("type")
+        .eq("user_id", user.id)
+        .eq("paper_id", paper_id)
+        .execute()
+    )
+
+    return jsonify(response.data[0])
+
+
 @members_bp.route("/api/members/<membership_id>", methods=["PATCH"])
 def update_membership(membership_id: str):
     supabase = get_logged_in_supabase()

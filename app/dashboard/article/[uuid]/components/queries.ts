@@ -37,6 +37,18 @@ export async function submitArticle(
   clearDashboardCacheAction();
   onSubmit();
 }
+export async function revertArticleToDraft(
+  article: Article,
+  jwt: string,
+  onSuccess: () => void,
+) {
+  await fetchApi(`articles/${article.id}/revert_to_draft`, jwt, {
+    method: "PATCH",
+  });
+
+  clearDashboardCacheAction();
+  onSuccess();
+}
 
 export async function deleteArticle(
   article: Article,

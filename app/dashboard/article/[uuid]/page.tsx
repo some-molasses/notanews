@@ -9,7 +9,11 @@ import React from "react";
 import "./article-editor.scss";
 import { fetchApi, getArticleById } from "@/app/utils/queries";
 import { ArticleEditorClient } from "./components/editor";
-import { ArticleExpanded, IssueExpanded } from "@/app/utils/data-types";
+import {
+  ArticleExpanded,
+  IssueExpanded,
+  MembershipTypes as MembershipType,
+} from "@/app/utils/data-types";
 
 export default async function ArticleEditor({
   params,
@@ -30,11 +34,26 @@ export default async function ArticleEditor({
     },
   );
 
+  const isUserAnEditor =
+    (
+      (await fetchApi(
+        `/members/membership_to/${article!.issues.papers.id}`,
+        jwt,
+        {
+          method: "GET",
+        },
+      )) as { type: MembershipType }
+    ).type === "editor";
+
   if (article === null) {
     return null;
   }
 
   return (
-    <ArticleEditorClient article={article} eligibleIssues={eligibleIssues} />
+    <ArticleEditorClient
+      article={article}
+      eligibleIssues={eligibleIssues}
+      isUserAnEditor={isUserAnEditor}
+    />
   );
 }

@@ -19,7 +19,8 @@ import { TiptapMenuBar } from "./tiptap-menubar";
 const Tiptap: React.FC<{
   defaultContent: string | null;
   onUpdate: (props: EditorEvents["update"]) => void;
-}> = ({ defaultContent, onUpdate }) => {
+  editable: boolean;
+}> = ({ defaultContent, onUpdate, editable }) => {
   const extensions = [
     StarterKit.configure({
       heading: {
@@ -38,6 +39,7 @@ const Tiptap: React.FC<{
     immediatelyRender: false,
     // shouldRerenderOnTransaction: false,
     onUpdate: onUpdate,
+    editable: editable,
   });
 
   if (!editor) {
@@ -46,7 +48,7 @@ const Tiptap: React.FC<{
 
   return (
     <>
-      <TiptapMenuBar editor={editor} />
+      {editable ? <TiptapMenuBar editor={editor} /> : null}
       <EditorContent editor={editor} className="tiptap-editor" />
     </>
   );

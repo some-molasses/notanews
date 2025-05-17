@@ -16,7 +16,7 @@ def get_issues():
             .execute()
         )
     else:
-        response = supabase.table("issues").select("*, papers(name)").execute()
+        response = supabase.table("issues").select("*, papers(name, id)").execute()
 
     return jsonify(response.data)
 
@@ -24,7 +24,9 @@ def get_issues():
 @issues_bp.route("/api/issues/<id>", methods=["GET"])
 def get_issue_by_id(id: str):
     supabase = get_logged_in_supabase()
-    response = supabase.table("issues").select("*, papers(name)").eq("id", id).execute()
+    response = (
+        supabase.table("issues").select("*, papers(name, id)").eq("id", id).execute()
+    )
     return jsonify(response.data[0])
 
 
@@ -33,7 +35,7 @@ def get_issue_articles(issue_id: str):
     supabase = get_logged_in_supabase()
     response = (
         supabase.table("articles")
-        .select("*, issues(issue_number, volume_number, papers(name))")
+        .select("*, issues(issue_number, volume_number, papers(name, id))")
         .eq("issue_id", issue_id)
         .execute()
     )

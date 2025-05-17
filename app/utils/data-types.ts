@@ -25,6 +25,7 @@ export type ArticleExpanded = Article & {
 
     papers: {
       name: string;
+      id: string;
     };
   };
 };
@@ -48,11 +49,13 @@ export type Paper = {
   name: string;
 };
 
+export type MembershipTypes = "contributor" | "editor";
+
 export type PaperMember = {
   id: string;
   paper_id: string;
   user_id: string;
-  type: "contributor" | "editor";
+  type: MembershipTypes;
 };
 
 export type PaperMemberDetailed = PaperMember & {
