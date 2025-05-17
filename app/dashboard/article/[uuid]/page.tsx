@@ -12,6 +12,7 @@ import {
   MembershipTypes as MembershipType,
 } from "@/app/utils/data-types";
 import { redirect } from "next/navigation";
+import { isUserAnEditor } from "@/app/utils/data-util.shared";
 
 export default async function ArticleEditor({
   params,
@@ -32,16 +33,7 @@ export default async function ArticleEditor({
     },
   );
 
-  const isUserAnEditor =
-    (
-      (await fetchApi(
-        `/members/membership_to/${article!.issues.papers.id}`,
-        jwt,
-        {
-          method: "GET",
-        },
-      )) as { type: MembershipType } | null
-    )?.type === "editor";
+  const isEditor = await isUserAnEditor(article?.issues?.papers.id, jwt);
 
   if (article === null) {
     return null;
@@ -49,7 +41,7 @@ export default async function ArticleEditor({
 
   const isUserOriginalAuthor =
     (await supabase.auth.getUser()).data?.user?.id === article.user_id;
-  if (!isUserAnEditor && !isUserOriginalAuthor) {
+  if (!isEditor && !isUserOriginalAuthor) {
     redirect("/dashboard");
   }
 
@@ -57,7 +49,7 @@ export default async function ArticleEditor({
     <ArticleEditorClient
       article={article}
       eligibleIssues={eligibleIssues}
-      isUserAnEditor={isUserAnEditor}
+      isUserAnEditor={isEditor}
     />
   );
 }

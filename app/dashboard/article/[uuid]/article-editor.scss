@@ -29,4 +29,11 @@
     gap: 8px;
     justify-content: flex-end;
   }
+
+  .article-data {
+    flex-grow: 1;
+    font-size: 0.6rem;
+    color: var(--light-text);
+    align-self: self-end;
+  }
 }

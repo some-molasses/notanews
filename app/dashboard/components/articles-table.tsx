@@ -29,7 +29,7 @@ const makeArticleRow = async (article: ArticleExpanded) => {
 
   const canViewAsAuthor = user && user.id === article.user_id;
   const canViewAsEditor = !!(
-    jwt && (await isUserAnEditor(article.issues.papers.id, jwt))
+    jwt && (await isUserAnEditor(article.issues?.papers.id, jwt))
   );
 
   const canView = canViewAsAuthor || canViewAsEditor;

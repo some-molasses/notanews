@@ -19,7 +19,7 @@ export type Article = {
 };
 
 export type ArticleExpanded = Article & {
-  issues: {
+  issues?: {
     issue_number: number;
     volume_number: number;
 

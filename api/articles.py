@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from auth import get_current_user, get_logged_in_supabase
 from flask import Blueprint, jsonify, request
@@ -46,8 +46,8 @@ def create_article():
         .insert(
             {
                 "user_id": user.id,
-                "created_at": datetime.now().isoformat(),
-                "updated_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
             }
         )
         .execute()
@@ -69,7 +69,7 @@ def update_article():
                 "body": article["body"],
                 "pseudonym": article["pseudonym"],
                 "issue_id": article["issue_id"],
-                "updated_at": datetime.now().isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
             }
         )
         .eq("id", article["id"])

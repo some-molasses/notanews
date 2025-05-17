@@ -92,6 +92,13 @@ export const ArticleEditorClient: React.FC<{
         editable={isEditable}
       />
       <Row id="editor-article-buttons">
+        <Column className="article-data">
+          <span>status: {article.state}</span>
+          <span>
+            last saved:{" "}
+            {new Date(article.updated_at).toLocaleTimeString("en-CA", {})}
+          </span>
+        </Column>
         {isUserAnEditor && isEditableAsEditor ? (
           <EditorButtons article={getCurrentArticle()} />
         ) : (
@@ -139,14 +146,14 @@ const AuthorButtons: React.FC<{
       <Button
         handler={() => {
           updateArticle(article, jwt).then(() =>
-            toast("Article updated", {
+            toast("Draft saved", {
               type: "success",
               autoClose: 2500,
             }),
           );
         }}
       >
-        Update article
+        Save draft
       </Button>
       <Button
         handler={() =>
