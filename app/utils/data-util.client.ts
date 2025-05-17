@@ -23,9 +23,3 @@ export const useUser = () => {
 
   return user;
 };
-
-export const isUserAnEditor = async (paper_id: string, jwt: string) => {
-  return await fetchApi(`/members/membership_to/${paper_id}`, jwt, {
-    method: "GET",
-  });
-};

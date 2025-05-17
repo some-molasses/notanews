@@ -19,6 +19,7 @@ export function JWTProvider({ children }: { children: React.ReactNode }) {
       const token = await getJWT(supabase);
       setJwt(token);
     }
+
     fetchJwt();
   }, []);
 

@@ -20,7 +20,7 @@
     gap: 4px;
     flex-grow: 1;
 
-    a {
+    .menu-button {
       transition: var(--transition);
       color: var(--text);
 
@@ -35,6 +35,24 @@
           border-color: black;
         }
       }
+    }
+  }
+
+  .user-profile {
+    align-items: center;
+    gap: 8px;
+
+    .user-profile-pic {
+      $size: 12px;
+      width: 0;
+      height: 0;
+      border-radius: 1000px;
+      padding: $size;
+      border: 2px solid var(--border-color);
+    }
+
+    .user-email {
+      font-size: 8px;
     }
   }
 }

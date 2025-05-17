@@ -29,6 +29,7 @@
   .cell {
     padding: 20px;
     display: block;
+    transition: var(--transition);
 
     &.state-draft {
       color: var(--light-text);
@@ -44,6 +45,14 @@
 
     &.state-approved {
       color: var(--success);
+    }
+  }
+
+  tr {
+    transition: var(--transition);
+
+    &.viewable:hover {
+      background-color: var(--hovered);
     }
   }
 }
