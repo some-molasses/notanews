@@ -81,33 +81,28 @@ def update_article():
 
 @articles_bp.route("/api/articles/<article_id>/submit", methods=["PATCH"])
 def submit_article(article_id: str):
-    supabase = get_logged_in_supabase()
-
     # @todo add validation that the article is not already approved
+    return set_article_state_to(article_id, "submitted")
 
-    response = (
-        supabase.table("articles")
-        .update(
-            {
-                "state": "submitted",
-            }
-        )
-        .eq("id", article_id)
-        .execute()
-    )
 
-    return jsonify(response.data)
+@articles_bp.route("/api/articles/<article_id>/approve", methods=["PATCH"])
+def approve_article(article_id: str):
+    # @todo add validation that the article is not already approved
+    return set_article_state_to(article_id, "approved")
 
 
 @articles_bp.route("/api/articles/<article_id>/revert_to_draft", methods=["PATCH"])
 def revert_article(article_id: str):
-    supabase = get_logged_in_supabase()
+    return set_article_state_to(article_id, "draft")
 
+
+def set_article_state_to(article_id: str, state: str):
+    supabase = get_logged_in_supabase()
     response = (
         supabase.table("articles")
         .update(
             {
-                "state": "draft",
+                "state": state,
             }
         )
         .eq("id", article_id)

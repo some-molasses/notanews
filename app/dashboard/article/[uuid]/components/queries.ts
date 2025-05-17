@@ -37,6 +37,7 @@ export async function submitArticle(
   clearDashboardCacheAction();
   onSubmit();
 }
+
 export async function revertArticleToDraft(
   article: Article,
   jwt: string,
@@ -48,6 +49,14 @@ export async function revertArticleToDraft(
 
   clearDashboardCacheAction();
   onSuccess();
+}
+
+export async function approveArticle(article: Article, jwt: string) {
+  await fetchApi(`articles/${article.id}/approve`, jwt, {
+    method: "PATCH",
+  });
+
+  clearDashboardCacheAction();
 }
 
 export async function deleteArticle(

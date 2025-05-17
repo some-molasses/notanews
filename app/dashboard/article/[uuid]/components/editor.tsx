@@ -2,7 +2,7 @@
 
 import { Column, Row } from "@/app/components/layout/layout-components";
 import Tiptap from "@/app/components/tiptap/tiptap";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Article,
   ArticleExpanded,
@@ -10,6 +10,7 @@ import {
 } from "@/app/utils/data-types";
 import { Button } from "@/app/components/button/button.client";
 import {
+  approveArticle,
   deleteArticle,
   revertArticleToDraft,
   submitArticle,
@@ -25,8 +26,6 @@ export const ArticleEditorClient: React.FC<{
   eligibleIssues: IssueExpanded[];
   isUserAnEditor: boolean;
 }> = ({ article, eligibleIssues, isUserAnEditor }) => {
-  const router = useRouter();
-  const jwt = useJWT();
   const user = useUser();
 
   const [title, setTitle] = useState(article.title);
@@ -49,11 +48,8 @@ export const ArticleEditorClient: React.FC<{
   const isEditableAsAuthor =
     user && user.id === article.user_id && article.state === "draft";
   const isEditableAsEditor = isUserAnEditor && article.state !== "draft";
-  const isEditable = isEditableAsAuthor || isEditableAsEditor;
 
-  if (!jwt) {
-    return null;
-  }
+  const isEditable = isEditableAsAuthor || isEditableAsEditor;
 
   return (
     <div id="article-editor">
@@ -96,64 +92,116 @@ export const ArticleEditorClient: React.FC<{
         editable={isEditable}
       />
       <Row id="editor-article-buttons">
-        {isEditable ? (
-          <>
-            <Button
-              handler={() => {
-                updateArticle(getCurrentArticle(), jwt).then(() =>
-                  toast("Article updated", {
-                    type: "success",
-                    autoClose: 2500,
-                  }),
-                );
-              }}
-            >
-              Update article
-            </Button>
-            <Button
-              handler={() =>
-                submitArticle(getCurrentArticle(), jwt, () => {
-                  router.push("/dashboard");
-                  toast("Article submitted", {
-                    type: "success",
-                    autoClose: 2500,
-                  });
-                })
-              }
-            >
-              Submit article
-            </Button>
-            <Button
-              handler={() =>
-                deleteArticle(getCurrentArticle(), jwt, () => {
-                  router.push("/dashboard");
-                  toast("Article deleted", {
-                    type: "success",
-                    autoClose: 2500,
-                  });
-                })
-              }
-              variant="destructive"
-            >
-              Delete article
-            </Button>
-          </>
+        {isUserAnEditor && isEditableAsEditor ? (
+          <EditorButtons article={getCurrentArticle()} />
         ) : (
-          <Button
-            handler={() =>
-              revertArticleToDraft(getCurrentArticle(), jwt, () => {
-                router.push("/dashboard");
-                toast("Article reverted to draft", {
-                  type: "success",
-                  autoClose: 2500,
-                });
-              })
-            }
-          >
-            Revert to draft
-          </Button>
+          <AuthorButtons
+            article={getCurrentArticle()}
+            isEditableByAuthor={!!isEditableAsAuthor}
+          />
         )}
       </Row>
     </div>
+  );
+};
+
+const AuthorButtons: React.FC<{
+  article: Article;
+  isEditableByAuthor: boolean;
+}> = ({ isEditableByAuthor, article }) => {
+  const router = useRouter();
+  const jwt = useJWT();
+
+  if (!jwt) {
+    return null;
+  }
+
+  if (!isEditableByAuthor) {
+    return (
+      <Button
+        handler={() =>
+          revertArticleToDraft(article, jwt, () => {
+            router.push("/dashboard");
+            toast("Article reverted to draft", {
+              type: "success",
+              autoClose: 2500,
+            });
+          })
+        }
+      >
+        Revert to draft
+      </Button>
+    );
+  }
+
+  return (
+    <>
+      <Button
+        handler={() => {
+          updateArticle(article, jwt).then(() =>
+            toast("Article updated", {
+              type: "success",
+              autoClose: 2500,
+            }),
+          );
+        }}
+      >
+        Update article
+      </Button>
+      <Button
+        handler={() =>
+          submitArticle(article, jwt, () => {
+            router.push("/dashboard");
+            toast("Article submitted", {
+              type: "success",
+              autoClose: 2500,
+            });
+          })
+        }
+      >
+        Submit article
+      </Button>
+      <Button
+        handler={() =>
+          deleteArticle(article, jwt, () => {
+            router.push("/dashboard");
+            toast("Article deleted", {
+              type: "success",
+              autoClose: 2500,
+            });
+          })
+        }
+        variant="destructive"
+      >
+        Delete article
+      </Button>
+    </>
+  );
+};
+
+const EditorButtons: React.FC<{ article: Article }> = ({ article }) => {
+  const router = useRouter();
+  const jwt = useJWT();
+
+  if (!jwt) {
+    return null;
+  }
+
+  return (
+    <>
+      <Button
+        handler={() =>
+          approveArticle(article, jwt).then(() => {
+            router.push(`/dashboard/issues/${article.issue_id}`);
+            toast("Article approved", {
+              type: "success",
+              autoClose: 2500,
+            });
+          })
+        }
+      >
+        Approve article
+      </Button>
+    </>
   );
 };
