@@ -4,9 +4,23 @@ from flask import Blueprint, jsonify
 papers_bp = Blueprint("papers", __name__)
 
 
-# @todo only return current user's joined organizations
+# returns current user's papers
 @papers_bp.route("/api/papers", methods=["GET"])
 def get_papers():
+    supabase = get_logged_in_supabase()
+    user = get_current_user()
+    response = (
+        supabase.table("papers")
+        .select("*, paper_members!inner()")
+        .eq("paper_members.user_id", user.id)
+        .execute()
+    )
+    return jsonify(response.data)
+
+
+# returns all papers
+@papers_bp.route("/api/papers/discover", methods=["GET"])
+def get_discoverable_papers():
     supabase = get_logged_in_supabase()
     response = supabase.table("papers").select("*").execute()
     return jsonify(response.data)

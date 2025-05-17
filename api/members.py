@@ -1,7 +1,22 @@
-from auth import get_logged_in_supabase
+from auth import get_current_user, get_logged_in_supabase
 from flask import Blueprint, jsonify, request
 
 members_bp = Blueprint("members", __name__)
+
+
+@members_bp.route("/api/members/my_memberships", methods=["GET"])
+def get_my_memberships():
+    supabase = get_logged_in_supabase()
+    user = get_current_user()
+
+    response = (
+        supabase.table("paper_members")
+        .select("paper_id")
+        .eq("user_id", user.id)
+        .execute()
+    )
+
+    return jsonify(response.data)
 
 
 @members_bp.route("/api/members/<membership_id>", methods=["PATCH"])
