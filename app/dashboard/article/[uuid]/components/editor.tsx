@@ -28,10 +28,14 @@ export const ArticleEditorClient: React.FC<{
 }> = ({ article, eligibleIssues, isUserAnEditor }) => {
   const user = useUser();
 
-  const [title, setTitle] = useState(article.title);
-  const [pseudonym, setPseudonym] = useState(article.pseudonym);
-  const [issue, setIssue] = useState(article.issue_id);
-  const [contents, setContents] = useState(article.body);
+  const [title, setTitle] = useState<string | null>(article.title);
+  const [pseudonym, setPseudonym] = useState<string | null>(article.pseudonym);
+  const [issue, setIssue] = useState<string | null>(article.issue_id);
+  const [contents, setContents] = useState<string | null>(article.body);
+
+  const [lastUpdate, setLastUpdate] = useState<Date>(
+    new Date(article.updated_at),
+  );
 
   const getCurrentArticle = (): Article => {
     const selected_issue = issue === "null" ? null : issue;
@@ -94,10 +98,7 @@ export const ArticleEditorClient: React.FC<{
       <Row id="editor-article-buttons">
         <Column className="article-data">
           <span>status: {article.state}</span>
-          <span>
-            last saved:{" "}
-            {new Date(article.updated_at).toLocaleTimeString("en-CA", {})}
-          </span>
+          <span>last saved: {lastUpdate.toLocaleTimeString("en-CA", {})}</span>
         </Column>
         {isUserAnEditor && isEditableAsEditor ? (
           <EditorButtons article={getCurrentArticle()} />
@@ -105,6 +106,7 @@ export const ArticleEditorClient: React.FC<{
           <AuthorButtons
             article={getCurrentArticle()}
             isEditableByAuthor={!!isEditableAsAuthor}
+            setLastUpdate={setLastUpdate}
           />
         )}
       </Row>
@@ -115,7 +117,8 @@ export const ArticleEditorClient: React.FC<{
 const AuthorButtons: React.FC<{
   article: Article;
   isEditableByAuthor: boolean;
-}> = ({ isEditableByAuthor, article }) => {
+  setLastUpdate: (date: Date) => void;
+}> = ({ isEditableByAuthor, article, setLastUpdate }) => {
   const router = useRouter();
   const jwt = useJWT();
 
@@ -145,12 +148,13 @@ const AuthorButtons: React.FC<{
     <>
       <Button
         handler={() => {
-          updateArticle(article, jwt).then(() =>
+          updateArticle(article, jwt).then(() => {
+            setLastUpdate(new Date());
             toast("Draft saved", {
               type: "success",
               autoClose: 2500,
-            }),
-          );
+            });
+          });
         }}
       >
         Save draft
