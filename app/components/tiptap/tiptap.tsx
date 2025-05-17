@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  useEditor,
-  EditorContent,
-  EditorEvents,
-  EditorProvider,
-} from "@tiptap/react";
+import { useEditor, EditorContent, EditorEvents } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
 import { Color } from "@tiptap/extension-color";
@@ -44,6 +39,10 @@ const Tiptap: React.FC<{
 
   if (!editor) {
     return null;
+  }
+
+  if (editable && !editor.isEditable) {
+    editor.setEditable(true);
   }
 
   return (
