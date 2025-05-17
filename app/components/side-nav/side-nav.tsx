@@ -2,8 +2,9 @@ import { signOut } from "@/app/login/actions";
 import "./side-nav.scss";
 import Link from "next/link";
 import { TITLE_FONT } from "@/app/styles";
+import { UserEmail } from "./components/user-email";
 
-export const SideNav: React.FC<{}> = () => {
+export function SideNav() {
   return (
     <div className="side-nav-container">
       <Link href={"/dashboard"}>
@@ -17,9 +18,10 @@ export const SideNav: React.FC<{}> = () => {
           <span>papers</span>
         </Link>
       </div>
+      <UserEmail />
       <form>
         <button formAction={signOut}>sign out</button>
       </form>
     </div>
   );
-};
+}

@@ -52,7 +52,7 @@ export type PaperMember = {
   id: string;
   paper_id: string;
   user_id: string;
-  type: "member";
+  type: "contributor" | "editor";
 };
 
 export type PaperMemberDetailed = PaperMember & {
