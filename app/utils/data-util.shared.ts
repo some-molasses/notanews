@@ -14,6 +14,6 @@ export const isUserAnEditor = async (
       (await fetchApi(`/members/membership_to/${paper_id}`, jwt, {
         method: "GET",
       })) as { type: MembershipTypes }
-    ).type == "editor"
+    )?.type == "editor"
   );
 };
