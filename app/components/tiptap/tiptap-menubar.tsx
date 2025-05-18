@@ -1,11 +1,13 @@
+"use client";
+
 import { Editor } from "@tiptap/react";
 import "./tiptap-menubar.scss";
+import { HexColorInput, HexColorPicker } from "react-colorful";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
   faCode,
   faEraser,
-  faHeading,
   faItalic,
   faListDots,
   faListNumeric,
@@ -16,8 +18,12 @@ import {
   faStrikethrough,
   faTerminal,
 } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const [colour, setColour] = useState("#aabbcc");
+  const [displayColourPicker, setDisplayColourPicker] = useState(false);
+
   const getClassFor = (style: string, attributes?: {}): string => {
     if (!editor) {
       return "";
@@ -139,12 +145,36 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         >
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
-        <button
-          onClick={() => editor.chain().focus().setColor("#958DF1").run()}
-          className={getClassFor("textStyle", { color: "#958DF1" })}
-        >
-          Purple
-        </button>
+        <div className="colour-container">
+          <button
+            onClick={(event) => {
+              setDisplayColourPicker(!displayColourPicker);
+              event.currentTarget.classList.toggle("is-active");
+            }}
+            className={getClassFor("textStyle", { color: "#958DF1" })}
+          >
+            colour
+          </button>
+          {displayColourPicker ? (
+            <div className="colour-picker-container">
+              <HexColorPicker
+                color={colour}
+                onChange={(colour) => {
+                  setColour(colour);
+                  editor.chain().focus().setColor(colour).run();
+                }}
+                className="colour-picker"
+              />
+              <HexColorInput
+                color={colour}
+                onChange={(colour) => {
+                  setColour(colour);
+                  editor.chain().setColor(colour).run();
+                }}
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

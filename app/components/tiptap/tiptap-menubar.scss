@@ -14,4 +14,19 @@
       background-color: var(--active);
     }
   }
+
+  .colour-container {
+    position: relative;
+    z-index: 2;
+
+    .colour-picker-container {
+      position: absolute;
+    }
+
+    .react-colorful {
+      .react-colorful__pointer {
+        cursor: pointer;
+      }
+    }
+  }
 }
