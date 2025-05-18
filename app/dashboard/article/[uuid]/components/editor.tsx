@@ -16,7 +16,7 @@ import {
   submitArticle,
   updateArticle,
 } from "./queries";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useJWT } from "@/app/auth/components/jwt-context";
 import { useUser } from "@/app/utils/data-util.client";
@@ -63,21 +63,21 @@ export const ArticleEditorClient: React.FC<{
           placeholder="your title here"
           value={title ?? ""}
           onChange={(event) => setTitle(event.target.value)}
-          contentEditable={isEditable}
+          disabled={!isEditable}
         />
         <input
           id="pseudonym-input"
           placeholder="a creative author name"
           value={pseudonym ?? ""}
           onChange={(event) => setPseudonym(event.target.value)}
-          contentEditable={isEditable}
+          disabled={!isEditable}
         />
         {isEditableAsAuthor ? (
           <select
             id="issue-select"
             defaultValue={article.issue_id ?? "null"}
             onChange={(event) => setIssue(event.target.value)}
-            contentEditable={isEditable}
+            disabled={!isEditable}
           >
             <option key="none" value={"null"}>
               no issue selected

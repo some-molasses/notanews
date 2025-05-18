@@ -10,6 +10,7 @@ import Typography from "@tiptap/extension-typography";
 import React from "react";
 import "./tiptap.scss";
 import { TiptapMenuBar } from "./tiptap-menubar";
+import Image from "@tiptap/extension-image";
 
 const Tiptap: React.FC<{
   defaultContent: string | null;
@@ -26,6 +27,7 @@ const Tiptap: React.FC<{
     Typography,
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle,
+    Image,
   ];
 
   const editor = useEditor({

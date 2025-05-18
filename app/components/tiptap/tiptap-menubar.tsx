@@ -8,6 +8,7 @@ import {
   faBold,
   faCode,
   faEraser,
+  faImage,
   faItalic,
   faListDots,
   faListNumeric,
@@ -75,6 +76,18 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
           <FontAwesomeIcon icon={faEraser} />
         </button>
         <button
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().chain().focus().undo().run()}
+        >
+          <FontAwesomeIcon icon={faRotateLeft} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().chain().focus().redo().run()}
+        >
+          <FontAwesomeIcon icon={faRotateRight} />
+        </button>
+        <button
           onClick={() => editor.chain().focus().setParagraph().run()}
           className={getClassFor("paragraph")}
         >
@@ -129,21 +142,20 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
           <FontAwesomeIcon icon={faQuoteLeft} />
         </button>
         <button
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .setImage({ src: "https://placecats.com/800/700" })
+              .run()
+          }
+        >
+          <FontAwesomeIcon icon={faImage} />
+        </button>
+        <button
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
           hr
-        </button>
-        <button
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!editor.can().chain().focus().undo().run()}
-        >
-          <FontAwesomeIcon icon={faRotateLeft} />
-        </button>
-        <button
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!editor.can().chain().focus().redo().run()}
-        >
-          <FontAwesomeIcon icon={faRotateRight} />
         </button>
         <div className="colour-container">
           <button
@@ -159,7 +171,7 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
             <div className="colour-picker-container">
               <HexColorPicker
                 color={colour}
-                onChange={(colour) => {
+                onChange={(colour: string) => {
                   setColour(colour);
                   editor.chain().focus().setColor(colour).run();
                 }}
@@ -167,7 +179,7 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
               />
               <HexColorInput
                 color={colour}
-                onChange={(colour) => {
+                onChange={(colour: string) => {
                   setColour(colour);
                   editor.chain().setColor(colour).run();
                 }}
