@@ -142,13 +142,15 @@ export const TiptapMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
           <FontAwesomeIcon icon={faQuoteLeft} />
         </button>
         <button
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .setImage({ src: "https://placecats.com/800/700" })
-              .run()
-          }
+          // https://placecats.com/800/700
+          onClick={() => {
+            const src = prompt(`Please enter your image's URL`);
+            if (!src) {
+              return;
+            }
+
+            editor.chain().focus().setImage({ src }).run();
+          }}
         >
           <FontAwesomeIcon icon={faImage} />
         </button>
