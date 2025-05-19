@@ -12,7 +12,7 @@ import { createClient } from "@/app/utils/supabase/server";
 import { RowReverse } from "@/app/components/layout/layout-components";
 import { Button } from "@/app/components/button/button.server";
 import { nothing } from "./queries";
-import { fetchApi } from "@/app/utils/queries";
+import { fetchApi, getPaperById } from "@/app/utils/queries";
 import Link from "next/link";
 import "./paper.scss";
 import { PaperMembersTable } from "./components/members-table";
@@ -67,9 +67,7 @@ export default async function PaperView({
     redirect("/dashboard/papers");
   }
 
-  const paper = (await fetchApi(`papers/${paper_id}`, jwt, {
-    method: "GET",
-  })) as Paper;
+  const paper = await getPaperById(paper_id, jwt);
 
   const paper_issues = (await fetchApi(`papers/${paper_id}/issues`, jwt, {
     method: "GET",
@@ -95,7 +93,9 @@ export default async function PaperView({
           rowGenerator={(issue) => makeIssueRow(issue, paper)}
         />
         <RowReverse className="issue-buttons">
-          <Button href={"/dashboard/issues/create"}>Create new issue</Button>
+          <Button href={`/dashboard/papers/${paper.id}/create-issue`}>
+            Create new issue
+          </Button>
         </RowReverse>
       </section>
     </div>
