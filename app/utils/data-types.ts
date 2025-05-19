@@ -20,8 +20,7 @@ export type Article = {
 
 export type ArticleExpanded = Article & {
   issues?: {
-    issue_number: number;
-    volume_number: number;
+    name: string;
 
     papers: {
       name: string;
@@ -34,8 +33,7 @@ export type Issue = {
   id: string;
   paper_id: string;
 
-  issue_number: number;
-  volume_number: number;
+  name: string;
 
   created_at: string;
   published_at: string;

@@ -31,9 +31,9 @@ export default async function IssueView({
   })) as ArticleExpanded[];
 
   return (
-    <div id="papers-page">
+    <div id="issue-page">
       <PageTitle>
-        {paper.name} {issue.volume_number}.{issue.issue_number}
+        {paper.name} | {issue.name}
       </PageTitle>
       <section>
         <Heading2>articles</Heading2>

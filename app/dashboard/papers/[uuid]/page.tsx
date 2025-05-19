@@ -95,7 +95,7 @@ export default async function PaperView({
           rowGenerator={(issue) => makeIssueRow(issue, paper)}
         />
         <RowReverse className="issue-buttons">
-          <Button handler={nothing}>Create new issue</Button>
+          <Button href={"/dashboard/issues/create"}>Create new issue</Button>
         </RowReverse>
       </section>
     </div>
@@ -108,7 +108,7 @@ const makeIssueRow = (issue: Issue, paper: Paper) => {
       <td>
         <Link href={`/dashboard/issues/${issue.id}`}>
           <div className="cell">
-            {paper.name} {issue.volume_number}.{issue.issue_number}
+            {paper.name} | {issue.name}
           </div>
         </Link>
       </td>

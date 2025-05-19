@@ -84,7 +84,7 @@ export const ArticleEditorClient: React.FC<{
             </option>
             {eligibleIssues.map((issue) => (
               <option key={issue.id} value={issue.id}>
-                {issue.papers.name} {issue.volume_number}.{issue.issue_number}
+                {issue.papers.name} | {issue.name}
               </option>
             ))}
           </select>

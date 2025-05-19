@@ -18,7 +18,7 @@ def get_single_article(id: str):
     supabase = get_logged_in_supabase()
     response = (
         supabase.table("articles")
-        .select("*, issues(issue_number, volume_number, papers(name, id))")
+        .select("*, issues(name, papers(name, id))")
         .eq("id", id)
         .execute()
     )
@@ -30,7 +30,7 @@ def get_all_articles():
     user = get_current_user()
     response = (
         supabase.table("articles")
-        .select("*, issues(issue_number, volume_number, papers(name, id))")
+        .select("*, issues(name, papers(name, id))")
         .eq("user_id", user.id)
         .execute()
     )

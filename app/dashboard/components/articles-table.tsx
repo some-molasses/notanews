@@ -13,7 +13,7 @@ export const ArticlesTable: React.FC<{ articles: ArticleExpanded[] }> = ({
     <div id="articles-table-container">
       <Table
         id="articles-table"
-        headers={["title", "author", "issue", "state", "date"]}
+        headers={["title", "author", "paper", "issue", "state", "date"]}
         data={articles}
         rowGenerator={makeArticleRow}
       ></Table>
@@ -48,9 +48,12 @@ const makeArticleRow = async (article: ArticleExpanded) => {
       </td>
       <td>
         <ArticleLink article={article} viewable={canView}>
-          {article.issues?.papers
-            ? `${article.issues.papers.name} ${article.issues.volume_number}.${article.issues.issue_number}`
-            : "-"}
+          {article.issues?.papers ? `${article.issues.papers.name}` : "-"}
+        </ArticleLink>
+      </td>
+      <td>
+        <ArticleLink article={article} viewable={canView}>
+          {article.issues ? `${article.issues.name}` : "-"}
         </ArticleLink>
       </td>
       <td>

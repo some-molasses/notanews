@@ -35,7 +35,7 @@ def get_issue_articles(issue_id: str):
     supabase = get_logged_in_supabase()
     response = (
         supabase.table("articles")
-        .select("*, issues(issue_number, volume_number, papers(name, id))")
+        .select("*, issues(name, papers(name, id))")
         .eq("issue_id", issue_id)
         .execute()
     )

@@ -4,6 +4,8 @@
   transition: var(--transition);
   color: var(--accent);
   min-width: 200px;
+  text-align: center;
+  align-self: flex-start;
 
   &:hover,
   &:focus-visible {
