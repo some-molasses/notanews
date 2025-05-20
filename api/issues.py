@@ -10,15 +10,12 @@ issues_bp = Blueprint("issues", __name__)
 def get_issues():
     supabase = get_logged_in_supabase()
 
+    query = supabase.table("issues").select("*, papers(name, id)")
+
     if request.args.get("state"):
-        response = (
-            supabase.table("issues")
-            .select("*, papers(name)")
-            .eq("state", request.args.get("state"))
-            .execute()
-        )
-    else:
-        response = supabase.table("issues").select("*, papers(name, id)").execute()
+        query = query.in_("state", request.args.get("state").split(","))
+
+    response = query.execute()
 
     return jsonify(response.data)
 

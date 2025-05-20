@@ -10,12 +10,12 @@ import { ArticlesTable } from "../../components/articles-table";
 export default async function IssueView({
   params,
 }: {
-  params: Promise<{ uuid: string }>;
+  params: { uuid: string };
 }) {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
 
-  const issue_id = (await params).uuid;
+  const issue_id = params.uuid;
 
   // @todo replace this with a joined query
   const issue = (await fetchApi(`issues/${issue_id}`, jwt, {

@@ -11,4 +11,15 @@
 - ensure the backend routes only return the current user's issues, papers, etc.
 
 ### frontend
-- article save toast notifications 
+- move fetchApi calls to some central function library
+
+### all
+- issue deletion
+
+# big todo
+
+- writing timelines
+- editing process
+- auto-assembly of issue; how much auto to make it?
+- distribution
+- fix everything about supabase rls and keys

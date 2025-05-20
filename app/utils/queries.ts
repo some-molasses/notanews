@@ -1,4 +1,4 @@
-import { ArticleExpanded, Paper } from "./data-types";
+import { ArticleExpanded, Issue, IssueExpanded, Paper } from "./data-types";
 
 export const getArticleById = async (
   id: string,
@@ -20,12 +20,32 @@ export const getArticleById = async (
   return articles[0];
 };
 
+export const getIssues = async (jwt: string, states?: string[]) => {
+  const issues = (await fetchApi(
+    `issues?${states ? `state=${states.join(",")}` : ""}`,
+    jwt,
+  )) as IssueExpanded[];
+
+  return issues;
+};
+
+export const getIssueById = async (jwt: string, id: string) => {
+  const issues = (await fetchApi(`issues/${id}`, jwt)) as IssueExpanded;
+
+  return issues;
+};
+
 export const getPaperById = async (paper_id: string, jwt: string) => {
   const paper = (await fetchApi(`papers/${paper_id}`, jwt, {
     method: "GET",
   })) as Paper;
 
   return paper;
+};
+
+export const isEditor = async (jwt: string) => {
+  return ((await fetchApi("/members/is_editor", jwt)) as { is_editor: boolean })
+    .is_editor;
 };
 
 // @example url "/papers"

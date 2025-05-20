@@ -1,5 +1,5 @@
 from auth import get_current_user, get_logged_in_supabase
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 papers_bp = Blueprint("papers", __name__)
 
@@ -9,12 +9,17 @@ papers_bp = Blueprint("papers", __name__)
 def get_papers():
     supabase = get_logged_in_supabase()
     user = get_current_user()
-    response = (
+
+    query = (
         supabase.table("papers")
         .select("*, paper_members!inner()")
         .eq("paper_members.user_id", user.id)
-        .execute()
     )
+
+    if request.args.get("subset") == "editable":
+        query = query.eq("paper_members.type", "editor")
+
+    response = query.execute()
     return jsonify(response.data)
 
 

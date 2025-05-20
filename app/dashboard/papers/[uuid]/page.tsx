@@ -49,13 +49,13 @@ const isUserEditorOfPaper = async (
 export default async function PaperView({
   params,
 }: {
-  params: Promise<{ uuid: string }>;
+  params: { uuid: string };
 }) {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
   const user = await getUser(supabase);
 
-  const paper_id = (await params).uuid;
+  const paper_id = params.uuid;
 
   const paper_members = (await fetchApi(`papers/${paper_id}/members`, jwt, {
     method: "GET",

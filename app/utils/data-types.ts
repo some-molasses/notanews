@@ -29,13 +29,17 @@ export type ArticleExpanded = Article & {
   };
 };
 
+export type IssueState = "writing" | "copyediting" | "generating" | "published";
+
 export type Issue = {
   id: string;
   paper_id: string;
 
   name: string;
+  state: IssueState;
 
   created_at: string;
+  submission_deadline: string;
   published_at: string;
 };
 

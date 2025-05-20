@@ -11,12 +11,12 @@ import { createIssueAction } from "./actions";
 export default async function CreateIssueView({
   params,
 }: {
-  params: Promise<{ uuid: string }>;
+  params: { uuid: string };
 }) {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
 
-  const paper = await getPaperById((await params).uuid, jwt);
+  const paper = await getPaperById(params.uuid, jwt);
 
   return (
     <div id="create-issue-page">
