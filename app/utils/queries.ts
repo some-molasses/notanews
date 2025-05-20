@@ -1,4 +1,4 @@
-import { ArticleExpanded, Issue, IssueExpanded, Paper } from "./data-types";
+import { ArticleExpanded, IssueExpanded, Paper } from "./data-types";
 
 export const getArticleById = async (
   id: string,
@@ -18,6 +18,18 @@ export const getArticleById = async (
   }
 
   return articles[0];
+};
+
+export const getSubmittedArticlesForIssue = async (
+  jwt: string,
+  id: string,
+): Promise<ArticleExpanded[]> => {
+  const articles: ArticleExpanded[] = await fetchApi(
+    `issues/${id}/submitted-articles`,
+    jwt,
+  );
+
+  return articles;
 };
 
 export const getIssues = async (jwt: string, states?: string[]) => {

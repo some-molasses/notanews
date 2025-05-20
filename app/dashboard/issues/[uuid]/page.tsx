@@ -4,7 +4,7 @@ import { authenticatePage } from "@/app/utils/auth-utils";
 import { Article, ArticleExpanded, Issue, Paper } from "@/app/utils/data-types";
 import { createClient } from "@/app/utils/supabase/server";
 import "./issue.scss";
-import { fetchApi } from "@/app/utils/queries";
+import { fetchApi, getSubmittedArticlesForIssue } from "@/app/utils/queries";
 import { ArticlesTable } from "../../components/articles-table";
 
 export default async function IssueView({
@@ -26,9 +26,7 @@ export default async function IssueView({
     method: "GET",
   })) as Paper;
 
-  const articles = (await fetchApi(`issues/${issue_id}/articles`, jwt, {
-    method: "GET",
-  })) as ArticleExpanded[];
+  const articles = await getSubmittedArticlesForIssue(jwt, issue.id);
 
   return (
     <div id="issue-page">

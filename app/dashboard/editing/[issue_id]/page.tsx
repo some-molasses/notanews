@@ -2,8 +2,14 @@ import { PageTitle } from "@/app/components/page-title/page-title";
 import { authenticatePage } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
 import "./editing-issue.scss";
-import { getIssueById } from "@/app/utils/queries";
+import {
+  getSubmittedArticlesForIssue,
+  getIssueById,
+} from "@/app/utils/queries";
 import { Issue, IssueExpanded } from "@/app/utils/data-types";
+import { ArticlesTable } from "../../components/articles-table";
+import { Button } from "@/app/components/button/button.server";
+import { RowReverse } from "@/app/components/layout/layout-components";
 
 export default async function EditingIssuePage({
   params,
@@ -14,36 +20,35 @@ export default async function EditingIssuePage({
   const { jwt } = await authenticatePage(supabase);
 
   const issue = await getIssueById(jwt, params.issue_id);
+  const articles = await getSubmittedArticlesForIssue(jwt, issue.id);
+
+  const pendingArticles = articles.filter(
+    (article) => article.state == "pending",
+  );
 
   return (
-    <div id="editing-dash-page">
+    <div id="editing-issue-page">
       <PageTitle>
         editing {issue.papers.name} {issue.name}
       </PageTitle>
+      {pendingArticles.length > 0 ? (
+        <section>
+          <h2>pending articles</h2>
+          <ArticlesTable articles={pendingArticles} />
+        </section>
+      ) : null}
+      <section>
+        <h2>all articles</h2>
+        <ArticlesTable articles={articles} />
+      </section>
+
+      {pendingArticles.length === 0 ? (
+        <RowReverse>
+          <Button href={`/dashboard/editing/${issue.id}/drafting`}>
+            Begin drafting
+          </Button>
+        </RowReverse>
+      ) : null}
     </div>
   );
 }
-
-const IssueStateBreadcrumb: React.FC<{ issue: Issue }> = ({ issue }) => {
-  const getType = () => {
-    switch (issue.state) {
-      case "copyediting":
-        return "copyediting";
-      case "generating":
-        return "drafting";
-      case "writing":
-      default:
-        throw new Error(`Bad issue state ${issue.state}`);
-    }
-  };
-
-  return (
-    <div className={`issue-state-breadcrumb ${getType()}`}>
-      <span className="state copyediting">copyediting</span>
-      <span className="bullet">•</span>
-      <span className="state drafting">drafting</span>
-      <span className="bullet">•</span>
-      <span className="state distributing">distrbuting</span>
-    </div>
-  );
-};

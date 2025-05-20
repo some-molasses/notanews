@@ -22,7 +22,7 @@ export default async function ArticleEditor({
   const article: ArticleExpanded | null = await getArticleById(uuid, jwt);
 
   const eligibleIssues: IssueExpanded[] = await fetchApi(
-    `/issues?state=open`,
+    `/issues?state=writing`,
     jwt,
     {
       method: "GET",
