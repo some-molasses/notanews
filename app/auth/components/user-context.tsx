@@ -1,8 +1,9 @@
 "use client";
 
-import { createClient } from "@/app/utils/supabase/client";
+import { fetchApi } from "@/app/utils/queries";
 import { User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useJWT } from "./jwt-context";
 
 export const UserContext = createContext<User | null>(null);
 
@@ -12,16 +13,23 @@ export function useUser() {
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const jwt = useJWT();
 
   useEffect(() => {
     async function fetchUser() {
-      const supabase = await createClient();
-      const { data, error } = await supabase.auth.getUser();
-      setUser(data.user);
+      if (!jwt) {
+        return;
+      }
+
+      if (user) {
+        return;
+      }
+
+      setUser((await fetchApi("/user2", jwt)) as User);
     }
 
     fetchUser();
-  }, []);
+  }, [jwt, user]);
 
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }

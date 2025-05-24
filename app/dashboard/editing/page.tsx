@@ -21,7 +21,11 @@ export default async function EditingDashboardView() {
       <PageTitle>editing</PageTitle>
       <section>
         {editableIssues.map((issue) => (
-          <Link className="cards-list" href={`/dashboard/editing/${issue.id}`}>
+          <Link
+            key={issue.id}
+            className="cards-list"
+            href={`/dashboard/editing/${issue.id}`}
+          >
             <div key={issue.id} className="issue-card">
               <h2>
                 {issue.papers.name} {issue.name}

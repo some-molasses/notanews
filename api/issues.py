@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from auth import get_logged_in_supabase
+from api.auth_utils import get_logged_in_supabase
 from flask import Blueprint, jsonify, request
 
 issues_bp = Blueprint("issues", __name__)

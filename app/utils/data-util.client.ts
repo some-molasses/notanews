@@ -12,6 +12,10 @@ export const useUser = () => {
 
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
+    if (user) {
+      return;
+    }
+
     supabase.auth.getUser().then((res) => {
       if (!res.data.user) {
         router.push("/login");
@@ -19,7 +23,7 @@ export const useUser = () => {
 
       setUser(res.data.user);
     });
-  }, []);
+  }, [router, supabase.auth, user]);
 
   return user;
 };

@@ -1,4 +1,4 @@
-from auth import get_current_user, get_logged_in_supabase
+from api.auth_utils import get_current_user, get_logged_in_supabase
 from flask import Blueprint, jsonify, request
 
 papers_bp = Blueprint("papers", __name__)

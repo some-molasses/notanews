@@ -6,7 +6,6 @@ import {
   getSubmittedArticlesForIssue,
   getIssueById,
 } from "@/app/utils/queries";
-import { Issue, IssueExpanded } from "@/app/utils/data-types";
 import { ArticlesTable } from "../../components/articles-table";
 import { Button } from "@/app/components/button/button.server";
 import { RowReverse } from "@/app/components/layout/layout-components";

@@ -31,13 +31,13 @@ const PapersPage = async () => {
       <PageTitle>my papers</PageTitle>
       <div className="papers-list">
         {myPapers.map((paper) => {
-          return <PaperCard paper={paper} />;
+          return <PaperCard key={paper.id} paper={paper} />;
         })}
       </div>
       <Heading1>discover papers</Heading1>
       <div className="papers-list">
         {unjoinedPapers.map((paper) => {
-          return <PaperCard paper={paper} />;
+          return <PaperCard key={paper.id} paper={paper} />;
         })}
       </div>
     </div>
