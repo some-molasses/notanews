@@ -4,10 +4,11 @@ import { signOut } from "@/app/login/actions";
 import "./side-nav.scss";
 import Link from "next/link";
 import { TITLE_FONT } from "@/app/styles";
-import { UserProfile } from "./components/user-email";
-import { isEditor } from "@/app/utils/queries";
+import { UserProfileDisplay } from "./components/user-email";
+import { fetchApi, isEditor } from "@/app/utils/queries";
 import { authenticatePage } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
+import { UserProfile } from "@/app/utils/data-types";
 
 export async function SideNav() {
   const supabase = await createClient();
@@ -40,7 +41,9 @@ export async function SideNav() {
           </button>
         </form>
       </div>
-      <UserProfile />
+      <UserProfileDisplay
+        user={(await fetchApi("/profile", jwt)) as UserProfile}
+      />
     </div>
   );
 }

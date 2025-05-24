@@ -63,3 +63,7 @@ export type PaperMember = {
 export type PaperMemberDetailed = PaperMember & {
   email: string;
 };
+
+export type UserProfile = {
+  email: string;
+};
