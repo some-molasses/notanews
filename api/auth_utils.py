@@ -5,7 +5,7 @@ from gotrue import User  # no idea what gotrue is but it's where supabase gets i
 from supabase import Client, ClientOptions, create_client
 
 url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
+key: str = os.environ.get("SUPABASE_ANON_KEY")
 
 
 def get_current_user() -> User:

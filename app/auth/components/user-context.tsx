@@ -25,7 +25,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      setUser((await fetchApi("/user2", jwt)) as User);
+      setUser((await fetchApi("/profile", jwt)) as User);
     }
 
     fetchUser();

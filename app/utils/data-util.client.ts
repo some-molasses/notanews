@@ -1,14 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createClient } from "./supabase/client";
 import { useEffect, useState } from "react";
 import { UserProfile } from "./data-types";
 import { fetchApi } from "./queries";
 import { useJWT } from "../auth/components/jwt-context";
 
 export const useUser: () => UserProfile | null = () => {
-  const supabase = createClient();
   const router = useRouter();
   const jwt = useJWT();
 
@@ -31,7 +29,7 @@ export const useUser: () => UserProfile | null = () => {
         setUser(profile);
       },
     );
-  }, [router, supabase.auth, user, jwt]);
+  }, [router, user, jwt]);
 
   return user;
 };
