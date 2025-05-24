@@ -22,4 +22,4 @@
 - editing process
 - auto-assembly of issue; how much auto to make it?
 - distribution
-- fix everything about supabase rls and keys
+- fix everything about supabase rls 

@@ -23,7 +23,9 @@ export default async function Home() {
     <div id="articles-overview">
       <PageTitle>my articles</PageTitle>
       <Row id="button-row">
-        <Button handler={CreateArticleAction}>Create article</Button>
+        <form>
+          <Button handler={CreateArticleAction}>Create article</Button>
+        </form>
       </Row>
       <ArticlesTable articles={articles} />
     </div>
