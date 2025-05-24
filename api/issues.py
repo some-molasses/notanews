@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
 
-from api.auth_utils import get_logged_in_supabase
 from flask import Blueprint, jsonify, request
+
+from api.auth_utils import get_logged_in_supabase
 
 issues_bp = Blueprint("issues", __name__)
 
@@ -59,5 +60,13 @@ def create_issue():
         )
         .execute()
     )
+
+    return jsonify(response.data)
+
+
+@issues_bp.route("/api/issues/close_overdue", methods=["POST"])
+def close_overdue_issues():
+    supabase = get_logged_in_supabase()
+    response = supabase.rpc("close_overdue_issues").execute()
 
     return jsonify(response.data)

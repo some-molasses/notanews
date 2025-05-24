@@ -19,6 +19,8 @@ export default async function Home() {
     (await fetchApi("/articles", jwt, { method: "GET" })) as ArticleExpanded[]
   ).sort((a, b) => (a.updated_at > b.updated_at ? -1 : 1));
 
+  console.log(await fetchApi("/issues/close_overdue", jwt, { method: "POST" }));
+
   return (
     <div id="articles-overview">
       <PageTitle>my articles</PageTitle>
