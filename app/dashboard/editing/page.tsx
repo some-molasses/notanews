@@ -6,6 +6,7 @@ import "./editing-dashboard.scss";
 import { fetchApi, getIssues } from "@/app/utils/queries";
 import { Issue, IssueExpanded, Paper } from "@/app/utils/data-types";
 import Link from "next/link";
+import { Card, CardsList } from "@/app/components/cards/cards";
 
 export default async function EditingDashboardView() {
   const supabase = await createClient();
@@ -20,20 +21,18 @@ export default async function EditingDashboardView() {
     <div id="editing-dash-page">
       <PageTitle>editing</PageTitle>
       <section>
-        {editableIssues.map((issue) => (
-          <Link
-            key={issue.id}
-            className="cards-list"
-            href={`/dashboard/editing/${issue.id}`}
-          >
-            <div key={issue.id} className="issue-card">
-              <h2>
-                {issue.papers.name} {issue.name}
-              </h2>
-              <IssueStateBreadcrumb issue={issue} />
-            </div>
-          </Link>
-        ))}
+        <CardsList>
+          {editableIssues.map((issue) => (
+            <Card key={issue.id} href={`/dashboard/editing/${issue.id}`}>
+              <div key={issue.id} className="issue-card">
+                <h2>
+                  {issue.papers.name} {issue.name}
+                </h2>
+                <IssueStateBreadcrumb issue={issue} />
+              </div>
+            </Card>
+          ))}
+        </CardsList>
       </section>
     </div>
   );

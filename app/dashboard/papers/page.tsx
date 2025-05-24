@@ -7,6 +7,7 @@ import { TITLE_FONT } from "@/app/styles";
 import Link from "next/link";
 import { fetchApi } from "@/app/utils/queries";
 import { Heading1 } from "@/app/components/typography/typography";
+import { Card, CardsList } from "@/app/components/cards/cards";
 
 const PapersPage = async () => {
   const supabase = await createClient();
@@ -29,24 +30,24 @@ const PapersPage = async () => {
   return (
     <div id="papers-page">
       <PageTitle>my papers</PageTitle>
-      <div className="papers-list">
+      <CardsList>
         {myPapers.map((paper) => {
           return <PaperCard key={paper.id} paper={paper} />;
         })}
-      </div>
+      </CardsList>
       <Heading1>discover papers</Heading1>
-      <div className="papers-list">
+      <CardsList>
         {unjoinedPapers.map((paper) => {
           return <PaperCard key={paper.id} paper={paper} />;
         })}
-      </div>
+      </CardsList>
     </div>
   );
 };
 
 const PaperCard: React.FC<{ paper: Paper }> = ({ paper }) => {
   return (
-    <Link href={`/dashboard/papers/${paper.id}`}>
+    <Card href={`/dashboard/papers/${paper.id}`}>
       <div className="paper-card">
         <h2 className={`paper-name ${TITLE_FONT.className}`}>{paper.name}</h2>
         <span className="paper-date">
@@ -58,7 +59,7 @@ const PaperCard: React.FC<{ paper: Paper }> = ({ paper }) => {
           })}
         </span>
       </div>
-    </Link>
+    </Card>
   );
 };
 
