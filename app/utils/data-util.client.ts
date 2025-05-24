@@ -3,27 +3,35 @@
 import { useRouter } from "next/navigation";
 import { createClient } from "./supabase/client";
 import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
+import { UserProfile } from "./data-types";
 import { fetchApi } from "./queries";
+import { useJWT } from "../auth/components/jwt-context";
 
-export const useUser = () => {
+export const useUser: () => UserProfile | null = () => {
   const supabase = createClient();
   const router = useRouter();
+  const jwt = useJWT();
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
   useEffect(() => {
+    if (!jwt) {
+      return;
+    }
+
     if (user) {
       return;
     }
 
-    supabase.auth.getUser().then((res) => {
-      if (!res.data.user) {
-        router.push("/login");
-      }
+    (fetchApi("/profile", jwt) as Promise<UserProfile>).then(
+      (profile: UserProfile) => {
+        if (!profile) {
+          router.push("/login");
+        }
 
-      setUser(res.data.user);
-    });
-  }, [router, supabase.auth, user]);
+        setUser(profile);
+      },
+    );
+  }, [router, supabase.auth, user, jwt]);
 
   return user;
 };

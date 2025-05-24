@@ -65,5 +65,6 @@ export type PaperMemberDetailed = PaperMember & {
 };
 
 export type UserProfile = {
+  id: string;
   email: string;
 };
