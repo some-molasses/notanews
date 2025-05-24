@@ -1,12 +1,15 @@
+"use server";
+
 import { createClient } from "../utils/supabase/server";
 import { Row } from "../components/layout/layout-components";
-import { CreateArticleButton } from "./components/create-article-button";
 import "./articles-overview.scss";
 import { authenticatePage } from "../utils/auth-utils";
 import { Article, ArticleExpanded } from "../utils/data-types";
 import { ArticlesTable } from "./components/articles-table";
 import { PageTitle } from "../components/page-title/page-title";
 import { fetchApi } from "../utils/queries";
+import { Button } from "../components/button/button.server";
+import { CreateArticleAction } from "./components/actions";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -20,7 +23,7 @@ export default async function Home() {
     <div id="articles-overview">
       <PageTitle>my articles</PageTitle>
       <Row id="button-row">
-        <CreateArticleButton />
+        <Button handler={CreateArticleAction}>Create article</Button>
       </Row>
       <ArticlesTable articles={articles} />
     </div>
