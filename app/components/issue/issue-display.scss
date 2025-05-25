@@ -1,0 +1,35 @@
+.issue-display {
+  $width: 816px;
+  $height: 1056px;
+
+  max-width: $width;
+
+  padding: 48px;
+  border: var(--border);
+
+  .issue-display-inner {
+    columns: 2;
+
+    max-height: $height;
+  }
+
+  &.force-dimensions {
+    width: $width;
+
+    .issue-display-inner {
+      height: $height;
+    }
+  }
+
+  h1 {
+  }
+
+  p {
+    margin: 12px 0;
+  }
+
+  hr {
+    margin: 12px 0;
+    border-top: 1px solid var(--border-color);
+  }
+}

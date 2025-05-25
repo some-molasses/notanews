@@ -31,12 +31,25 @@ def get_issue_by_id(id: str):
 
 
 @issues_bp.route("/api/issues/<issue_id>/submitted-articles", methods=["GET"])
-def get_issue_articles(issue_id: str):
+def get_issue_submitted_articles(issue_id: str):
     supabase = get_logged_in_supabase()
     response = (
         supabase.table("articles")
         .select("*, issues(name, papers(name, id))")
         .in_("state", ["submitted", "approved", "rejected"])
+        .eq("issue_id", issue_id)
+        .execute()
+    )
+    return jsonify(response.data)
+
+
+@issues_bp.route("/api/issues/<issue_id>/articles", methods=["GET"])
+def get_issue_articles(issue_id: str):
+    supabase = get_logged_in_supabase()
+    response = (
+        supabase.table("articles")
+        .select("*, issues(name, papers(name, id))")
+        .eq("state", "approved")
         .eq("issue_id", issue_id)
         .execute()
     )

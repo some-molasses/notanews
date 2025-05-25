@@ -57,7 +57,7 @@ const IssueStateBreadcrumb: React.FC<{ issue: Issue }> = ({ issue }) => {
       <span className="bullet">•</span>
       <span className="state drafting">drafting</span>
       <span className="bullet">•</span>
-      <span className="state distributing">distrbuting</span>
+      <span className="state distributing">distributing</span>
     </div>
   );
 };

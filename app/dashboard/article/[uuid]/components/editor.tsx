@@ -203,7 +203,7 @@ const EditorButtons: React.FC<{ article: Article }> = ({ article }) => {
       <Button
         handler={() =>
           approveArticle(article, jwt).then(() => {
-            router.push(`/dashboard/issues/${article.issue_id}`);
+            router.push(`/dashboard/editing/${article.issue_id}`);
             toast("Article approved", {
               type: "success",
               autoClose: 2500,

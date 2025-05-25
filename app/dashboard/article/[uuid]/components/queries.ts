@@ -52,6 +52,9 @@ export async function revertArticleToDraft(
 }
 
 export async function approveArticle(article: Article, jwt: string) {
+  // first save current state
+  updateArticle(article, jwt);
+
   await fetchApi(`articles/${article.id}/approve`, jwt, {
     method: "PATCH",
   });
