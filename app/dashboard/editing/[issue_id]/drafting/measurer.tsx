@@ -4,6 +4,7 @@ import { ArticleDisplay } from "@/app/components/issue/article/article-display";
 import { IssueDisplay } from "@/app/components/issue/issue-display";
 import { Article } from "@/app/utils/data-types";
 import React, { useEffect, useRef, useState } from "react";
+import { MeasuredArticle, autogenerateIssueLayout } from "./layout-compactor";
 
 const getColumnTopElements = (
   body: Element[],
@@ -32,14 +33,11 @@ const getColumnTopElements = (
 export const Measurer: React.FC<{ articles: Article[] }> = ({ articles }) => {
   const [articleIndex, setArticleIndex] = useState(0);
 
-  const articleMeasurements: Record<
-    number,
-    { columnCount: number; lastColumnHeight: number }
-  > = useRef({}).current;
+  const articleMeasurements: MeasuredArticle[] = useRef([]).current;
 
   useEffect(() => {
     if (articleIndex >= articles.length) {
-      console.log(articleMeasurements);
+      console.log(autogenerateIssueLayout({ articles: articleMeasurements }));
       return;
     }
 
@@ -47,26 +45,30 @@ export const Measurer: React.FC<{ articles: Article[] }> = ({ articles }) => {
       "article",
     )[0] as HTMLElement;
 
+    // get elements
     const title = activeArticle.querySelector(".article-title")!;
     const body = activeArticle.querySelector(".article-body")!;
 
     const bodyElements = Array.from(body.children);
     const topElements = getColumnTopElements(bodyElements, title);
 
-    const columnCount: number = topElements.length;
+    const nColumns: number = topElements.length;
 
+    // measure last column
     const lastColumnTop: number =
-      topElements[columnCount - 1]!.getBoundingClientRect().y;
-
+      topElements[nColumns - 1]!.getBoundingClientRect().y;
     const lastColumnBottom: number =
       bodyElements[bodyElements.length - 1].getBoundingClientRect().bottom;
-
     const lastColumnHeight = lastColumnBottom - lastColumnTop;
 
-    articleMeasurements[articleIndex] = { columnCount, lastColumnHeight };
-
+    // record and move on
+    articleMeasurements[articleIndex] = {
+      article: articles[articleIndex],
+      nColumns: nColumns,
+      lastColumnHeight,
+    };
     setArticleIndex(articleIndex + 1);
-  }, [articleIndex, articleMeasurements, articles.length]);
+  }, [articleIndex, articleMeasurements, articles]);
 
   return (
     <IssueDisplay forceDimensions>
