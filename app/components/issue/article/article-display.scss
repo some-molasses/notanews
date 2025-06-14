@@ -1,5 +1,8 @@
 .article-display {
   // height: 100% necessary for height measurements; otherwise the article does not go as
   //  far as possible before breaking to another column
-  height: 100%;
+
+  &.full-height {
+    height: 100%;
+  }
 }

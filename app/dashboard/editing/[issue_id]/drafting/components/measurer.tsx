@@ -4,7 +4,7 @@ import { ArticleDisplay } from "@/app/components/issue/article/article-display";
 import { IssueDisplay } from "@/app/components/issue/issue-display";
 import { Article } from "@/app/utils/data-types";
 import React, { useEffect, useRef, useState } from "react";
-import { MeasuredArticle, autogenerateIssueLayout } from "./layout-compactor";
+import { MeasuredArticle, autogenerateIssueLayout } from "../layout-compactor";
 
 const getColumnTopElements = (
   body: Element[],
@@ -30,7 +30,10 @@ const getColumnTopElements = (
     .filter((e) => e !== null) as Element[];
 };
 
-export const Measurer: React.FC<{ articles: Article[] }> = ({ articles }) => {
+export const Measurer: React.FC<{
+  articles: Article[];
+  registerMeasurements: (measurements: MeasuredArticle[]) => void;
+}> = ({ articles, registerMeasurements }) => {
   const [articleIndex, setArticleIndex] = useState(0);
 
   const articleMeasurements: MeasuredArticle[] = useRef([]).current;
@@ -38,6 +41,7 @@ export const Measurer: React.FC<{ articles: Article[] }> = ({ articles }) => {
   useEffect(() => {
     if (articleIndex >= articles.length) {
       console.log(autogenerateIssueLayout({ articles: articleMeasurements }));
+      registerMeasurements(articleMeasurements);
       return;
     }
 
@@ -67,13 +71,14 @@ export const Measurer: React.FC<{ articles: Article[] }> = ({ articles }) => {
       nColumns: nColumns,
       lastColumnHeight,
     };
+
     setArticleIndex(articleIndex + 1);
-  }, [articleIndex, articleMeasurements, articles]);
+  }, [articleIndex, articleMeasurements, articles, registerMeasurements]);
 
   return (
     <IssueDisplay forceDimensions>
       {articleIndex < articles.length ? (
-        <ArticleDisplay article={articles[articleIndex]} />
+        <ArticleDisplay article={articles[articleIndex]} fullHeight />
       ) : null}
     </IssueDisplay>
   );

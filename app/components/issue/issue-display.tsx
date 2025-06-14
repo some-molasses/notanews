@@ -2,7 +2,7 @@ import "./issue-display.scss";
 
 export const IssueDisplay: React.FC<{
   children: React.ReactNode;
-  forceDimensions: boolean;
+  forceDimensions?: boolean;
 }> = ({ children, forceDimensions }) => {
   return (
     <div

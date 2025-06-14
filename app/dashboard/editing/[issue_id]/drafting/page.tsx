@@ -3,7 +3,8 @@ import { authenticatePage } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
 import "./drafting-issue.scss";
 import { getIssueArticles, getIssueById } from "@/app/utils/queries";
-import { Measurer } from "./measurer";
+import { Measurer } from "./components/measurer";
+import { Drafter } from "./components/drafter";
 
 export default async function EditingIssuePage({
   params,
@@ -23,7 +24,7 @@ export default async function EditingIssuePage({
           no articles in {issue.papers.name} {issue.name}
         </PageTitle>
       ) : null}
-      <Measurer articles={articles} />
+      <Drafter articles={articles} />
     </div>
   );
 }
