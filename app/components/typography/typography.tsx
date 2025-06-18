@@ -2,7 +2,7 @@ import { TITLE_FONT } from "@/app/styles";
 
 export const Heading1: React.FC<{
   children: React.ReactNode;
-  className: string;
+  className?: string;
 }> = ({ children, className }) => {
   return (
     <h1 className={`${TITLE_FONT.className} ${className ?? ""}`}>{children}</h1>

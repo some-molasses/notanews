@@ -106,6 +106,8 @@ const generateSpreadFor = (
 
 // result table: |articles.len (init. heights)| * 2^|articles?|
 
+// doesnt work
+
 export const autogenerateIssueLayout = (props: {
   articles: MeasuredArticle[];
 }) => {

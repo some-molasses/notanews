@@ -9,6 +9,7 @@ export const ArticleDisplay: React.FC<{
   return (
     <article
       className={`article article-display ${fullHeight ? "full-height" : ""}`}
+      id={`article-${article.id}`}
     >
       <Heading1 className="article-title">{article.title}</Heading1>
       <div className="metadata-row">
