@@ -1,5 +1,6 @@
-from auth_utils import get_current_user
 from flask import Blueprint, jsonify
+
+from .auth_utils import get_current_user
 
 auth_bp = Blueprint("auth", __name__)
 
