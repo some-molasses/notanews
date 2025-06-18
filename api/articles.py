@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
 
-from api.auth_utils import get_current_user, get_logged_in_supabase
 from flask import Blueprint, jsonify, request
+
+from api.auth_utils import get_current_user, get_logged_in_supabase
 
 articles_bp = Blueprint("articles", __name__)
 

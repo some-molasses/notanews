@@ -1,9 +1,10 @@
-from articles import articles_bp
-from auth import auth_bp
 from flask import Flask
-from issues import issues_bp
-from members import members_bp
-from papers import papers_bp
+
+from .articles import articles_bp
+from .auth import auth_bp
+from .issues import issues_bp
+from .members import members_bp
+from .papers import papers_bp
 
 app = Flask(__name__)
 
