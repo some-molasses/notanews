@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 from flask import Blueprint, jsonify, request
 
-from api.auth_utils import get_logged_in_supabase
+from .auth_utils import get_logged_in_supabase
 
 issues_bp = Blueprint("issues", __name__)
 
