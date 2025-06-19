@@ -6,7 +6,7 @@ export const getJWT = async (supabase: SupabaseClient): Promise<string> => {
   const jwt = sessionData?.session?.access_token;
 
   if (!jwt) {
-    throw new Error(`No jwt found despite user existing?`);
+    redirect("/login");
   }
 
   return jwt;
