@@ -3,10 +3,9 @@ import { authenticatePage } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
 import "./drafting-issue.scss";
 import { getIssueArticles, getIssueById } from "@/app/utils/queries";
-import { Measurer } from "./components/measurer";
-import { Drafter } from "./components/drafter";
+import { ArticlesViewer } from "./articles-viewer";
 
-export default async function EditingIssuePage({
+export default async function DraftingIssuePage({
   params,
 }: {
   params: { issue_id: string };
@@ -18,13 +17,13 @@ export default async function EditingIssuePage({
   const articles = await getIssueArticles(jwt, params.issue_id);
 
   return (
-    <div id="editing-issue-page">
+    <div id="drafting-issue-page">
       {articles.length === 0 ? (
         <PageTitle>
           no articles in {issue.papers.name} {issue.name}
         </PageTitle>
       ) : null}
-      <Drafter articles={articles} />
+      <ArticlesViewer articles={articles} />
     </div>
   );
 }
