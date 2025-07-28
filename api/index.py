@@ -1,10 +1,10 @@
 from flask import Flask
 
-from .articles import articles_bp
-from .auth import auth_bp
-from .issues import issues_bp
-from .members import members_bp
-from .papers import papers_bp
+from api.articles import articles_bp
+from api.auth import auth_bp
+from api.issues import issues_bp
+from api.members import members_bp
+from api.papers import papers_bp
 
 app = Flask(__name__)
 
