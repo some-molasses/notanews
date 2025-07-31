@@ -3,7 +3,7 @@ import { authenticatePage } from "@/app/utils/auth-utils";
 import { createClient } from "@/app/utils/supabase/server";
 import "./drafting-issue.scss";
 import { getIssueArticles, getIssueById } from "@/app/utils/queries";
-import { ArticlesViewer } from "./articles-viewer";
+import { Drafter } from "./drafter";
 
 export default async function DraftingIssuePage({
   params,
@@ -23,7 +23,7 @@ export default async function DraftingIssuePage({
           no articles in {issue.papers.name} {issue.name}
         </PageTitle>
       ) : null}
-      <ArticlesViewer articles={articles} />
+      <Drafter articles={articles} />
     </div>
   );
 }

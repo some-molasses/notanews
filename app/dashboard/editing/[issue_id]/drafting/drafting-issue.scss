@@ -16,6 +16,8 @@
   .article-stack {
     article {
       overflow: auto;
+      padding: 12px;
+      border: var(--border);
     }
 
     position: relative;
@@ -43,11 +45,14 @@
     background-color: var(--background);
     border-top: var(--border);
 
+    > div {
+      padding: 8px 0;
+      text-align: center;
+    }
+
     .arrow {
       flex-shrink: 0;
       flex-grow: 1;
-
-      padding: 8px 0;
 
       display: flex;
       text-align: center;
@@ -65,6 +70,10 @@
       * {
         flex-grow: 1;
       }
+    }
+
+    .page-display {
+      min-width: 200px;
     }
   }
 }
