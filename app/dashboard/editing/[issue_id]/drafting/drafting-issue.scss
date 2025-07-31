@@ -74,4 +74,52 @@
       min-width: 200px;
     }
   }
+
+  #drafter-sidebar {
+    padding: 8px;
+    padding-top: var(--top-padding);
+    border-left: var(--border);
+    height: 100%;
+    min-width: 200px;
+    background-color: var(--background-2);
+
+    #sidebar-article-list {
+      li {
+        padding: 4px;
+        display: flex;
+        flex-direction: row;
+        background-color: var(--background);
+        margin: 8px 0;
+        border-radius: 4px;
+
+        .article-title {
+          flex-grow: 1;
+          padding: 4px;
+          font-size: 10px;
+        }
+
+        .item-buttons {
+          align-self: flex-end;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          button {
+            height: 16px;
+            width: 32px;
+
+            transition: var(--transition);
+            background-color: var(--background-2);
+            font-size: 8px;
+            padding: 4px;
+
+            &:hover,
+            &:focus-visible {
+              background-color: var(--hovered);
+            }
+          }
+        }
+      }
+    }
+  }
 }

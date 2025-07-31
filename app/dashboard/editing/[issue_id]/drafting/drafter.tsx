@@ -2,7 +2,7 @@
 
 import { ArticleExpanded } from "@/app/utils/data-types";
 import { ArticleDisplay } from "@/app/components/issue/article/article-display";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export const Drafter: React.FC<{ articles: ArticleExpanded[] }> = ({
   articles,

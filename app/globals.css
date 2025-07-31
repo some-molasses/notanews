@@ -14,7 +14,7 @@
 
 :root {
   --background: #fff;
-  --background-2: #fff;
+  --background-2: #f8f8f8;
   --accent: #000;
   --text: #000;
   --light-text: #666;
@@ -29,6 +29,8 @@
   --hovered: #eee;
 
   --transition: 0.15s linear;
+
+  --top-padding: 96px;
 }
 
 body {
