@@ -6,6 +6,7 @@ import { fetchApi, getPaperById } from "@/app/utils/queries";
 import { Column } from "@/app/components/layout/layout-components";
 import { Button } from "@/app/components/button/button.server";
 import { createIssueAction } from "./actions";
+import { PageContainer } from "@/app/components/page-container/page-container";
 
 // @todo move this to a modal
 export default async function CreateIssueView({
@@ -19,7 +20,7 @@ export default async function CreateIssueView({
   const paper = await getPaperById(params.uuid, jwt);
 
   return (
-    <div id="create-issue-page">
+    <PageContainer id="create-issue-page">
       <PageTitle>create new {paper.name} issue</PageTitle>
       <section>
         <form>
@@ -49,6 +50,6 @@ export default async function CreateIssueView({
           </Column>
         </form>
       </section>
-    </div>
+    </PageContainer>
   );
 }

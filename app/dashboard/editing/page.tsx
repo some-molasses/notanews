@@ -7,6 +7,7 @@ import { fetchApi, getIssues } from "@/app/utils/queries";
 import { Issue, IssueExpanded, Paper } from "@/app/utils/data-types";
 import Link from "next/link";
 import { Card, CardsList } from "@/app/components/cards/cards";
+import { PageContainer } from "@/app/components/page-container/page-container";
 
 export default async function EditingDashboardView() {
   const supabase = await createClient();
@@ -18,7 +19,7 @@ export default async function EditingDashboardView() {
   ]);
 
   return (
-    <div id="editing-dash-page">
+    <PageContainer id="editing-dash-page">
       <PageTitle>editing</PageTitle>
       <section>
         <CardsList>
@@ -34,7 +35,7 @@ export default async function EditingDashboardView() {
           ))}
         </CardsList>
       </section>
-    </div>
+    </PageContainer>
   );
 }
 

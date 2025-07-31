@@ -9,6 +9,7 @@ import {
 import { ArticlesTable } from "../../components/articles-table";
 import { Button } from "@/app/components/button/button.server";
 import { RowReverse } from "@/app/components/layout/layout-components";
+import { PageContainer } from "@/app/components/page-container/page-container";
 
 export default async function EditingIssuePage({
   params,
@@ -26,7 +27,7 @@ export default async function EditingIssuePage({
   );
 
   return (
-    <div id="editing-issue-page">
+    <PageContainer id="editing-issue-page">
       <PageTitle>
         editing {issue.papers.name} {issue.name}
       </PageTitle>
@@ -48,6 +49,6 @@ export default async function EditingIssuePage({
           </Button>
         </RowReverse>
       ) : null}
-    </div>
+    </PageContainer>
   );
 }

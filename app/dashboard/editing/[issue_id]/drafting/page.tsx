@@ -4,6 +4,7 @@ import { createClient } from "@/app/utils/supabase/server";
 import "./drafting-issue.scss";
 import { getIssueArticles, getIssueById } from "@/app/utils/queries";
 import { Drafter } from "./drafter";
+import { PageContainer } from "@/app/components/page-container/page-container";
 
 export default async function DraftingIssuePage({
   params,
@@ -17,13 +18,13 @@ export default async function DraftingIssuePage({
   const articles = await getIssueArticles(jwt, params.issue_id);
 
   return (
-    <div id="drafting-issue-page">
+    <PageContainer id="drafting-issue-page">
       {articles.length === 0 ? (
         <PageTitle>
           no articles in {issue.papers.name} {issue.name}
         </PageTitle>
       ) : null}
       <Drafter articles={articles} />
-    </div>
+    </PageContainer>
   );
 }

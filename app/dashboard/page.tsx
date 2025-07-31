@@ -10,6 +10,7 @@ import { PageTitle } from "../components/page-title/page-title";
 import { fetchApi } from "../utils/queries";
 import { Button } from "../components/button/button.server";
 import { CreateArticleAction } from "./components/actions";
+import { PageContainer } from "../components/page-container/page-container";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -22,7 +23,7 @@ export default async function Home() {
   console.log(await fetchApi("/issues/close_overdue", jwt, { method: "POST" }));
 
   return (
-    <div id="articles-overview">
+    <PageContainer id="articles-overview">
       <PageTitle>my articles</PageTitle>
       <Row id="button-row">
         <form>
@@ -30,6 +31,6 @@ export default async function Home() {
         </form>
       </Row>
       <ArticlesTable articles={articles} />
-    </div>
+    </PageContainer>
   );
 }

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { fetchApi } from "@/app/utils/queries";
 import { Heading1 } from "@/app/components/typography/typography";
 import { Card, CardsList } from "@/app/components/cards/cards";
+import { PageContainer } from "@/app/components/page-container/page-container";
 
 const PapersPage = async () => {
   const supabase = await createClient();
@@ -28,7 +29,7 @@ const PapersPage = async () => {
   );
 
   return (
-    <div id="papers-page">
+    <PageContainer id="papers-page">
       <PageTitle>my papers</PageTitle>
       <CardsList>
         {myPapers.map((paper) => {
@@ -41,7 +42,7 @@ const PapersPage = async () => {
           return <PaperCard key={paper.id} paper={paper} />;
         })}
       </CardsList>
-    </div>
+    </PageContainer>
   );
 };
 

@@ -6,6 +6,7 @@ import { createClient } from "@/app/utils/supabase/server";
 import "./issue.scss";
 import { fetchApi, getSubmittedArticlesForIssue } from "@/app/utils/queries";
 import { ArticlesTable } from "../../components/articles-table";
+import { PageContainer } from "@/app/components/page-container/page-container";
 
 export default async function IssueView({
   params,
@@ -29,7 +30,7 @@ export default async function IssueView({
   const articles = await getSubmittedArticlesForIssue(jwt, issue.id);
 
   return (
-    <div id="issue-page">
+    <PageContainer id="issue-page">
       <PageTitle>
         {paper.name} | {issue.name}
       </PageTitle>
@@ -37,6 +38,6 @@ export default async function IssueView({
         <Heading2>articles</Heading2>
         <ArticlesTable articles={articles} />
       </section>
-    </div>
+    </PageContainer>
   );
 }

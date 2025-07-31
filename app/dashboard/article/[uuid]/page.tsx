@@ -9,6 +9,7 @@ import { ArticleEditorClient } from "./components/editor";
 import { ArticleExpanded, IssueExpanded } from "@/app/utils/data-types";
 import { redirect } from "next/navigation";
 import { isUserAnEditor } from "@/app/utils/data-util.shared";
+import { PageContainer } from "@/app/components/page-container/page-container";
 
 export default async function ArticleEditor({
   params,
@@ -42,10 +43,12 @@ export default async function ArticleEditor({
   }
 
   return (
-    <ArticleEditorClient
-      article={article}
-      eligibleIssues={eligibleIssues}
-      isUserAnEditor={isEditor}
-    />
+    <PageContainer id="article-editor-page">
+      <ArticleEditorClient
+        article={article}
+        eligibleIssues={eligibleIssues}
+        isUserAnEditor={isEditor}
+      />
+    </PageContainer>
   );
 }

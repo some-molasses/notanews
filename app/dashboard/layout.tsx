@@ -16,13 +16,13 @@ export default async function RootLayout({
 
   return (
     <>
-      <SideNav />
-      <main className="right-content">
-        <UserProvider>
-          <JWTProvider jwt={jwt}>{children}</JWTProvider>
-        </UserProvider>
-        <ClientLayout />
-      </main>
+      <UserProvider>
+        <JWTProvider jwt={jwt}>
+          <SideNav />
+          {children}
+          <ClientLayout />
+        </JWTProvider>
+      </UserProvider>
     </>
   );
 }
