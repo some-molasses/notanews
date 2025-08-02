@@ -81,16 +81,30 @@
     border-left: var(--border);
     height: 100%;
     min-width: 200px;
-    background-color: var(--background-2);
+    background-color: var(--background);
 
     #sidebar-article-list {
+      $sidebar-item-size: 32px;
+      background-color: var(--background-2);
+      padding: 4px;
+
       li {
+        min-height: $sidebar-item-size;
         padding: 4px;
         display: flex;
         flex-direction: row;
         background-color: var(--background);
         margin: 8px 0;
         border-radius: 4px;
+        transition: var(--transition);
+
+        &.gap-above {
+          margin-top: $sidebar-item-size;
+        }
+
+        &.gap-below {
+          margin-bottom: $sidebar-item-size;
+        }
 
         .article-title {
           flex-grow: 1;
@@ -119,6 +133,10 @@
             }
           }
         }
+      }
+
+      &.drag-active {
+        background-color: blue;
       }
     }
   }

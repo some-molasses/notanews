@@ -17,3 +17,11 @@ export const isUserAnEditor = async (
     )?.type == "editor"
   );
 };
+
+export const last = <T>(array: ArrayLike<T>): T | undefined => {
+  if (array.length === 0) {
+    return undefined;
+  }
+
+  return array[array.length - 1];
+};
