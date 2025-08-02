@@ -86,7 +86,8 @@
     #sidebar-article-list {
       $sidebar-item-size: 32px;
       background-color: var(--background-2);
-      padding: 4px;
+      padding: 8px;
+      margin: 8px 0;
 
       li {
         min-height: $sidebar-item-size;
@@ -94,9 +95,9 @@
         display: flex;
         flex-direction: row;
         background-color: var(--background);
-        margin: 8px 0;
         border-radius: 4px;
-        transition: var(--transition);
+        transition: 0.25s ease-out;
+        cursor: grab;
 
         &.gap-above {
           margin-top: $sidebar-item-size;
@@ -135,8 +136,8 @@
         }
       }
 
-      &.drag-active {
-        background-color: blue;
+      li + li {
+        margin-top: 8px;
       }
     }
   }

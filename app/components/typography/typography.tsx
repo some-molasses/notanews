@@ -1,4 +1,5 @@
 import { TITLE_FONT } from "@/app/styles";
+import "./typography.scss";
 
 export const Heading1: React.FC<{
   children: React.ReactNode;
@@ -9,8 +10,11 @@ export const Heading1: React.FC<{
   );
 };
 
-export const Heading2: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  return <h2 className={`${TITLE_FONT.className}`}>{children}</h2>;
+export const Heading2: React.FC<{
+  children: React.ReactNode;
+  variant?: "small";
+}> = ({ children, variant }) => {
+  return (
+    <h2 className={`${TITLE_FONT.className} variant-${variant}`}>{children}</h2>
+  );
 };

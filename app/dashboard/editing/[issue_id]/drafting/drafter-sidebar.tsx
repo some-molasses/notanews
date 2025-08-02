@@ -1,3 +1,4 @@
+import { Heading2 } from "@/app/components/typography/typography";
 import { ArticleExpanded } from "@/app/utils/data-types";
 import { last } from "@/app/utils/data-util.shared";
 import {
@@ -26,7 +27,10 @@ export const DrafterSidebar: React.FC<{
       const liList = getLiList();
 
       for (const li of liList) {
-        if (ev.clientY < li.getBoundingClientRect().top) {
+        if (
+          ev.clientY <
+          li.getBoundingClientRect().top + li.getBoundingClientRect().height / 2
+        ) {
           if (ev.target === li) {
             return null;
           }
@@ -114,6 +118,7 @@ export const DrafterSidebar: React.FC<{
 
   return (
     <div id="drafter-sidebar">
+      <Heading2 variant="small">article order</Heading2>
       <ul
         id="sidebar-article-list"
         className={`${draggedId ? "drag-active" : ""}`}
