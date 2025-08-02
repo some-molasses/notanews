@@ -107,10 +107,18 @@
           margin-bottom: $sidebar-item-size;
         }
 
-        .article-title {
-          flex-grow: 1;
+        .article-desc {
           padding: 4px;
+          flex-grow: 1;
+        }
+
+        .article-title {
           font-size: 10px;
+        }
+
+        .article-author {
+          font-size: 8px;
+          color: var(--light-text);
         }
 
         .item-buttons {

@@ -1,3 +1,4 @@
+import { Column } from "@/app/components/layout/layout-components";
 import { Heading2 } from "@/app/components/typography/typography";
 import { ArticleExpanded } from "@/app/utils/data-types";
 import { last } from "@/app/utils/data-util.shared";
@@ -142,7 +143,10 @@ export const DrafterSidebar: React.FC<{
               }}
               article-id={article.id}
             >
-              <span className="article-title">{article.title}</span>
+              <Column className="article-desc">
+                <span className="article-title">{article.title}</span>
+                <span className="article-author">{article.pseudonym}</span>
+              </Column>
               <div className="item-buttons">
                 <button className="move-back">🢕</button>
                 <button className="move-forward">🢗</button>
