@@ -7,6 +7,16 @@
   }
 
   .article-body {
+    height: 856px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    column-gap: 20px;
+
+    * {
+      max-width: 350px;
+    }
+
     p {
       margin: 4px 0;
     }

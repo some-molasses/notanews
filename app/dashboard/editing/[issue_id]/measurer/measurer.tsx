@@ -11,36 +11,32 @@ export type ArticleMeasurements = {
   lastColumnHeight: number;
 };
 
-// count how many unique x positions exist among the contents of the article
-const getUniqueArticleLeftBoundaries = (
-  articleFrame: HTMLDivElement,
-): number[] => {
-  const paragraphLefts = Array.from(articleFrame.children).map(
+const groupContentByColumn = (articleFrame: HTMLDivElement) => {
+  return Map.groupBy(
+    articleFrame.children,
     (el) => el.getBoundingClientRect().x,
   );
-
-  return Array.from(new Set(paragraphLefts));
 };
 
 const countArticleColumns = (articleFrame: HTMLDivElement): number => {
   // # of columns = # of unique left boundaries
-  return getUniqueArticleLeftBoundaries(articleFrame).length;
+  return Array.from(groupContentByColumn(articleFrame).keys()).length;
 };
 
 const getLastColumnContents = (articleFrame: HTMLDivElement): Element[] => {
-  const lefts = getUniqueArticleLeftBoundaries(articleFrame);
-  const rightmostLeft = Math.max(...lefts);
+  const columns = groupContentByColumn(articleFrame);
+  const lastColumnX = Math.max(...columns.keys());
+  const lastColumn = columns.get(lastColumnX);
 
-  const lastColumnContents = Array.from(articleFrame.children).filter(
-    (el) => el.getBoundingClientRect().x === rightmostLeft,
-  );
+  if (!lastColumn) {
+    throw new Error(`No last column despite key ${lastColumnX} existing?`);
+  }
 
-  return lastColumnContents;
+  return lastColumn;
 };
 
 const getLastColumnHeight = (articleFrame: HTMLDivElement): number => {
   const lastColumn = getLastColumnContents(articleFrame);
-
   return lastColumn.reduce(
     (sum, el) => sum + el.getBoundingClientRect().height,
     0,
