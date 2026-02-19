@@ -43,9 +43,12 @@ export default async function EditingIssuePage({
       </section>
 
       {pendingArticles.length === 0 ? (
-        <RowReverse>
+        <RowReverse className="draft-buttons">
           <Button href={`/dashboard/editing/${issue.id}/drafting`}>
             Begin drafting
+          </Button>
+          <Button href={`/dashboard/editing/${issue.id}/auto-draft`}>
+            Auto-draft
           </Button>
         </RowReverse>
       ) : null}

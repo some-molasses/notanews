@@ -1,14 +1,15 @@
 import { Article } from "@/app/utils/data-types";
 import { Heading1 } from "../../typography/typography";
-import "./article-display.scss";
+import "./article-frame.scss";
 
-export const ArticleDisplay: React.FC<{
+export const ArticleFrame: React.FC<{
   article: Article;
   fullHeight?: boolean;
-}> = ({ article, fullHeight }) => {
+  bodyRef?: React.Ref<HTMLDivElement>;
+}> = ({ article, fullHeight, bodyRef }) => {
   return (
     <article
-      className={`article article-display ${fullHeight ? "full-height" : ""}`}
+      className={`article article-frame ${fullHeight ? "full-height" : ""}`}
       id={`article-${article.id}`}
     >
       <Heading1 className="article-title">{article.title}</Heading1>
@@ -17,6 +18,7 @@ export const ArticleDisplay: React.FC<{
       </div>
       <div
         className="article-body"
+        ref={bodyRef}
         dangerouslySetInnerHTML={{ __html: article.body ?? "" }}
       ></div>
     </article>

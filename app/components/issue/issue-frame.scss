@@ -1,4 +1,4 @@
-.issue-display {
+.issue-frame {
   $width: 816px;
   $height: 1056px;
 
@@ -6,23 +6,6 @@
 
   padding: 48px;
   border: var(--border);
-
-  .issue-display-inner {
-    columns: 2;
-
-    max-height: $height;
-  }
-
-  &.force-dimensions {
-    width: $width;
-
-    .issue-display-inner {
-      height: $height;
-    }
-  }
-
-  h1 {
-  }
 
   p {
     margin: 12px 0;
