@@ -9,6 +9,8 @@ import "./measurer.scss";
 export type ArticleMeasurements = {
   columnCount: number;
   lastColumnHeight: number;
+  // can be used to split by column later
+  columnElementCounts: number[]; // number of elements in column
 };
 
 const groupContentByColumn = (articleFrame: HTMLDivElement) => {
@@ -43,10 +45,27 @@ const getLastColumnHeight = (articleFrame: HTMLDivElement): number => {
   );
 };
 
+const getColumnElementCounts = (articleFrame: HTMLDivElement): number[] => {
+  // # of columns = # of unique left boundaries
+  const columns = groupContentByColumn(articleFrame);
+  const elementsPerColumn = Array.from(columns).map(([left, group]) => [
+    left,
+    group.length,
+  ]);
+
+  // sort columns left-to-right
+  const sortedKeyedCounts = elementsPerColumn.sort((a, b) =>
+    a[0] < b[0] ? -1 : 1,
+  );
+
+  return sortedKeyedCounts.map((_left, count) => count);
+};
+
 const measureArticle = (articleFrame: HTMLDivElement): ArticleMeasurements => {
   return {
     lastColumnHeight: getLastColumnHeight(articleFrame),
     columnCount: countArticleColumns(articleFrame),
+    columnElementCounts: getColumnElementCounts(articleFrame),
   };
 };
 
