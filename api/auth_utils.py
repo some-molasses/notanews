@@ -1,14 +1,14 @@
 import os
+from pprint import pprint
 
 from flask import request
-from gotrue import User  # no idea what gotrue is but it's where supabase gets its users
 from supabase import Client, ClientOptions, create_client
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_ANON_KEY")
 
 
-def get_current_user() -> User:
+def get_current_user():
     supabase = get_logged_in_supabase()
     jwt = get_current_jwt()
     return supabase.auth.get_user(jwt).user
