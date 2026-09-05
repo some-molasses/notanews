@@ -14,12 +14,12 @@ import { PageContainer } from "@/app/components/page-container/page-container";
 export default async function ArticleEditor({
   params,
 }: {
-  params: { uuid: string };
+  params: Promise<{ uuid: string }>;
 }) {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
 
-  const uuid = params.uuid;
+  const uuid = (await params).uuid;
   const article: ArticleExpanded | null = await getArticleById(uuid, jwt);
 
   const eligibleIssues: IssueExpanded[] = await fetchApi(

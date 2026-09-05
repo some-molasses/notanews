@@ -11,12 +11,12 @@ import { PageContainer } from "@/app/components/page-container/page-container";
 export default async function IssueView({
   params,
 }: {
-  params: { uuid: string };
+  params: Promise<{ uuid: string }>;
 }) {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
 
-  const issue_id = params.uuid;
+  const issue_id = (await params).uuid;
 
   // @todo replace this with a joined query
   const issue = (await fetchApi(`issues/${issue_id}`, jwt, {

@@ -2,7 +2,7 @@
 
 import { Column, Row } from "@/app/components/layout/layout-components";
 import Tiptap from "@/app/components/tiptap/tiptap";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Article,
   ArticleExpanded,
@@ -36,6 +36,11 @@ export const ArticleEditorClient: React.FC<{
   const [lastUpdate, setLastUpdate] = useState<Date>(
     new Date(article.updated_at),
   );
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, [setIsLoaded]);
 
   const getCurrentArticle = (): Article => {
     const selected_issue = issue === "null" ? null : issue;
@@ -90,11 +95,13 @@ export const ArticleEditorClient: React.FC<{
           </select>
         ) : null}
       </Column>
-      <Tiptap
-        defaultContent={contents}
-        onUpdate={(props) => setContents(props.editor.getHTML())}
-        editable={isEditable}
-      />
+      {isLoaded ? (
+        <Tiptap
+          defaultContent={contents}
+          onUpdate={(props) => setContents(props.editor.getHTML())}
+          editable={isEditable}
+        />
+      ) : null}
       <Row id="editor-article-buttons">
         <Column className="article-data">
           <span>status: {article.state}</span>

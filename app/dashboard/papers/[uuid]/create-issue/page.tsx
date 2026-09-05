@@ -12,12 +12,12 @@ import { PageContainer } from "@/app/components/page-container/page-container";
 export default async function CreateIssueView({
   params,
 }: {
-  params: { uuid: string };
+  params: Promise<{ uuid: string }>;
 }) {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
 
-  const paper = await getPaperById(params.uuid, jwt);
+  const paper = await getPaperById((await params).uuid, jwt);
 
   return (
     <PageContainer id="create-issue-page">

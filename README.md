@@ -33,6 +33,8 @@
 ### frontend
 
 - move fetchApi calls to some central function library
+- editor superscript, subscript
+- postscript
 
 ### all
 
