@@ -1,4 +1,8 @@
+$articleFrameColumnGap: 20px;
+$articleHeight: 856px;
+
 .article-frame {
+  height: $articleHeight; // must match ARTICLE_INNER_MAX_HEIGHT_PX
   // height: 100% necessary for height measurements; otherwise the article does not go as
   //  far as possible before breaking to another column
 
@@ -6,6 +10,42 @@
     height: 100%;
   }
 
+  .article-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 100%;
+  }
+
+  .article-header {
+    max-width: 50%;
+  }
+}
+
+.simple-frame {
+  display: flex;
+  flex-direction: column;
+
+  .article-contents {
+    display: flex;
+    flex-direction: column;
+    flex-flow: column wrap;
+    column-gap: $articleFrameColumnGap;
+  }
+
+  .article-body {
+    height: $articleHeight;
+  }
+}
+
+.measured-frame {
+  .columns {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.article-contents {
   .metadata-row {
     margin-bottom: 1rem;
   }
@@ -21,34 +61,17 @@
     margin: 1.5rem 0 0.5rem 0;
   }
 
-  $columnGap: 20px;
-  .article-body {
-    height: 856px; // must match ARTICLE_INNER_MAX_HEIGHT_PX
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    column-gap: $columnGap;
+  * {
+    max-width: 300px;
+  }
 
-    * {
-      max-width: 300px;
-    }
-
-    p {
-      margin: 4px 0;
-    }
+  p {
+    margin: 4px 0;
   }
 
   li,
   ol {
     margin-left: 1rem;
     width: 100%;
-  }
-
-  .article-header {
-    max-width: 50%;
-  }
-
-  .column {
-    margin: 0 $columnGap;
   }
 }

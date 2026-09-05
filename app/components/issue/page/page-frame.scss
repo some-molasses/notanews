@@ -1,0 +1,18 @@
+.page-frame {
+  $width: 816px;
+  $height: 1056px;
+
+  max-width: $width;
+
+  padding: 48px;
+  border: var(--border);
+
+  p {
+    margin: 12px 0;
+  }
+
+  hr {
+    margin: 12px 0;
+    border-top: 1px solid var(--border-color);
+  }
+}

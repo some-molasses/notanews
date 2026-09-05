@@ -10,8 +10,9 @@ import { constructLayout, Run } from "../layout-definer/layout-definer";
 import { IssueFrame } from "@/app/components/issue/issue-frame";
 import {
   MeasuredArticleFrame,
-  SimpleArticleFrame,
+  MeasurerArticleFrame,
 } from "@/app/components/issue/article/article-frame";
+import { PageFrame } from "@/app/components/issue/page/page-frame";
 
 export const AutoDrafterClientPage: React.FC<{
   initialArticles: ArticleExpanded[];
@@ -44,7 +45,7 @@ export const AutoDrafterClientPage: React.FC<{
         ? layout.map((run, i) => {
             // @todo use run id
             return (
-              <IssueFrame key={i}>
+              <PageFrame key={i}>
                 {run.articles.map((runArticle) => (
                   <MeasuredArticleFrame
                     article={
@@ -54,7 +55,7 @@ export const AutoDrafterClientPage: React.FC<{
                     key={runArticle.article_id}
                   />
                 ))}
-              </IssueFrame>
+              </PageFrame>
             );
           })
         : null}

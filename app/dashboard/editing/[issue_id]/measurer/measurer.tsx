@@ -3,7 +3,7 @@
 import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
 import {
   ARTICLE_INNER_MAX_HEIGHT_PX,
-  SimpleArticleFrame,
+  MeasurerArticleFrame,
 } from "@/app/components/issue/article/article-frame";
 import { IssueFrame } from "@/app/components/issue/issue-frame";
 import { ArticleExpanded } from "@/app/utils/data-types";
@@ -114,7 +114,7 @@ export const Measurer: React.FC<{
   return (
     <div id="article-measurer">
       <IssueFrame>
-        <SimpleArticleFrame
+        <MeasurerArticleFrame
           article={currentArticle}
           key={currentArticle?.id}
           bodyRef={currentArticleRef}

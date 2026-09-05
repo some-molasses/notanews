@@ -6,19 +6,19 @@ import React from "react";
 
 export const ARTICLE_INNER_MAX_HEIGHT_PX = 856;
 
-export const SimpleArticleFrame: React.FC<{
+export const MeasurerArticleFrame: React.FC<{
   article: Article;
   fullHeight?: boolean;
   bodyRef?: React.Ref<HTMLDivElement>;
 }> = ({ article, fullHeight, bodyRef }) => {
   return (
     <article
-      className={`article article-frame ${fullHeight ? "full-height" : ""}`}
+      className={`article article-frame simple-frame ${fullHeight ? "full-height" : ""}`}
       id={`article-${article.id}`}
     >
       <ArticleHeader article={article} />
       <div
-        className="article-body"
+        className="article-body article-contents"
         ref={bodyRef}
         dangerouslySetInnerHTML={{ __html: article.body ?? "" }}
       />
@@ -31,15 +31,18 @@ export const MeasuredArticleFrame: React.FC<{
   measurements: ArticleMeasurements;
 }> = ({ article, measurements }) => {
   return (
-    <article className={`article article-frame`} id={`article-${article.id}`}>
+    <article
+      className={`article article-frame measured-frame`}
+      id={`article-${article.id}`}
+    >
       <ArticleHeader article={article} />
-      <div className="article-body">
+      <div className="article-body columns">
         {measurements.columns.map((column, i) => (
           <div
             dangerouslySetInnerHTML={{ __html: column.contents ?? "" }}
             key={i}
-            className="article-column"
-          />
+            className="article-column article-contents"
+          ></div>
         ))}
       </div>
     </article>
