@@ -6,6 +6,21 @@
     height: 100%;
   }
 
+  .metadata-row {
+    margin-bottom: 1rem;
+  }
+
+  .author {
+    font-style: italic;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 1.5rem 0 0.5rem 0;
+  }
+
   .article-body {
     height: 856px;
     display: flex;
@@ -20,5 +35,11 @@
     p {
       margin: 4px 0;
     }
+  }
+
+  li,
+  ol {
+    margin-left: 1rem;
+    width: 100%;
   }
 }

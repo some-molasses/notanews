@@ -1,4 +1,4 @@
-import "./globals.css";
+import "./globals.scss";
 import { BODY_FONT } from "./styles";
 
 export const metadata = {

@@ -7,6 +7,11 @@ import { useEffect, useState } from "react";
 import { Measurer } from "../measurer/measurer";
 import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
 import { constructLayout, Run } from "../layout-definer/layout-definer";
+import { IssueFrame } from "@/app/components/issue/issue-frame";
+import {
+  MeasuredArticleFrame,
+  SimpleArticleFrame,
+} from "@/app/components/issue/article/article-frame";
 
 export const AutoDrafterClientPage: React.FC<{
   initialArticles: ArticleExpanded[];
@@ -16,9 +21,6 @@ export const AutoDrafterClientPage: React.FC<{
   const [measurements, setMeasurements] =
     useState<Map<string, ArticleMeasurements>>();
   const [layout, setLayout] = useState<Run[]>();
-
-  console.log(measurements);
-  console.log(layout);
 
   useEffect(() => {
     if (!measurements) {
@@ -35,7 +37,27 @@ export const AutoDrafterClientPage: React.FC<{
           no articles in {issue.papers.name} {issue.name}
         </PageTitle>
       ) : null}
-      <Measurer articles={articles} setMeasurements={setMeasurements} />
+      {!measurements ? (
+        <Measurer articles={articles} setMeasurements={setMeasurements} />
+      ) : null}
+      {layout
+        ? layout.map((run, i) => {
+            // @todo use run id
+            return (
+              <IssueFrame key={i}>
+                {run.articles.map((runArticle) => (
+                  <MeasuredArticleFrame
+                    article={
+                      articles.find((a) => a.id === runArticle.article_id)!
+                    }
+                    measurements={runArticle}
+                    key={runArticle.article_id}
+                  ></MeasuredArticleFrame>
+                ))}
+              </IssueFrame>
+            );
+          })
+        : null}
     </PageContainer>
   );
 };

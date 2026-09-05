@@ -1,7 +1,7 @@
 "use client";
 
 import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
-import { ArticleFrame } from "@/app/components/issue/article/article-frame";
+import { SimpleArticleFrame } from "@/app/components/issue/article/article-frame";
 import { IssueFrame } from "@/app/components/issue/issue-frame";
 import { ArticleExpanded } from "@/app/utils/data-types";
 import { useEffect, useRef, useState } from "react";
@@ -27,6 +27,10 @@ const measureArticle = (
       height: column.reduce(
         (sum, el) => sum + el.getBoundingClientRect().height,
         0,
+      ),
+      contents: column.reduce(
+        (acc: string, el: Element) => acc + el.outerHTML,
+        "",
       ),
     })),
   };
@@ -91,7 +95,7 @@ export const Measurer: React.FC<{
   return (
     <div id="article-measurer">
       <IssueFrame>
-        <ArticleFrame
+        <SimpleArticleFrame
           article={currentArticle}
           key={currentArticle?.id}
           bodyRef={currentArticleRef}

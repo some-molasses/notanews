@@ -3,6 +3,7 @@ export type ArticleMeasurements = {
   columns: {
     height: number;
     element_count: number;
+    contents: string;
   }[];
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArticleFrame } from "@/app/components/issue/article/article-frame";
+import { SimpleArticleFrame } from "@/app/components/issue/article/article-frame";
 import { ArticleExpanded } from "@/app/utils/data-types";
 import React, { useState } from "react";
 
@@ -20,7 +20,7 @@ export const Drafter: React.FC<{ articles: ArticleExpanded[] }> = ({
           return (
             <div className="drafter-display-page" key={article.id}>
               <div className="drafter-display-page-inner">
-                <ArticleFrame article={article}></ArticleFrame>
+                <SimpleArticleFrame article={article}></SimpleArticleFrame>
               </div>
             </div>
           );

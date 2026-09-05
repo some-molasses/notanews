@@ -14,6 +14,7 @@ export default async function EditingDashboardView() {
   const { jwt } = await authenticatePage(supabase);
 
   const editableIssues: IssueExpanded[] = await getIssues(jwt, [
+    "writing",
     "copyediting",
     "generating",
   ]);
@@ -47,6 +48,7 @@ const IssueStateBreadcrumb: React.FC<{ issue: Issue }> = ({ issue }) => {
       case "generating":
         return "drafting";
       case "writing":
+        return "writing";
       default:
         throw new Error(`Bad issue state ${issue.state}`);
     }
