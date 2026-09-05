@@ -1,3 +1,14 @@
+# Running the project
+
+## Frontend
+
+1. `npm i`
+2. `npm run dev`
+
+## Database
+
+* `npx supabase start`
+
 # algorithms assumptions
 
 - no margins between articles
