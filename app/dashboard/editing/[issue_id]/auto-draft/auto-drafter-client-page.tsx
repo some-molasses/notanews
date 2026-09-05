@@ -12,7 +12,11 @@ import {
   MeasuredArticleFrame,
   MeasurerArticleFrame,
 } from "@/app/components/issue/article/article-frame";
-import { PageFrame } from "@/app/components/issue/page/page-frame";
+import {
+  PageContents,
+  PageFrame,
+} from "@/app/components/issue/page/page-frame";
+import { IssuePage, layoutToPages } from "../layout-definer/layout-to-pages";
 
 export const AutoDrafterClientPage: React.FC<{
   initialArticles: ArticleExpanded[];
@@ -22,6 +26,7 @@ export const AutoDrafterClientPage: React.FC<{
   const [measurements, setMeasurements] =
     useState<Map<string, ArticleMeasurements>>();
   const [layout, setLayout] = useState<Run[]>();
+  const [pages, setPages] = useState<IssuePage[]>();
 
   useEffect(() => {
     if (!measurements || layout) {
@@ -30,6 +35,14 @@ export const AutoDrafterClientPage: React.FC<{
 
     setLayout(constructLayout(Array.from(measurements.values())));
   }, [measurements, layout, setLayout]);
+
+  useEffect(() => {
+    if (!layout || pages) {
+      return;
+    }
+
+    setPages(layoutToPages(layout));
+  }, [layout, pages, setPages]);
 
   return (
     <PageContainer id="auto-drafter-page">
@@ -41,19 +54,11 @@ export const AutoDrafterClientPage: React.FC<{
       {!measurements ? (
         <Measurer articles={articles} setMeasurements={setMeasurements} />
       ) : null}
-      {layout
-        ? layout.map((run) => {
+      {pages
+        ? pages.map((page, i) => {
             return (
-              <PageFrame key={run.id}>
-                {run.articles.map((runArticle) => (
-                  <MeasuredArticleFrame
-                    article={
-                      articles.find((a) => a.id === runArticle.article_id)!
-                    }
-                    measurements={runArticle}
-                    key={runArticle.article_id}
-                  />
-                ))}
+              <PageFrame key={i}>
+                <PageContents page={page} />
               </PageFrame>
             );
           })

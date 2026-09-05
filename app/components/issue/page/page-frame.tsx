@@ -1,7 +1,5 @@
-import { Article } from "@/app/utils/data-types";
-import { Heading1 } from "../../typography/typography";
+import { IssuePage } from "@/app/dashboard/editing/[issue_id]/layout-definer/layout-to-pages";
 import "./page-frame.scss";
-import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
 import React from "react";
 
 export const PAGE_MAX_HEIGHT_PX = 954;
@@ -12,6 +10,21 @@ export const PageFrame: React.FC<{
   return (
     <div style={{ maxHeight: PAGE_MAX_HEIGHT_PX }} className={`page-frame`}>
       {children}
+    </div>
+  );
+};
+
+export const PageContents: React.FC<{ page: IssuePage }> = ({ page }) => {
+  return (
+    <div className="article-columns">
+      <div
+        className="article-column"
+        dangerouslySetInnerHTML={{ __html: page.columns.left }}
+      />
+      <div
+        className="article-column"
+        dangerouslySetInnerHTML={{ __html: page.columns.right }}
+      />
     </div>
   );
 };

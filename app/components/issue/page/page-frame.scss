@@ -3,6 +3,7 @@
   $height: 1056px;
 
   max-width: $width;
+  height: $height;
 
   padding: 48px;
   border: var(--border);
@@ -15,4 +16,16 @@
     margin: 12px 0;
     border-top: 1px solid var(--border-color);
   }
+}
+
+.article-columns {
+  display: flex;
+  flex-direction: row;
+}
+
+.article-column {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin-right: 20px;
 }
