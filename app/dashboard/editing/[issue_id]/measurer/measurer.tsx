@@ -34,15 +34,13 @@ const measureArticle = (
 
 export const Measurer: React.FC<{
   articles: ArticleExpanded[];
-  setMeasurements: (
-    measurements: Map<ArticleExpanded, ArticleMeasurements>,
-  ) => void;
+  setMeasurements: (measurements: Map<string, ArticleMeasurements>) => void;
 }> = ({ articles, setMeasurements }) => {
   const [currentArticleIndex, setCurrentArticleIndex] = useState<number>(0);
   const currentArticle = articles[currentArticleIndex];
 
   const [currentMeasurements, setCurrentMeasurements] = useState(
-    new Map<ArticleExpanded, ArticleMeasurements>(),
+    new Map<string, ArticleMeasurements>(),
   );
   const currentArticleRef = useRef<HTMLDivElement>(null);
 
@@ -56,22 +54,30 @@ export const Measurer: React.FC<{
       return;
     }
 
+    if (!currentArticle) {
+      return;
+    }
+
+    if (currentArticleIndex == articles.length) {
+      return;
+    }
+
     const newMeasurement = measureArticle(
       currentArticle.id,
       currentArticleRef.current,
     );
 
-    currentMeasurements.set(currentArticle, newMeasurement);
+    currentMeasurements.set(currentArticle.id, newMeasurement);
     setCurrentMeasurements(new Map(currentMeasurements.entries()));
-    if (currentArticleIndex + 1 < articles.length) {
-      setCurrentArticleIndex(currentArticleIndex + 1);
-    } else {
+    setCurrentArticleIndex(currentArticleIndex + 1);
+
+    if (currentArticleIndex + 1 == articles.length) {
       setMeasurements(currentMeasurements);
     }
   }, [
     articles.length,
     currentArticle,
-    currentArticle.id,
+    currentArticle?.id,
     currentArticleIndex,
     currentMeasurements,
     setCurrentMeasurements,

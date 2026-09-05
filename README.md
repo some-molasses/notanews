@@ -14,6 +14,7 @@
 - no margins between articles
 - no articles wrap bottom of the page
 - paragraphs don't break across bottom of the page
+- 2 col always takes priority
 
 # todo
 
