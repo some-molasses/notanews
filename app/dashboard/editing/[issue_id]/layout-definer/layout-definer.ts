@@ -47,9 +47,12 @@ function filterSingleColumn(
 
 function filterMultiColumn(
   articles: ArticleMeasurements[],
+  maxColumns?: number,
 ): ArticleMeasurements[] {
+  // if maxColumns = 1, this intentionally returns []
   return articles
     .filter((a) => a.columns.length > 1)
+    .filter((a) => (maxColumns ? a.columns.length <= maxColumns : true))
     .sort(sortArticlesByLength);
 }
 
@@ -62,9 +65,25 @@ function getRemainingLastColumnHeight(run: Run): number {
   );
 }
 
+function commitRun(pendingRun: Run, remainingArticles: ArticleMeasurements[]) {
+  const nextRunSingleCol =
+    pendingRun.articles.length > 0 &&
+    pendingRun.articles[0].columns.length % 2 === 1;
+
+  return [
+    pendingRun, // commit run
+    ...constructLayoutRecurse(
+      { articles: [] },
+      remainingArticles,
+      nextRunSingleCol ? 1 : undefined,
+    ),
+  ];
+}
+
 function constructLayoutRecurse(
   pendingRun: Run,
   remainingArticles: ArticleMeasurements[],
+  maxColumns?: 1, // could later be generalized
 ): Run[] {
   if (remainingArticles.length === 0) {
     if (pendingRun.articles.length > 0) {
@@ -74,7 +93,7 @@ function constructLayoutRecurse(
     return [];
   }
 
-  const multiColArticles = filterMultiColumn(remainingArticles);
+  const multiColArticles = filterMultiColumn(remainingArticles, maxColumns);
   // if blank spread, start with a multi-col (if exists)
   if (pendingRun.articles.length === 0 && multiColArticles.length > 0) {
     // todo: optimization: only filter this once
@@ -86,6 +105,7 @@ function constructLayoutRecurse(
     return constructLayoutRecurse(
       newRun,
       remainingArticles.filter((a) => a.article_id !== selected.article_id),
+      maxColumns,
     );
   }
 
@@ -95,16 +115,14 @@ function constructLayoutRecurse(
 
   // if all remaining single-col articles too big, or none remain at all
   if (eligibleArticles.length === 0) {
-    return [
-      pendingRun, // commit run
-      ...constructLayoutRecurse({ articles: [] }, remainingArticles),
-    ];
+    commitRun(pendingRun, remainingArticles);
   }
 
   const selected = eligibleArticles[0];
   return constructLayoutRecurse(
     { articles: [...pendingRun.articles, selected] },
     remainingArticles.filter((a) => a.article_id !== selected.article_id),
+    maxColumns,
   );
 }
 
