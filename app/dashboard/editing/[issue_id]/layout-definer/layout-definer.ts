@@ -1,19 +1,40 @@
 import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
 import { ARTICLE_INNER_MAX_HEIGHT_PX } from "@/app/components/issue/article/article-frame";
+import { insecureUUID } from "@/app/utils/util";
 
 // todo: optimization: turn this into a class that can only possibly store one multi-col article
 // also let it have an id
-export type Run = {
-  articles: ArticleMeasurements[];
-};
+export class Run {
+  articles: ArticleMeasurements[] = [];
+  _id: string | undefined;
 
-// a run can only have one multi-col article, which, if exists, is at its beginning
-function validateRun(run: Run) {
-  for (let i = 1; i < run.articles.length; i++) {
-    if (run.articles[i].columns.length > 1) {
-      throw new Error(
-        `Too many columns in article ${run.articles[i].article_id}`,
-      );
+  constructor() {}
+
+  get id(): string {
+    if (this._id) {
+      return this._id;
+    }
+
+    if (this.articles.length === 0) {
+      this._id = `blank_${insecureUUID()}`;
+    } else {
+      this._id = this.articles[0].article_id;
+    }
+
+    return this._id;
+  }
+
+  push(article: ArticleMeasurements) {
+    this.articles.push(article);
+  }
+
+  validate() {
+    for (let i = 1; i < this.articles.length; i++) {
+      if (this.articles[i].columns.length > 1) {
+        throw new Error(
+          `Too many columns in article ${this.articles[i].article_id}`,
+        );
+      }
     }
   }
 }
@@ -57,7 +78,7 @@ function filterMultiColumn(
 }
 
 function getRemainingLastColumnHeight(run: Run): number {
-  validateRun(run);
+  run.validate();
 
   return run.articles.reduce(
     (acc, article) => acc - article.columns[article.columns.length - 1].height,
@@ -73,7 +94,7 @@ function commitRun(pendingRun: Run, remainingArticles: ArticleMeasurements[]) {
   return [
     pendingRun, // commit run
     ...constructLayoutRecurse(
-      { articles: [] },
+      new Run(),
       remainingArticles,
       nextRunSingleCol ? 1 : undefined,
     ),
@@ -98,12 +119,10 @@ function constructLayoutRecurse(
   if (pendingRun.articles.length === 0 && multiColArticles.length > 0) {
     // todo: optimization: only filter this once
     const selected = multiColArticles[0];
-    const newRun: Run = {
-      articles: [selected],
-    };
+    pendingRun.push(selected);
 
     return constructLayoutRecurse(
-      newRun,
+      pendingRun,
       remainingArticles.filter((a) => a.article_id !== selected.article_id),
       maxColumns,
     );
@@ -115,17 +134,18 @@ function constructLayoutRecurse(
 
   // if all remaining single-col articles too big, or none remain at all
   if (eligibleArticles.length === 0) {
-    commitRun(pendingRun, remainingArticles);
+    return commitRun(pendingRun, remainingArticles);
   }
 
   const selected = eligibleArticles[0];
+  pendingRun.push(selected);
   return constructLayoutRecurse(
-    { articles: [...pendingRun.articles, selected] },
+    pendingRun,
     remainingArticles.filter((a) => a.article_id !== selected.article_id),
     maxColumns,
   );
 }
 
 export function constructLayout(articles: ArticleMeasurements[]): Run[] {
-  return constructLayoutRecurse({ articles: [] }, articles);
+  return constructLayoutRecurse(new Run(), articles);
 }

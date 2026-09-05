@@ -42,10 +42,9 @@ export const AutoDrafterClientPage: React.FC<{
         <Measurer articles={articles} setMeasurements={setMeasurements} />
       ) : null}
       {layout
-        ? layout.map((run, i) => {
-            // @todo use run id
+        ? layout.map((run) => {
             return (
-              <PageFrame key={i}>
+              <PageFrame key={run.id}>
                 {run.articles.map((runArticle) => (
                   <MeasuredArticleFrame
                     article={
