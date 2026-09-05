@@ -1,11 +1,15 @@
 "use client";
 
 import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
-import { SimpleArticleFrame } from "@/app/components/issue/article/article-frame";
+import {
+  ARTICLE_INNER_MAX_HEIGHT_PX,
+  SimpleArticleFrame,
+} from "@/app/components/issue/article/article-frame";
 import { IssueFrame } from "@/app/components/issue/issue-frame";
 import { ArticleExpanded } from "@/app/utils/data-types";
 import { useEffect, useRef, useState } from "react";
 import "./measurer.scss";
+import { AssertionError } from "assert";
 
 const groupContentByColumn = (articleFrame: HTMLDivElement) => {
   return Map.groupBy(
@@ -34,6 +38,20 @@ const measureArticle = (
       ),
     })),
   };
+};
+
+const validateMeasurements = (
+  measurements: Map<string, ArticleMeasurements>,
+) => {
+  for (const article of measurements.values()) {
+    for (const column of article.columns) {
+      if (column.height > ARTICLE_INNER_MAX_HEIGHT_PX) {
+        throw new AssertionError({
+          message: `Article ${article.article_id} column has exceeded max height (${column.height} > ${ARTICLE_INNER_MAX_HEIGHT_PX})`,
+        });
+      }
+    }
+  }
 };
 
 export const Measurer: React.FC<{
@@ -76,6 +94,7 @@ export const Measurer: React.FC<{
     setCurrentArticleIndex(currentArticleIndex + 1);
 
     if (currentArticleIndex + 1 == articles.length) {
+      validateMeasurements(currentMeasurements);
       setMeasurements(currentMeasurements);
     }
   }, [

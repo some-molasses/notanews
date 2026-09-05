@@ -21,15 +21,16 @@
     margin: 1.5rem 0 0.5rem 0;
   }
 
+  $columnGap: 20px;
   .article-body {
-    height: 856px;
+    height: 856px; // must match ARTICLE_INNER_MAX_HEIGHT_PX
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    column-gap: 20px;
+    column-gap: $columnGap;
 
     * {
-      max-width: 350px;
+      max-width: 300px;
     }
 
     p {
@@ -41,5 +42,13 @@
   ol {
     margin-left: 1rem;
     width: 100%;
+  }
+
+  .article-header {
+    max-width: 50%;
+  }
+
+  .column {
+    margin: 0 $columnGap;
   }
 }

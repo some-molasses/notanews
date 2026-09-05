@@ -1,8 +1,5 @@
 import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
-import ArticleEditor from "@/app/dashboard/article/[uuid]/page";
-import { ArticlesTable } from "@/app/dashboard/components/articles-table";
-import { ArticleExpanded } from "@/app/utils/data-types";
-import React from "react";
+import { ARTICLE_INNER_MAX_HEIGHT_PX } from "@/app/components/issue/article/article-frame";
 
 // todo: optimization: turn this into a class that can only possibly store one multi-col article
 // also let it have an id
@@ -60,8 +57,8 @@ function getRemainingLastColumnHeight(run: Run): number {
   validateRun(run);
 
   return run.articles.reduce(
-    (acc, article) => acc + article.columns[article.columns.length - 1].height,
-    0,
+    (acc, article) => acc - article.columns[article.columns.length - 1].height,
+    ARTICLE_INNER_MAX_HEIGHT_PX,
   );
 }
 

@@ -6,6 +6,9 @@
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
+  text-decoration: none;
+  background: none;
+  color: unset;
 }
 
 :root {
@@ -59,4 +62,8 @@ strong {
 
 p {
   line-height: 1.15rem;
+}
+
+a:visited {
+  color: var(--text);
 }

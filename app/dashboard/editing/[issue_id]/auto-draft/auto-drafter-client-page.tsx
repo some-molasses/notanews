@@ -23,12 +23,12 @@ export const AutoDrafterClientPage: React.FC<{
   const [layout, setLayout] = useState<Run[]>();
 
   useEffect(() => {
-    if (!measurements) {
+    if (!measurements || layout) {
       return;
     }
 
     setLayout(constructLayout(Array.from(measurements.values())));
-  }, [measurements, setLayout]);
+  }, [measurements, layout, setLayout]);
 
   return (
     <PageContainer id="auto-drafter-page">
@@ -52,7 +52,7 @@ export const AutoDrafterClientPage: React.FC<{
                     }
                     measurements={runArticle}
                     key={runArticle.article_id}
-                  ></MeasuredArticleFrame>
+                  />
                 ))}
               </IssueFrame>
             );
