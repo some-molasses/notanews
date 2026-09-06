@@ -118,9 +118,9 @@ export const Measurer: React.FC<{
       currentArticleRef.current,
     );
 
-    // currentMeasurements.set(currentArticle.id, newMeasurement);
-    // setCurrentMeasurements(new Map(currentMeasurements.entries()));
-    // setCurrentArticleIndex(currentArticleIndex + 1);
+    currentMeasurements.set(currentArticle.id, newMeasurement);
+    setCurrentMeasurements(new Map(currentMeasurements.entries()));
+    setCurrentArticleIndex(currentArticleIndex + 1);
 
     if (currentArticleIndex + 1 == articles.length) {
       validateMeasurements(currentMeasurements);

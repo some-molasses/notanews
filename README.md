@@ -9,6 +9,10 @@
 
 * `npx supabase start`
 
+## Tests
+
+* `npx jest`
+
 # algorithms assumptions
 
 - no margins between articles

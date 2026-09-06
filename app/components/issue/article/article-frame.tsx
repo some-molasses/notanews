@@ -3,7 +3,6 @@ import { Heading1 } from "../../typography/typography";
 import "./article-frame.scss";
 import { ArticleMeasurements } from "@/app/dashboard/editing/[issue_id]/measurer/measurer";
 import React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 
 export const ARTICLE_INNER_MAX_HEIGHT_PX = 856;
 
@@ -16,11 +15,14 @@ export const MeasurerArticleFrame: React.FC<{
     <article
       className={`article article-frame simple-frame ${fullHeight ? "full-height" : ""}`}
       id={`article-${article.id}`}
-      ref={bodyRef}
     >
       <div
         className="article-body article-contents"
-        dangerouslySetInnerHTML={{ __html: article.html ?? "" }}
+        ref={bodyRef} // ref must be on innermost div,
+        // as column-location calculations track this element's children
+        dangerouslySetInnerHTML={{
+          __html: `${getHeaderString(article)} ${article._body}`,
+        }}
       />
     </article>
   );
@@ -47,6 +49,15 @@ export const MeasuredArticleFrame: React.FC<{
       </div>
     </article>
   );
+};
+
+export const getHeaderString = (article: Article): string => {
+  return `<div className="article-header">
+        <h1 className="article-title">${article.title}</h1>
+        <div className="metadata-row">
+          <span className="author">${article.pseudonym}</span>
+        </div>
+      </div>`;
 };
 
 export const ArticleHeader: React.FC<{ article: Article }> = ({ article }) => (

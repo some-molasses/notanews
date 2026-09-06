@@ -17,10 +17,6 @@ $columnWidth: 300px;
     flex-wrap: wrap;
     max-height: 100%;
   }
-
-  .article-header {
-    max-width: $columnWidth;
-  }
 }
 
 .simple-frame {
@@ -46,15 +42,21 @@ $columnWidth: 300px;
   }
 }
 
+.page-frame {
+  .article-header {
+    max-width: $columnWidth;
+
+    .metadata-row {
+      margin-bottom: 1rem;
+    }
+
+    .author {
+      font-style: italic;
+    }
+  }
+}
+
 .article-contents {
-  .metadata-row {
-    margin-bottom: 1rem;
-  }
-
-  .author {
-    font-style: italic;
-  }
-
   h1,
   h2,
   h3,
