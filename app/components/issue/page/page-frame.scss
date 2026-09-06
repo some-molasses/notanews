@@ -16,6 +16,27 @@
     margin: 12px 0;
     border-top: 1px solid var(--border-color);
   }
+
+  .article-header {
+    max-width: 300px;
+
+    .metadata-row {
+      margin-bottom: 1rem;
+    }
+
+    .author {
+      font-style: italic;
+    }
+  }
+
+  .article-title {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
 }
 
 .article-columns {

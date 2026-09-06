@@ -42,20 +42,6 @@ $columnWidth: 300px;
   }
 }
 
-.page-frame {
-  .article-header {
-    max-width: $columnWidth;
-
-    .metadata-row {
-      margin-bottom: 1rem;
-    }
-
-    .author {
-      font-style: italic;
-    }
-  }
-}
-
 .article-contents {
   h1,
   h2,

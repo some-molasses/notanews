@@ -52,10 +52,10 @@ export const MeasuredArticleFrame: React.FC<{
 };
 
 export const getHeaderString = (article: Article): string => {
-  return `<div className="article-header">
-        <h1 className="article-title">${article.title}</h1>
-        <div className="metadata-row">
-          <span className="author">${article.pseudonym}</span>
+  return `<div class="article-header">
+        <h1 class="article-title">${article.title}</h1>
+        <div class="metadata-row">
+          <span class="author">${article.pseudonym}</span>
         </div>
       </div>`;
 };

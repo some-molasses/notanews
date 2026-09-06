@@ -13,6 +13,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import "./measurer.scss";
 import { AssertionError } from "assert";
+import { PageFrame } from "@/app/components/issue/page/page-frame";
 
 type Column = {
   height: number;
@@ -142,13 +143,13 @@ export const Measurer: React.FC<{
 
   return (
     <div id="article-measurer">
-      <IssueFrame>
+      <PageFrame>
         <MeasurerArticleFrame
           article={currentArticle}
           key={currentArticle?.id}
           bodyRef={currentArticleRef}
         />
-      </IssueFrame>
+      </PageFrame>
     </div>
   );
 };
