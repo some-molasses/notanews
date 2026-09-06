@@ -1,7 +1,3 @@
-import { renderToStaticMarkup } from "react-dom/server";
-import { ArticleHeader } from "../components/issue/article/article-frame";
-import exp from "constants";
-
 export type ArticleState = "draft" | "pending" | "approved" | "rejected";
 
 /**
@@ -21,6 +17,14 @@ export type ArticleData = {
   created_at: string;
   updated_at: string;
 };
+
+export function enrichArticles(articles: ArticleData[]): Article[] {
+  return articles.map((a) => new Article(a));
+}
+
+export function serializeArticles(articles: Article[]): ArticleData[] {
+  return articles.map((a) => a.data);
+}
 
 export class Article {
   data: ArticleData;
@@ -61,16 +65,8 @@ export class Article {
     return this.data.updated_at;
   }
 
-  get html() {
-    return `${this.header} ${this.data.body}`;
-  }
-
   get _body() {
     return this.data.body;
-  }
-
-  private get header() {
-    return renderToStaticMarkup(<ArticleHeader article={this} />);
   }
 }
 

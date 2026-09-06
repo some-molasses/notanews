@@ -46,8 +46,9 @@ const runToPages = (run: Run): IssuePage[] => {
 };
 
 const squishLastPages = (pages: IssuePage[]): IssuePage[] => {
-  if (pages.length === 0) {
-    return [];
+  // can't squish
+  if (pages.length <= 1) {
+    return pages;
   }
 
   // if second-last page has right contents, cannot squish

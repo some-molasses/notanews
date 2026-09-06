@@ -4,8 +4,10 @@ import { PageContainer } from "@/app/components/page-container/page-container";
 import { PageTitle } from "@/app/components/page-title/page-title";
 import {
   Article,
+  ArticleData,
   ArticleDataExpanded,
   ArticleExpanded,
+  enrichArticles,
   IssueExpanded,
 } from "@/app/utils/data-types";
 import { useEffect, useState } from "react";
@@ -19,10 +21,12 @@ import {
 import { IssuePage, layoutToPages } from "../layout-definer/layout-to-pages";
 
 export const AutoDrafterClientPage: React.FC<{
-  initialArticles: Article[];
+  initialArticles: ArticleData[];
   issue: IssueExpanded;
 }> = ({ initialArticles, issue }) => {
-  const [articles, setArticles] = useState<Article[]>(initialArticles);
+  const [articles, setArticles] = useState<Article[]>(
+    enrichArticles(initialArticles),
+  );
   const [measurements, setMeasurements] =
     useState<Map<string, ArticleMeasurements>>();
   const [layout, setLayout] = useState<Run[]>();

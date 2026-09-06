@@ -3,6 +3,7 @@ import { getIssueArticles, getIssueById } from "@/app/utils/queries";
 import { createClient } from "@/app/utils/supabase/server";
 import { AutoDrafterClientPage } from "./auto-drafter-client-page";
 import "./auto-drafter.scss";
+import { serializeArticles } from "@/app/utils/data-types";
 
 export default async function DraftingIssuePage({
   params,
@@ -16,5 +17,10 @@ export default async function DraftingIssuePage({
   const issue = await getIssueById(jwt, issue_id);
   const articles = await getIssueArticles(jwt, issue_id);
 
-  return <AutoDrafterClientPage issue={issue} initialArticles={articles} />;
+  return (
+    <AutoDrafterClientPage
+      issue={issue}
+      initialArticles={serializeArticles(articles)}
+    />
+  );
 }
