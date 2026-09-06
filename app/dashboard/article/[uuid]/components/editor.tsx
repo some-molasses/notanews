@@ -5,6 +5,8 @@ import Tiptap from "@/app/components/tiptap/tiptap";
 import React, { useEffect, useState } from "react";
 import {
   Article,
+  ArticleData,
+  ArticleDataExpanded,
   ArticleExpanded,
   IssueExpanded,
 } from "@/app/utils/data-types";
@@ -31,7 +33,7 @@ export const ArticleEditorClient: React.FC<{
   const [title, setTitle] = useState<string | null>(article.title);
   const [pseudonym, setPseudonym] = useState<string | null>(article.pseudonym);
   const [issue, setIssue] = useState<string | null>(article.issue_id);
-  const [contents, setContents] = useState<string | null>(article.body);
+  const [contents, setContents] = useState<string | null>(article._body);
 
   const [lastUpdate, setLastUpdate] = useState<Date>(
     new Date(article.updated_at),
@@ -42,16 +44,18 @@ export const ArticleEditorClient: React.FC<{
     setIsLoaded(true);
   }, [setIsLoaded]);
 
-  const getCurrentArticle = (): Article => {
+  const getCurrentArticle = (): ArticleExpanded => {
     const selected_issue = issue === "null" ? null : issue;
 
-    return {
-      ...article,
+    const data: ArticleDataExpanded = {
+      ...article.data,
       title: title ?? "",
       pseudonym: pseudonym ?? "",
       body: contents,
       issue_id: selected_issue,
     };
+
+    return new ArticleExpanded(data);
   };
 
   const isEditableAsAuthor =

@@ -1,5 +1,6 @@
 $articleFrameColumnGap: 20px;
 $articleHeight: 856px;
+$columnWidth: 300px;
 
 .article-frame {
   height: $articleHeight; // must match ARTICLE_INNER_MAX_HEIGHT_PX
@@ -18,7 +19,7 @@ $articleHeight: 856px;
   }
 
   .article-header {
-    max-width: 50%;
+    max-width: $columnWidth;
   }
 }
 
@@ -62,7 +63,7 @@ $articleHeight: 856px;
   }
 
   * {
-    max-width: 300px;
+    max-width: $columnWidth;
   }
 
   p {

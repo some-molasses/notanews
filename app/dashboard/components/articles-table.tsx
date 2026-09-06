@@ -1,4 +1,4 @@
-import { Article, ArticleExpanded } from "@/app/utils/data-types";
+import { Article, ArticleDataExpanded } from "@/app/utils/data-types";
 import Link from "next/link";
 import "./articles-table.scss";
 import { Table } from "@/app/components/table/table";
@@ -6,7 +6,7 @@ import { isUserAnEditor } from "@/app/utils/data-util.shared";
 import { createClient } from "@/app/utils/supabase/server";
 import { getJWT } from "@/app/utils/auth-utils";
 
-export const ArticlesTable: React.FC<{ articles: ArticleExpanded[] }> = ({
+export const ArticlesTable: React.FC<{ articles: ArticleDataExpanded[] }> = ({
   articles,
 }) => {
   return (
@@ -21,7 +21,7 @@ export const ArticlesTable: React.FC<{ articles: ArticleExpanded[] }> = ({
   );
 };
 
-const makeArticleRow = async (article: ArticleExpanded) => {
+const makeArticleRow = async (article: ArticleDataExpanded) => {
   const supabase = await createClient();
   const jwt = await getJWT(supabase);
   const { data: user_data, error } = await supabase.auth.getUser();
@@ -83,7 +83,7 @@ const makeArticleRow = async (article: ArticleExpanded) => {
 async function ArticleLink(props: {
   children: React.ReactNode;
   className?: string;
-  article: ArticleExpanded;
+  article: ArticleDataExpanded;
   viewable: boolean;
 }) {
   const { children, className, article, viewable } = props;

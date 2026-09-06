@@ -2,16 +2,16 @@
 
 import { PageContainer } from "@/app/components/page-container/page-container";
 import { PageTitle } from "@/app/components/page-title/page-title";
-import { ArticleExpanded, IssueExpanded } from "@/app/utils/data-types";
+import {
+  Article,
+  ArticleDataExpanded,
+  ArticleExpanded,
+  IssueExpanded,
+} from "@/app/utils/data-types";
 import { useEffect, useState } from "react";
 import { Measurer } from "../measurer/measurer";
-import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
+import { ArticleMeasurements } from "../measurer/measurer";
 import { constructLayout, Run } from "../layout-definer/layout-definer";
-import { IssueFrame } from "@/app/components/issue/issue-frame";
-import {
-  MeasuredArticleFrame,
-  MeasurerArticleFrame,
-} from "@/app/components/issue/article/article-frame";
 import {
   PageContents,
   PageFrame,
@@ -19,10 +19,10 @@ import {
 import { IssuePage, layoutToPages } from "../layout-definer/layout-to-pages";
 
 export const AutoDrafterClientPage: React.FC<{
-  initialArticles: ArticleExpanded[];
+  initialArticles: Article[];
   issue: IssueExpanded;
 }> = ({ initialArticles, issue }) => {
-  const [articles, setArticles] = useState<ArticleExpanded[]>(initialArticles);
+  const [articles, setArticles] = useState<Article[]>(initialArticles);
   const [measurements, setMeasurements] =
     useState<Map<string, ArticleMeasurements>>();
   const [layout, setLayout] = useState<Run[]>();

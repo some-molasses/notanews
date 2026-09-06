@@ -1,8 +1,9 @@
 import { Article } from "@/app/utils/data-types";
 import { Heading1 } from "../../typography/typography";
 import "./article-frame.scss";
-import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
+import { ArticleMeasurements } from "@/app/dashboard/editing/[issue_id]/measurer/measurer";
 import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 export const ARTICLE_INNER_MAX_HEIGHT_PX = 856;
 
@@ -15,12 +16,11 @@ export const MeasurerArticleFrame: React.FC<{
     <article
       className={`article article-frame simple-frame ${fullHeight ? "full-height" : ""}`}
       id={`article-${article.id}`}
+      ref={bodyRef}
     >
-      <ArticleHeader article={article} />
       <div
         className="article-body article-contents"
-        ref={bodyRef}
-        dangerouslySetInnerHTML={{ __html: article.body ?? "" }}
+        dangerouslySetInnerHTML={{ __html: article.html ?? "" }}
       />
     </article>
   );
@@ -49,7 +49,7 @@ export const MeasuredArticleFrame: React.FC<{
   );
 };
 
-const ArticleHeader: React.FC<{ article: Article }> = ({ article }) => (
+export const ArticleHeader: React.FC<{ article: Article }> = ({ article }) => (
   <div className="article-header">
     <Heading1 className="article-title">{article.title}</Heading1>
     <div className="metadata-row">

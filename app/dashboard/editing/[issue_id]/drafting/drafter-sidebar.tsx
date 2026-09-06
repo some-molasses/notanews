@@ -1,6 +1,6 @@
 import { Column } from "@/app/components/layout/layout-components";
 import { Heading2 } from "@/app/components/typography/typography";
-import { ArticleExpanded } from "@/app/utils/data-types";
+import { ArticleDataExpanded } from "@/app/utils/data-types";
 import { last } from "@/app/utils/data-util.shared";
 import {
   DragEvent,
@@ -12,8 +12,8 @@ import {
 } from "react";
 
 export const DrafterSidebar: React.FC<{
-  articles: ArticleExpanded[];
-  setArticles: (use: ArticleExpanded[]) => void;
+  articles: ArticleDataExpanded[];
+  setArticles: (use: ArticleDataExpanded[]) => void;
 }> = ({ articles, setArticles }) => {
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const ulRef = useRef<HTMLUListElement | null>(null);

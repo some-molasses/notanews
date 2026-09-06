@@ -1,4 +1,11 @@
-import { Article, ArticleExpanded, IssueExpanded, Paper } from "./data-types";
+import {
+  Article,
+  ArticleData,
+  ArticleDataExpanded,
+  ArticleExpanded,
+  IssueExpanded,
+  Paper,
+} from "./data-types";
 
 export const getArticleById = async (
   id: string,
@@ -12,24 +19,27 @@ export const getArticleById = async (
     throw new Error("No local domain set");
   }
 
-  const articles: ArticleExpanded[] = await fetchApi(`articles?id=${id}`, jwt);
+  const articles: ArticleDataExpanded[] = await fetchApi(
+    `articles?id=${id}`,
+    jwt,
+  );
   if (articles.length !== 1) {
     return null;
   }
 
-  return articles[0];
+  return new ArticleExpanded(articles[0]);
 };
 
 export const getSubmittedArticlesForIssue = async (
   jwt: string,
   id: string,
 ): Promise<ArticleExpanded[]> => {
-  const articles: ArticleExpanded[] = await fetchApi(
+  const articles: ArticleDataExpanded[] = await fetchApi(
     `issues/${id}/submitted-articles`,
     jwt,
   );
 
-  return articles;
+  return articles.map((a) => new ArticleExpanded(a));
 };
 
 export const getIssues = async (jwt: string, states?: string[]) => {
@@ -47,10 +57,16 @@ export const getIssueById = async (jwt: string, id: string) => {
   return issues;
 };
 
-export const getIssueArticles = async (jwt: string, id: string) => {
-  const issues = (await fetchApi(`issues/${id}/articles`, jwt)) as Article[];
+export const getIssueArticles = async (
+  jwt: string,
+  id: string,
+): Promise<Article[]> => {
+  const articles = (await fetchApi(
+    `issues/${id}/articles`,
+    jwt,
+  )) as ArticleData[];
 
-  return issues;
+  return articles.map((a) => new Article(a));
 };
 
 export const getPaperById = async (paper_id: string, jwt: string) => {

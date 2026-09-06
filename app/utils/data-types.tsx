@@ -1,9 +1,13 @@
+import { renderToStaticMarkup } from "react-dom/server";
+import { ArticleHeader } from "../components/issue/article/article-frame";
+import exp from "constants";
+
 export type ArticleState = "draft" | "pending" | "approved" | "rejected";
 
 /**
  * Be sure to cross-reference any updates to this schema with the version currently live in the DB
  */
-export type Article = {
+export type ArticleData = {
   id: string;
   user_id: string;
   issue_id: string | null;
@@ -18,7 +22,59 @@ export type Article = {
   updated_at: string;
 };
 
-export type ArticleExpanded = Article & {
+export class Article {
+  data: ArticleData;
+
+  constructor(data: ArticleData) {
+    this.data = data;
+  }
+
+  get id() {
+    return this.data.id;
+  }
+
+  get title() {
+    return this.data.title;
+  }
+
+  get pseudonym() {
+    return this.data.pseudonym;
+  }
+
+  get user_id() {
+    return this.data.user_id;
+  }
+
+  get issue_id() {
+    return this.data.issue_id;
+  }
+
+  get state() {
+    return this.data.state;
+  }
+
+  get created_at() {
+    return this.data.created_at;
+  }
+
+  get updated_at() {
+    return this.data.updated_at;
+  }
+
+  get html() {
+    return `${this.header} ${this.data.body}`;
+  }
+
+  get _body() {
+    return this.data.body;
+  }
+
+  private get header() {
+    return renderToStaticMarkup(<ArticleHeader article={this} />);
+  }
+}
+
+export type ArticleDataExpanded = ArticleData & {
   issues?: {
     name: string;
 
@@ -28,6 +84,16 @@ export type ArticleExpanded = Article & {
     };
   };
 };
+
+export class ArticleExpanded extends Article {
+  issues: ArticleDataExpanded["issues"];
+
+  constructor(expandedData: ArticleDataExpanded) {
+    super(expandedData);
+
+    this.issues = expandedData.issues;
+  }
+}
 
 export type IssueState = "writing" | "copyediting" | "generating" | "published";
 

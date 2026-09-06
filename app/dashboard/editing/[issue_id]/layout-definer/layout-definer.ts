@@ -1,4 +1,4 @@
-import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
+import { ArticleMeasurements } from "../measurer/measurer";
 import { ARTICLE_INNER_MAX_HEIGHT_PX } from "@/app/components/issue/article/article-frame";
 import { insecureUUID } from "@/app/utils/util";
 

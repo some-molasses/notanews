@@ -1,7 +1,12 @@
 import { PageTitle } from "@/app/components/page-title/page-title";
 import { Heading2 } from "@/app/components/typography/typography";
 import { authenticatePage } from "@/app/utils/auth-utils";
-import { Article, ArticleExpanded, Issue, Paper } from "@/app/utils/data-types";
+import {
+  Article,
+  ArticleDataExpanded,
+  Issue,
+  Paper,
+} from "@/app/utils/data-types";
 import { createClient } from "@/app/utils/supabase/server";
 import "./issue.scss";
 import { fetchApi, getSubmittedArticlesForIssue } from "@/app/utils/queries";

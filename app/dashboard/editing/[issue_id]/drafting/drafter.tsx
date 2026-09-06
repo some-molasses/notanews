@@ -1,10 +1,10 @@
 "use client";
 
 import { MeasurerArticleFrame } from "@/app/components/issue/article/article-frame";
-import { ArticleExpanded } from "@/app/utils/data-types";
+import { ArticleDataExpanded } from "@/app/utils/data-types";
 import React, { useState } from "react";
 
-export const Drafter: React.FC<{ articles: ArticleExpanded[] }> = ({
+export const Drafter: React.FC<{ articles: ArticleDataExpanded[] }> = ({
   articles,
 }) => {
   const [currentPage, setCurrentPage] = useState<number>(0);

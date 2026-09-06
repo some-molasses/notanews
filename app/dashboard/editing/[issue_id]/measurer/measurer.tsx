@@ -1,15 +1,42 @@
 "use client";
 
-import { ArticleMeasurements } from "@/app/api/v2/assemble-issue/route";
 import {
   ARTICLE_INNER_MAX_HEIGHT_PX,
   MeasurerArticleFrame,
 } from "@/app/components/issue/article/article-frame";
 import { IssueFrame } from "@/app/components/issue/issue-frame";
-import { ArticleExpanded } from "@/app/utils/data-types";
+import {
+  Article,
+  ArticleDataExpanded,
+  ArticleExpanded,
+} from "@/app/utils/data-types";
 import { useEffect, useRef, useState } from "react";
 import "./measurer.scss";
 import { AssertionError } from "assert";
+
+type Column = {
+  height: number;
+  element_count: number;
+  contents: string;
+};
+
+export class ArticleMeasurements {
+  article: Article;
+  columns: Column[];
+
+  constructor(article: Article, columns: Column[]) {
+    this.article = article;
+    this.columns = columns;
+  }
+
+  get article_id(): string {
+    return this.article.id;
+  }
+
+  get title(): string | null {
+    return this.article.title;
+  }
+}
 
 const groupContentByColumn = (articleFrame: HTMLDivElement) => {
   return Map.groupBy(
@@ -19,14 +46,13 @@ const groupContentByColumn = (articleFrame: HTMLDivElement) => {
 };
 
 const measureArticle = (
-  articleId: string,
+  article: Article,
   articleFrame: HTMLDivElement,
 ): ArticleMeasurements => {
   const columns = groupContentByColumn(articleFrame);
 
-  return {
-    article_id: articleId,
-    columns: Array.from(columns.values()).map((column) => ({
+  const columnMeasurements: Column[] = Array.from(columns.values()).map(
+    (column) => ({
       element_count: column.length,
       height: column.reduce(
         (sum, el) => sum + el.getBoundingClientRect().height,
@@ -36,18 +62,21 @@ const measureArticle = (
         (acc: string, el: Element) => acc + el.outerHTML,
         "",
       ),
-    })),
-  };
+    }),
+  );
+
+  return new ArticleMeasurements(article, columnMeasurements);
 };
 
 const validateMeasurements = (
   measurements: Map<string, ArticleMeasurements>,
 ) => {
   for (const article of measurements.values()) {
-    for (const column of article.columns) {
+    for (let i = 0; i < article.columns.length; i++) {
+      const column = article.columns[i];
       if (column.height > ARTICLE_INNER_MAX_HEIGHT_PX) {
         throw new AssertionError({
-          message: `Article ${article.article_id} column has exceeded max height (${column.height} > ${ARTICLE_INNER_MAX_HEIGHT_PX})`,
+          message: `Article ${article.title} column ${i} has exceeded max height (${column.height} > ${ARTICLE_INNER_MAX_HEIGHT_PX})`,
         });
       }
     }
@@ -55,7 +84,7 @@ const validateMeasurements = (
 };
 
 export const Measurer: React.FC<{
-  articles: ArticleExpanded[];
+  articles: Article[];
   setMeasurements: (measurements: Map<string, ArticleMeasurements>) => void;
 }> = ({ articles, setMeasurements }) => {
   const [currentArticleIndex, setCurrentArticleIndex] = useState<number>(0);
@@ -85,13 +114,13 @@ export const Measurer: React.FC<{
     }
 
     const newMeasurement = measureArticle(
-      currentArticle.id,
+      currentArticle,
       currentArticleRef.current,
     );
 
-    currentMeasurements.set(currentArticle.id, newMeasurement);
-    setCurrentMeasurements(new Map(currentMeasurements.entries()));
-    setCurrentArticleIndex(currentArticleIndex + 1);
+    // currentMeasurements.set(currentArticle.id, newMeasurement);
+    // setCurrentMeasurements(new Map(currentMeasurements.entries()));
+    // setCurrentArticleIndex(currentArticleIndex + 1);
 
     if (currentArticleIndex + 1 == articles.length) {
       validateMeasurements(currentMeasurements);
