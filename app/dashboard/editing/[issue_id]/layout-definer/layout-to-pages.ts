@@ -60,7 +60,6 @@ const squishLastPages = (pages: IssuePage[]): IssuePage[] => {
     return pages;
   }
 
-  console.log("squishing!");
   pages[pages.length - 2].columns.right = pages[pages.length - 1].columns.left;
   pages.pop();
   return pages;
