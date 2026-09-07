@@ -5,6 +5,7 @@ import { ArticleMeasurements } from "@/app/dashboard/editing/[issue_id]/measurer
 import React from "react";
 
 export const ARTICLE_INNER_MAX_HEIGHT_PX = 856;
+export const POSTSCRIPT_DIVIDER_CLASSNAME = "postscript-divider";
 
 export const MeasurerArticleFrame: React.FC<{
   article: Article;
@@ -25,16 +26,24 @@ export const MeasurerArticleFrame: React.FC<{
           // as column-location calculations track this element's children
           dangerouslySetInnerHTML={{
             // @todo postscript here
-            __html: `${getHeaderString(article)} ${article.body ?? ""}`,
+            __html: `${getHeaderString(article)} ${article.body ?? ""} ${
+              article.postscript
+                ? `<div class="${POSTSCRIPT_DIVIDER_CLASSNAME}"></div><hr>${article.postscript}`
+                : ""
+            }`,
           }}
-        />
-        <div
-          className="article-postscript article-contents measure-me"
-          dangerouslySetInnerHTML={{ __html: article.postscript ?? "" }}
         />
       </div>
     </article>
   );
+};
+
+export const getArticleFrameMeasurableContents = (
+  articleContainer: Element,
+) => {
+  return Array.from(articleContainer.querySelectorAll(".measure-me"))
+    .map((measurementContainer) => Array.from(measurementContainer.children))
+    .flat();
 };
 
 export const MeasuredArticleFrame: React.FC<{

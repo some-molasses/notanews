@@ -2,6 +2,7 @@
 
 import {
   ARTICLE_INNER_MAX_HEIGHT_PX,
+  getArticleFrameMeasurableContents,
   MeasurerArticleFrame,
 } from "@/app/components/issue/article/article-frame";
 import { IssueFrame } from "@/app/components/issue/issue-frame";
@@ -14,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import "./measurer.scss";
 import { AssertionError } from "assert";
 import { PageFrame } from "@/app/components/issue/page/page-frame";
+import { preformatArticle } from "../article-preformatter";
 
 type Column = {
   height: number;
@@ -44,12 +46,6 @@ type PositionedElement = {
   rect: DOMRect;
 };
 
-const getArticleContents = (articleContainer: Element) => {
-  return Array.from(articleContainer.querySelectorAll(".measure-me"))
-    .map((measurementContainer) => Array.from(measurementContainer.children))
-    .flat();
-};
-
 const sortColumn = (column: PositionedElement[]): PositionedElement[] => {
   return column.sort((a, b) => a.rect.y - b.rect.y);
 };
@@ -78,7 +74,9 @@ const mergeColumns = (
 const groupContentByColumn = (
   articleFrame: HTMLDivElement,
 ): Map<number, Element[]> => {
-  const positionedChildren = getArticleContents(articleFrame).map((c) => ({
+  const positionedChildren = getArticleFrameMeasurableContents(
+    articleFrame,
+  ).map((c) => ({
     el: c,
     rect: c.getBoundingClientRect(),
   }));
@@ -169,6 +167,7 @@ export const Measurer: React.FC<{
       return;
     }
 
+    preformatArticle(currentArticleRef.current);
     const newMeasurement = measureArticle(
       currentArticle,
       currentArticleRef.current,
