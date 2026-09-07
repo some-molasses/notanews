@@ -8,7 +8,7 @@ export async function updateArticle(article: Article, jwt: string) {
       "Content-Type": "application/json",
     },
     method: "PATCH",
-    body: JSON.stringify(article.data),
+    body: JSON.stringify(article.serialize()),
   });
 
   console.log("updated state:", newState);

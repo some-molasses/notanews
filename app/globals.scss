@@ -48,6 +48,10 @@ h2 {
   font-size: 1.5rem;
 }
 
+h3 {
+  font-size: 1.2rem;
+}
+
 input {
   outline: none;
 }
@@ -66,4 +70,23 @@ p {
 
 a:visited {
   color: var(--text);
+}
+
+code {
+  font-family: "Courier New", Courier, monospace;
+  background-color: var(--background-2);
+  color: #d63384;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+blockquote {
+  border-left: 4px solid var(--background-2);
+  padding-left: 12px;
+  margin-left: 8px;
+}
+
+s {
+  text-decoration: line-through;
 }

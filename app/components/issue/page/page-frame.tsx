@@ -18,11 +18,11 @@ export const PageContents: React.FC<{ page: IssuePage }> = ({ page }) => {
   return (
     <div className="article-columns">
       <div
-        className="article-column"
+        className="article-column article-contents"
         dangerouslySetInnerHTML={{ __html: page.columns.left }}
       />
       <div
-        className="article-column"
+        className="article-column article-contents"
         dangerouslySetInnerHTML={{ __html: page.columns.right }}
       />
     </div>

@@ -1,9 +1,8 @@
 import { ArticleMeasurements } from "../measurer/measurer";
 import { ARTICLE_INNER_MAX_HEIGHT_PX } from "@/app/components/issue/article/article-frame";
 import { insecureUUID } from "@/app/utils/util";
+import { AssertionError } from "assert";
 
-// todo: optimization: turn this into a class that can only possibly store one multi-col article
-// also let it have an id
 export class Run {
   articles: ArticleMeasurements[] = [];
   _id: string | undefined;
@@ -25,6 +24,12 @@ export class Run {
   }
 
   push(article: ArticleMeasurements) {
+    if (this.articles.length > 1 && article.columns.length !== 1) {
+      throw new AssertionError({
+        message: `Article ${article.title} is to become article ${this.articles.length} of the run, but has ${article.columns.length} columns`,
+      });
+    }
+
     this.articles.push(article);
   }
 

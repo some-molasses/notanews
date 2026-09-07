@@ -58,6 +58,7 @@ export const ArticleEditorClient: React.FC<{
       pseudonym: pseudonym ?? "",
       body: contents,
       issue_id: selected_issue,
+      postscript: postscript,
     };
 
     return new ArticleExpanded(data);

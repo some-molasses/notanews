@@ -21,6 +21,7 @@ export const MeasurerArticleFrame: React.FC<{
         ref={bodyRef} // ref must be on innermost div,
         // as column-location calculations track this element's children
         dangerouslySetInnerHTML={{
+          // @todo postscript here
           __html: `${getHeaderString(article)} ${article.body}`,
         }}
       />
