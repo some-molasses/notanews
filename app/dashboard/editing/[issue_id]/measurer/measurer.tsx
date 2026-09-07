@@ -39,11 +39,60 @@ export class ArticleMeasurements {
   }
 }
 
-const groupContentByColumn = (articleFrame: HTMLDivElement) => {
-  return Map.groupBy(
-    articleFrame.children,
-    (el) => el.getBoundingClientRect().x,
-  );
+type PositionedElement = {
+  el: Element;
+  rect: DOMRect;
+};
+
+const sortColumn = (column: PositionedElement[]): PositionedElement[] => {
+  return column.sort((a, b) => a.rect.y - b.rect.y);
+};
+
+const X_MERGEABILITY_RANGE = 30;
+const mergeColumns = (
+  columns: Map<number, PositionedElement[]>,
+): Map<number, PositionedElement[]> => {
+  const entries = Array.from(columns.entries());
+  for (let i = 1; i < entries.length; i++) {
+    // x value is at 0
+    if (Math.abs(entries[i][0] - entries[i - 1][0]) > X_MERGEABILITY_RANGE) {
+      continue;
+    }
+
+    // move group i to group i - 1, delete group i
+    entries[i - 1][1].push(...entries[i][1]);
+    entries[i - 1][1] = sortColumn(entries[i - 1][1]);
+
+    entries.splice(i, 1);
+  }
+
+  return new Map(entries);
+};
+
+const groupContentByColumn = (
+  articleFrame: HTMLDivElement,
+): Map<number, Element[]> => {
+  const positionedChildren = Array.from(articleFrame.children).map((c) => ({
+    el: c,
+    rect: c.getBoundingClientRect(),
+  }));
+
+  const initialGroups = Map.groupBy(positionedChildren, (el) => el.rect.x);
+
+  // lists & blockquotes are left-offset, and thereby have a
+  // slightly different x coordinate than the rest of their group
+  const merged = mergeColumns(initialGroups);
+
+  // remove bounding client rect storage
+  const resultMap = new Map<number, Element[]>();
+  for (const entry of merged.entries()) {
+    resultMap.set(
+      entry[0],
+      entry[1].map(({ el }) => el),
+    );
+  }
+
+  return resultMap;
 };
 
 const measureArticle = (
