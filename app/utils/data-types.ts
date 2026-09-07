@@ -23,11 +23,11 @@ export function enrichArticles(articles: ArticleData[]): Article[] {
 }
 
 export function serializeArticles(articles: Article[]): ArticleData[] {
-  return articles.map((a) => a.data);
+  return articles.map((a) => a.serialize());
 }
 
 export class Article {
-  data: ArticleData;
+  private data: ArticleData;
 
   constructor(data: ArticleData) {
     this.data = data;
@@ -65,8 +65,16 @@ export class Article {
     return this.data.updated_at;
   }
 
-  get _body() {
+  get body() {
     return this.data.body;
+  }
+
+  get postscript() {
+    return this.data.postscript;
+  }
+
+  serialize() {
+    return this.data;
   }
 }
 
@@ -88,6 +96,13 @@ export class ArticleExpanded extends Article {
     super(expandedData);
 
     this.issues = expandedData.issues;
+  }
+
+  serialize(): ArticleDataExpanded {
+    return {
+      ...super.serialize(),
+      issues: this.issues,
+    };
   }
 }
 

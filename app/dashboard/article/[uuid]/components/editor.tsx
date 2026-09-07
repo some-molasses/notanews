@@ -24,16 +24,21 @@ import { useJWT } from "@/app/auth/components/jwt-context";
 import { useUser } from "@/app/utils/data-util.client";
 
 export const ArticleEditorClient: React.FC<{
-  article: ArticleExpanded;
+  articleData: ArticleDataExpanded;
   eligibleIssues: IssueExpanded[];
   isUserAnEditor: boolean;
-}> = ({ article, eligibleIssues, isUserAnEditor }) => {
+}> = ({ articleData, eligibleIssues, isUserAnEditor }) => {
   const user = useUser();
+
+  const article = new ArticleExpanded(articleData);
 
   const [title, setTitle] = useState<string | null>(article.title);
   const [pseudonym, setPseudonym] = useState<string | null>(article.pseudonym);
   const [issue, setIssue] = useState<string | null>(article.issue_id);
-  const [contents, setContents] = useState<string | null>(article._body);
+  const [contents, setContents] = useState<string | null>(article.body);
+  const [postscript, setPostscript] = useState<string | null>(
+    article.postscript,
+  );
 
   const [lastUpdate, setLastUpdate] = useState<Date>(
     new Date(article.updated_at),
@@ -48,7 +53,7 @@ export const ArticleEditorClient: React.FC<{
     const selected_issue = issue === "null" ? null : issue;
 
     const data: ArticleDataExpanded = {
-      ...article.data,
+      ...article.serialize(),
       title: title ?? "",
       pseudonym: pseudonym ?? "",
       body: contents,
@@ -105,6 +110,16 @@ export const ArticleEditorClient: React.FC<{
           onUpdate={(props) => setContents(props.editor.getHTML())}
           editable={isEditable}
         />
+      ) : null}
+      {isLoaded ? (
+        <section id="postscript-section">
+          <h1 id="postscript-header">Postscript</h1>
+          <Tiptap
+            defaultContent={postscript}
+            onUpdate={(props) => setPostscript(props.editor.getHTML())}
+            editable={isEditable}
+          />
+        </section>
       ) : null}
       <Row id="editor-article-buttons">
         <Column className="article-data">

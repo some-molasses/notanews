@@ -41,4 +41,13 @@
     color: var(--light-text);
     align-self: self-end;
   }
+
+  #postscript-section {
+    flex-shrink: 5;
+  }
+
+  #postscript-header {
+    font-size: 1rem;
+    margin: 1rem 0;
+  }
 }

@@ -6,7 +6,11 @@ import React from "react";
 import "./article-editor.scss";
 import { fetchApi, getArticleById } from "@/app/utils/queries";
 import { ArticleEditorClient } from "./components/editor";
-import { ArticleDataExpanded, IssueExpanded } from "@/app/utils/data-types";
+import {
+  ArticleDataExpanded,
+  ArticleExpanded,
+  IssueExpanded,
+} from "@/app/utils/data-types";
 import { redirect } from "next/navigation";
 import { isUserAnEditor } from "@/app/utils/data-util.shared";
 import { PageContainer } from "@/app/components/page-container/page-container";
@@ -20,7 +24,7 @@ export default async function ArticleEditor({
   const { jwt } = await authenticatePage(supabase);
 
   const uuid = (await params).uuid;
-  const article: ArticleDataExpanded | null = await getArticleById(uuid, jwt);
+  const article: ArticleExpanded | null = await getArticleById(uuid, jwt);
 
   const eligibleIssues: IssueExpanded[] = await fetchApi(
     `/issues?state=writing`,
@@ -45,7 +49,7 @@ export default async function ArticleEditor({
   return (
     <PageContainer id="article-editor-page">
       <ArticleEditorClient
-        article={article}
+        articleData={article.serialize()}
         eligibleIssues={eligibleIssues}
         isUserAnEditor={isEditor}
       />
