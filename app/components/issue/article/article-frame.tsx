@@ -11,20 +11,28 @@ export const MeasurerArticleFrame: React.FC<{
   fullHeight?: boolean;
   bodyRef?: React.Ref<HTMLDivElement>;
 }> = ({ article, fullHeight, bodyRef }) => {
+  console.log(article.postscript);
   return (
     <article
       className={`article article-frame simple-frame ${fullHeight ? "full-height" : ""}`}
       id={`article-${article.id}`}
     >
       <div
-        className="article-body article-contents"
         ref={bodyRef} // ref must be on innermost div,
-        // as column-location calculations track this element's children
-        dangerouslySetInnerHTML={{
-          // @todo postscript here
-          __html: `${getHeaderString(article)} ${article.body}`,
-        }}
-      />
+      >
+        <div
+          className="article-body article-contents measure-me"
+          // as column-location calculations track this element's children
+          dangerouslySetInnerHTML={{
+            // @todo postscript here
+            __html: `${getHeaderString(article)} ${article.body ?? ""}`,
+          }}
+        />
+        <div
+          className="article-postscript article-contents measure-me"
+          dangerouslySetInnerHTML={{ __html: article.postscript ?? "" }}
+        />
+      </div>
     </article>
   );
 };

@@ -44,6 +44,12 @@ type PositionedElement = {
   rect: DOMRect;
 };
 
+const getArticleContents = (articleContainer: Element) => {
+  return Array.from(articleContainer.querySelectorAll(".measure-me"))
+    .map((measurementContainer) => Array.from(measurementContainer.children))
+    .flat();
+};
+
 const sortColumn = (column: PositionedElement[]): PositionedElement[] => {
   return column.sort((a, b) => a.rect.y - b.rect.y);
 };
@@ -72,7 +78,7 @@ const mergeColumns = (
 const groupContentByColumn = (
   articleFrame: HTMLDivElement,
 ): Map<number, Element[]> => {
-  const positionedChildren = Array.from(articleFrame.children).map((c) => ({
+  const positionedChildren = getArticleContents(articleFrame).map((c) => ({
     el: c,
     rect: c.getBoundingClientRect(),
   }));

@@ -70,6 +70,7 @@ def update_article():
                 "body": article["body"],
                 "pseudonym": article["pseudonym"],
                 "issue_id": article["issue_id"],
+                "postscript": article["postscript"],
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }
         )
