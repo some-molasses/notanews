@@ -5,8 +5,6 @@ import { PageTitle } from "@/app/components/page-title/page-title";
 import {
   Article,
   ArticleData,
-  ArticleDataExpanded,
-  ArticleExpanded,
   enrichArticles,
   IssueExpanded,
 } from "@/app/utils/data-types";
@@ -24,9 +22,7 @@ export const AutoDrafterClientPage: React.FC<{
   initialArticles: ArticleData[];
   issue: IssueExpanded;
 }> = ({ initialArticles, issue }) => {
-  const [articles, setArticles] = useState<Article[]>(
-    enrichArticles(initialArticles),
-  );
+  const [articles] = useState<Article[]>(enrichArticles(initialArticles));
   const [measurements, setMeasurements] =
     useState<Map<string, ArticleMeasurements>>();
   const [layout, setLayout] = useState<Run[]>();
@@ -47,6 +43,14 @@ export const AutoDrafterClientPage: React.FC<{
 
     setPages(layoutToPages(layout));
   }, [layout, pages, setPages]);
+
+  useEffect(() => {
+    if (!pages) {
+      return;
+    }
+
+    console.info(measurements, layout, pages);
+  }, [measurements, layout, pages]);
 
   return (
     <PageContainer id="auto-drafter-page">

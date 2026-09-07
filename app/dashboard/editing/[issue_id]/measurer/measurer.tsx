@@ -99,6 +99,20 @@ const groupContentByColumn = (
   return resultMap;
 };
 
+function getColumnHeight(column: Element[]) {
+  const top = column.reduce(
+    (prevMin, e) => Math.min(e.getBoundingClientRect().top, prevMin),
+    Number.MAX_SAFE_INTEGER,
+  );
+
+  const bottom = column.reduce(
+    (prevMax, e) => Math.max(e.getBoundingClientRect().bottom, prevMax),
+    0,
+  );
+
+  return bottom - top;
+}
+
 const measureArticle = (
   article: Article,
   articleFrame: HTMLDivElement,
@@ -108,10 +122,7 @@ const measureArticle = (
   const columnMeasurements: Column[] = Array.from(columns.values()).map(
     (column) => ({
       element_count: column.length,
-      height: column.reduce(
-        (sum, el) => sum + el.getBoundingClientRect().height,
-        0,
-      ),
+      height: getColumnHeight(column),
       contents: column.reduce(
         (acc: string, el: Element) => acc + el.outerHTML,
         "",
