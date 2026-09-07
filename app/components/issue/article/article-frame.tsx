@@ -12,7 +12,6 @@ export const MeasurerArticleFrame: React.FC<{
   fullHeight?: boolean;
   bodyRef?: React.Ref<HTMLDivElement>;
 }> = ({ article, fullHeight, bodyRef }) => {
-  console.log(article.postscript);
   return (
     <article
       className={`article article-frame simple-frame ${fullHeight ? "full-height" : ""}`}

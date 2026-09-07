@@ -70,7 +70,6 @@ describe("layout-definer constructLayout", () => {
     const result = constructLayout(articles);
 
     // Expect at least 2 runs created
-    console.log(result);
     expect(result.length).toBeGreaterThanOrEqual(2);
 
     // First run starts with the 3-column article

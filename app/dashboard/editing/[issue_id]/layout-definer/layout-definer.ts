@@ -5,9 +5,13 @@ import { AssertionError } from "assert";
 
 export class Run {
   articles: ArticleMeasurements[] = [];
+  maxColumns?: number;
+
   _id: string | undefined;
 
-  constructor() {}
+  constructor({ maxColumns }: { maxColumns?: number }) {
+    this.maxColumns = maxColumns;
+  }
 
   get id(): string {
     if (this._id) {
@@ -73,12 +77,14 @@ function filterSingleColumn(
 
 function filterMultiColumn(
   articles: ArticleMeasurements[],
-  maxColumns?: number,
+  pendingRun: Run,
 ): ArticleMeasurements[] {
   // if maxColumns = 1, this intentionally returns []
   return articles
     .filter((a) => a.columns.length > 1)
-    .filter((a) => (maxColumns ? a.columns.length <= maxColumns : true))
+    .filter((a) =>
+      pendingRun.maxColumns ? a.columns.length <= pendingRun.maxColumns : true,
+    )
     .sort(sortArticlesByLength);
 }
 
@@ -93,15 +99,15 @@ function getRemainingLastColumnHeight(run: Run): number {
 
 function commitRun(pendingRun: Run, remainingArticles: ArticleMeasurements[]) {
   const nextRunSingleCol =
+    pendingRun.maxColumns !== 1 &&
     pendingRun.articles.length > 0 &&
     pendingRun.articles[0].columns.length % 2 === 1;
 
   return [
     pendingRun, // commit run
     ...constructLayoutRecurse(
-      new Run(),
+      new Run({ maxColumns: nextRunSingleCol ? 1 : undefined }),
       remainingArticles,
-      nextRunSingleCol ? 1 : undefined,
     ),
   ];
 }
@@ -109,7 +115,6 @@ function commitRun(pendingRun: Run, remainingArticles: ArticleMeasurements[]) {
 function constructLayoutRecurse(
   pendingRun: Run,
   remainingArticles: ArticleMeasurements[],
-  maxColumns?: 1, // could later be generalized
 ): Run[] {
   if (remainingArticles.length === 0) {
     if (pendingRun.articles.length > 0) {
@@ -119,7 +124,7 @@ function constructLayoutRecurse(
     return [];
   }
 
-  const multiColArticles = filterMultiColumn(remainingArticles, maxColumns);
+  const multiColArticles = filterMultiColumn(remainingArticles, pendingRun);
   // if blank spread, start with a multi-col (if exists)
   if (pendingRun.articles.length === 0 && multiColArticles.length > 0) {
     // todo: optimization: only filter this once
@@ -129,7 +134,6 @@ function constructLayoutRecurse(
     return constructLayoutRecurse(
       pendingRun,
       remainingArticles.filter((a) => a.article_id !== selected.article_id),
-      maxColumns,
     );
   }
 
@@ -147,10 +151,9 @@ function constructLayoutRecurse(
   return constructLayoutRecurse(
     pendingRun,
     remainingArticles.filter((a) => a.article_id !== selected.article_id),
-    maxColumns,
   );
 }
 
 export function constructLayout(articles: ArticleMeasurements[]): Run[] {
-  return constructLayoutRecurse(new Run(), articles);
+  return constructLayoutRecurse(new Run({ maxColumns: undefined }), articles);
 }
