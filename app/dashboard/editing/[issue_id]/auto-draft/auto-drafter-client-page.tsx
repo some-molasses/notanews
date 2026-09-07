@@ -15,6 +15,7 @@ import { constructLayout, Run } from "../layout-definer/layout-definer";
 import {
   PageContents,
   PageFrame,
+  PagesFrame,
 } from "@/app/components/issue/page/page-frame";
 import { IssuePage, layoutToPages } from "../layout-definer/layout-to-pages";
 
@@ -62,15 +63,17 @@ export const AutoDrafterClientPage: React.FC<{
       {!measurements ? (
         <Measurer articles={articles} setMeasurements={setMeasurements} />
       ) : null}
-      {pages
-        ? pages.map((page, i) => {
+      {pages ? (
+        <PagesFrame>
+          {pages.map((page, i) => {
             return (
               <PageFrame key={i}>
                 <PageContents page={page} />
               </PageFrame>
             );
-          })
-        : null}
+          })}
+        </PagesFrame>
+      ) : null}
     </PageContainer>
   );
 };

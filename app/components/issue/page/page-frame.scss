@@ -39,6 +39,12 @@
   }
 }
 
+.pages-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .article-columns {
   display: flex;
   flex-direction: row;

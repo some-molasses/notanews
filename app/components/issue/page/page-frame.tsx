@@ -28,3 +28,7 @@ export const PageContents: React.FC<{ page: IssuePage }> = ({ page }) => {
     </div>
   );
 };
+
+export const PagesFrame: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => <div className="pages-frame">{children}</div>;
