@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient, User } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import { Database } from "@/database.types";
 
 export const response = (data: unknown, status = 200) =>
   NextResponse.json(data, { status });
@@ -13,7 +14,7 @@ export function getSupabase(request: NextRequest) {
   const token = authorization.slice("Bearer ".length).trim();
   if (!token) throw new Error("Missing bearer token");
 
-  return createClient(
+  return createClient<Database>(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
     {
@@ -50,7 +51,7 @@ export async function withAuthentication(
   routeFn: ({
     supabase,
   }: {
-    supabase: SupabaseClient;
+    supabase: SupabaseClient<Database>;
     user: User;
   }) => Promise<NextResponse>,
 ): Promise<NextResponse> {
