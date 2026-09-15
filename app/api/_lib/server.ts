@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient, User } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
 export const response = (data: unknown, status = 200) =>
@@ -43,4 +43,31 @@ export function handleError(error: unknown) {
     { error: error instanceof Error ? error.message : "Request failed" },
     401,
   );
+}
+
+export async function withAuthentication(
+  request: NextRequest,
+  routeFn: ({
+    supabase,
+  }: {
+    supabase: SupabaseClient;
+    user: User;
+  }) => Promise<NextResponse>,
+): Promise<NextResponse> {
+  try {
+    const { supabase, user } = await authenticated(request);
+    return await routeFn({ supabase, user });
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function withoutAuthentication(
+  routeFn: () => Promise<NextResponse> | NextResponse,
+): Promise<NextResponse> {
+  try {
+    return await routeFn();
+  } catch (error) {
+    return handleError(error);
+  }
 }

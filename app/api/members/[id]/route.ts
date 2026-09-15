@@ -1,16 +1,10 @@
 import { NextRequest } from "next/server";
-import {
-  authenticated,
-  handleError,
-  requestBody,
-  response,
-} from "../../_lib/server";
+import { requestBody, response, withAuthentication } from "../../_lib/server";
 
 type Context = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: NextRequest, { params }: Context) {
-  try {
-    const { supabase } = await authenticated(request);
+  return withAuthentication(request, async ({ supabase }) => {
     const id = (await params).id;
     const membership = await requestBody(request);
     if (membership.role === "contributor") {
@@ -36,7 +30,5 @@ export async function PATCH(request: NextRequest, { params }: Context) {
       .select();
     if (error) throw error;
     return response(data);
-  } catch (error) {
-    return handleError(error);
-  }
+  });
 }

@@ -1,28 +1,19 @@
 import { NextRequest } from "next/server";
-import {
-  authenticated,
-  handleError,
-  requestBody,
-  response,
-} from "../_lib/server";
+import { requestBody, response, withAuthentication } from "../_lib/server";
 
 export async function GET(request: NextRequest) {
-  try {
-    const { supabase } = await authenticated(request);
+  return withAuthentication(request, async ({ supabase }) => {
     let query = supabase.from("issues").select("*, papers(name, id)");
     const states = new URL(request.url).searchParams.get("state");
     if (states) query = query.in("state", states.split(","));
     const { data, error } = await query;
     if (error) throw error;
     return response(data);
-  } catch (error) {
-    return handleError(error);
-  }
+  });
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const { supabase } = await authenticated(request);
+  return withAuthentication(request, async ({ supabase }) => {
     const issue = await requestBody(request);
     const { data, error } = await supabase
       .from("issues")
@@ -36,7 +27,5 @@ export async function POST(request: NextRequest) {
       .select();
     if (error) throw error;
     return response(data);
-  } catch (error) {
-    return handleError(error);
-  }
+  });
 }

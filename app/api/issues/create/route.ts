@@ -1,14 +1,8 @@
 import { NextRequest } from "next/server";
-import {
-  authenticated,
-  handleError,
-  requestBody,
-  response,
-} from "../../_lib/server";
+import { requestBody, response, withAuthentication } from "../../_lib/server";
 
 export async function POST(request: NextRequest) {
-  try {
-    const { supabase } = await authenticated(request);
+  return withAuthentication(request, async ({ supabase }) => {
     const issue = await requestBody(request);
     const { data, error } = await supabase
       .from("issues")
@@ -22,7 +16,5 @@ export async function POST(request: NextRequest) {
       .select();
     if (error) throw error;
     return response(data);
-  } catch (error) {
-    return handleError(error);
-  }
+  });
 }

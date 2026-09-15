@@ -1,11 +1,8 @@
 import { NextRequest } from "next/server";
-import { authenticated, handleError, response } from "../_lib/server";
+import { response, withAuthentication } from "../_lib/server";
 
 export async function GET(request: NextRequest) {
-  try {
-    const { user } = await authenticated(request);
+  return withAuthentication(request, async ({ user }) => {
     return response({ id: user.id, email: user.email });
-  } catch (error) {
-    return handleError(error);
-  }
+  });
 }
