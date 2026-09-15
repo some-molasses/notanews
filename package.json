@@ -1,13 +1,11 @@
 {
-  "name": "next-flask",
+  "name": "notanews",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "flask-dev": "python -m flask --app api/index --debug run -p 5328",
-    "install": "pip3 install -r requirements.txt",
     "next-dev": "next dev",
-    "dev": "concurrently \"pnpm run next-dev\" \"pnpm run flask-dev\"",
-    "build": "next build && pnpm run install",
+    "dev": "pnpm run next-dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },

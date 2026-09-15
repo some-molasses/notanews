@@ -1,4 +1,0 @@
-Flask==3.0.3
-supabase
-isort
-black

@@ -15,10 +15,6 @@ export const getArticleById = async (
     return null;
   }
 
-  if (!process.env.NEXT_PUBLIC_LOCAL_DOMAIN) {
-    throw new Error("No local domain set");
-  }
-
   const articles: ArticleDataExpanded[] = await fetchApi(
     `articles?id=${id}`,
     jwt,
@@ -92,14 +88,11 @@ export const fetchApi = async <T>(
     throw new Error(`Body cannot be an object; JSON.stringify it first`);
   }
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api/${url}`,
-    {
-      headers: { ...options?.headers, Authorization: `Bearer ${jwt}` },
-      method: options?.method ?? "GET",
-      body: options?.body,
-    },
-  );
+  const res = await fetch(`/api/${url}`, {
+    headers: { ...options?.headers, Authorization: `Bearer ${jwt}` },
+    method: options?.method ?? "GET",
+    body: options?.body,
+  });
 
   if (!res.ok) {
     throw new Error(`Request to ${url} failed`);
