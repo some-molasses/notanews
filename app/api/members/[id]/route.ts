@@ -1,12 +1,19 @@
 import { NextRequest } from "next/server";
 import { requestBody, response, withAuthentication } from "../../_lib/server";
+import { z } from "zod";
+
+export const Role = ["contributor", "editor"] as const;
+
+const MembershipUpdateSchema = z.object({
+  role: z.enum(Role),
+});
 
 type Context = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: NextRequest, { params }: Context) {
   return withAuthentication(request, async ({ supabase }) => {
     const id = (await params).id;
-    const membership = await requestBody(request);
+    const membership = await requestBody(request, MembershipUpdateSchema);
     if (membership.role === "contributor") {
       const { data: current, error: membershipError } = await supabase
         .from("paper_members")

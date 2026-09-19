@@ -1,6 +1,7 @@
 import { createClient, SupabaseClient, User } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { Database } from "@/database.types";
+import { z } from "zod";
 
 export const response = (data: unknown, status = 200) =>
   NextResponse.json(data, { status });
@@ -34,15 +35,18 @@ export async function authenticated(request: NextRequest) {
   return { supabase, user: data.user };
 }
 
-export async function requestBody(request: NextRequest) {
-  return (await request.json()) as Record<string, unknown>;
+export async function requestBody<T extends z.ZodType>(
+  request: NextRequest,
+  schema: T,
+): Promise<z.infer<T>> {
+  return schema.parse(await request.json());
 }
 
 export function handleError(error: unknown) {
   console.error(error);
   return response(
     { error: error instanceof Error ? error.message : "Request failed" },
-    401,
+    error instanceof z.ZodError || error instanceof SyntaxError ? 400 : 401,
   );
 }
 

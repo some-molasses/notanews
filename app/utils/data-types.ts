@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type ArticleState = "draft" | "pending" | "approved" | "rejected";
 
 /**
@@ -106,7 +108,13 @@ export class ArticleExpanded extends Article {
   }
 }
 
-export type IssueState = "writing" | "copyediting" | "generating" | "published";
+export const IssueStateSchema = z.enum([
+  "writing",
+  "copyediting",
+  "generating",
+  "published",
+]);
+export type IssueState = z.infer<typeof IssueStateSchema>;
 
 export type Issue = {
   id: string;
@@ -144,4 +152,16 @@ export type PaperMemberDetailed = PaperMember & {
 export type UserProfile = {
   id: string;
   email: string;
+};
+
+export type IssueTemplate = {
+  id: string;
+  issue_id: Issue["id"];
+};
+
+export type IssueTemplateComponent = {
+  id: string;
+  issue_template_id: IssueTemplate["id"];
+  title: string;
+  description: string;
 };

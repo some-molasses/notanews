@@ -1,5 +1,15 @@
 import { NextRequest } from "next/server";
 import { requestBody, response, withAuthentication } from "../_lib/server";
+import { z } from "zod";
+
+const ArticleUpdateRequest = z.object({
+  id: z.uuid(),
+  title: z.string().nullable().optional(),
+  body: z.string().nullable().optional(),
+  pseudonym: z.string().nullable().optional(),
+  issue_id: z.uuid().nullable().optional(),
+  postscript: z.string().nullable().optional(),
+});
 
 export async function GET(request: NextRequest) {
   return withAuthentication(request, async ({ supabase, user }) => {
@@ -29,7 +39,7 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   return withAuthentication(request, async ({ supabase }) => {
-    const article = await requestBody(request);
+    const article = await requestBody(request, ArticleUpdateRequest);
     const { data, error } = await supabase
       .from("articles")
       .update({
