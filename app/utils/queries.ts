@@ -3,7 +3,8 @@ import {
   ArticleData,
   ArticleDataExpanded,
   ArticleExpanded,
-  IssueExpanded,
+  Issue,
+  IssueData,
   Paper,
 } from "./data-types";
 
@@ -38,19 +39,21 @@ export const getSubmittedArticlesForIssue = async (
   return articles.map((a) => new ArticleExpanded(a));
 };
 
-export const getIssues = async (jwt: string, states?: string[]) => {
-  const issues = (await fetchApi(
-    `/issues?${states ? `state=${states.join(",")}` : ""}`,
-    jwt,
-  )) as IssueExpanded[];
+export const getIssues = async (jwt: string): Promise<Issue[]> => {
+  const papers = await getPapers(jwt);
+  const issues = (
+    await Promise.all(papers.map((p) => getPaperIssues(p, jwt)))
+  ).flat();
 
   return issues;
 };
 
+type IssueExpanded = IssueData & { papers: { name: string } };
 export const getIssueById = async (jwt: string, id: string) => {
   const issues = (await fetchApi(`/issues/${id}`, jwt)) as IssueExpanded;
+  const paper = (await fetchApi(`/papers/${issues.paper_id}`, jwt)) as Paper;
 
-  return issues;
+  return new Issue(issues, paper);
 };
 
 export const getIssueArticles = async (
@@ -63,6 +66,24 @@ export const getIssueArticles = async (
   )) as ArticleData[];
 
   return articles.map((a) => new Article(a));
+};
+
+export const getPapers = async (jwt: string): Promise<Paper[]> => {
+  const papers = (await fetchApi(`/papers`, jwt, {
+    method: "GET",
+  })) as Paper[];
+
+  return papers;
+};
+export const getPaperIssues = async (
+  paper: Paper,
+  jwt: string,
+): Promise<Issue[]> => {
+  const paper_issues = (await fetchApi(`/papers/${paper.id}/issues`, jwt, {
+    method: "GET",
+  })) as IssueData[];
+
+  return paper_issues.map((i) => new Issue(i, paper));
 };
 
 export const getPaperById = async (paper_id: string, jwt: string) => {

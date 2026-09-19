@@ -28,9 +28,7 @@ export default async function EditingIssuePage({
 
   return (
     <PageContainer id="editing-issue-page">
-      <PageTitle>
-        editing {issue.papers.name} {issue.name}
-      </PageTitle>
+      <PageTitle>editing {issue.name}</PageTitle>
       {pendingArticles.length > 0 ? (
         <section>
           <h2>pending articles</h2>

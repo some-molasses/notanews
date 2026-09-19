@@ -127,7 +127,7 @@ export const IssueStateSchema = z.enum([
 ]);
 export type IssueState = z.infer<typeof IssueStateSchema>;
 
-export type Issue = {
+export type IssueData = {
   id: string;
   paper_id: string;
 
@@ -139,7 +139,51 @@ export type Issue = {
   published_at: string;
 };
 
-export type IssueExpanded = Issue & { papers: { name: string } };
+export class Issue {
+  private issue: IssueData;
+  private paper: Paper;
+
+  constructor(issue: IssueData, paper: Paper) {
+    this.issue = issue;
+    this.paper = paper;
+  }
+
+  get id() {
+    return this.issue.id;
+  }
+
+  get paper_id() {
+    return this.issue.paper_id;
+  }
+
+  get name() {
+    return `${this.paper_name} | ${this.issue_name}`;
+  }
+
+  get issue_name() {
+    return this.issue.name;
+  }
+
+  get paper_name() {
+    return this.paper.name;
+  }
+
+  get state() {
+    return this.issue.state;
+  }
+
+  get submission_deadline() {
+    return this.issue.submission_deadline;
+  }
+
+  get created_at() {
+    return this.issue.created_at;
+  }
+
+  get published_at() {
+    return this.issue.published_at;
+  }
+}
 
 export type Paper = {
   id: string;

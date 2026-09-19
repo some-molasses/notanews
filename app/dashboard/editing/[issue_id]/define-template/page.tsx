@@ -1,5 +1,7 @@
+import { PageContainer } from "@/app/components/page-container/page-container";
+import { PageTitle } from "@/app/components/page-title/page-title";
 import { authenticatePage } from "@/app/utils/auth-utils";
-import { getIssueArticles, getIssueById } from "@/app/utils/queries";
+import { getIssueById } from "@/app/utils/queries";
 import { createClient } from "@/app/utils/supabase/server";
 
 export default async function DraftingIssuePage({
@@ -12,7 +14,10 @@ export default async function DraftingIssuePage({
   const { issue_id } = await params;
 
   const issue = await getIssueById(jwt, issue_id);
-  const articles = await getIssueArticles(jwt, issue_id);
 
-  return null;
+  return (
+    <PageContainer id="issue-page">
+      <PageTitle>define template for {issue.name}</PageTitle>
+    </PageContainer>
+  );
 }

@@ -1,23 +1,22 @@
+import { Button } from "@/app/components/button/button.server";
+import { RowReverse } from "@/app/components/layout/layout-components";
 import { PageTitle } from "@/app/components/page-title/page-title";
 import { Table } from "@/app/components/table/table";
 import { Heading2 } from "@/app/components/typography/typography";
 import { authenticatePage } from "@/app/utils/auth-utils";
 import {
   Issue,
-  Paper,
   PaperMember,
   PaperMemberDetailed,
 } from "@/app/utils/data-types";
+import { fetchApi, getPaperById, getPaperIssues } from "@/app/utils/queries";
 import { createClient } from "@/app/utils/supabase/server";
-import { RowReverse } from "@/app/components/layout/layout-components";
-import { Button } from "@/app/components/button/button.server";
-import { nothing } from "./queries";
-import { fetchApi, getPaperById } from "@/app/utils/queries";
-import Link from "next/link";
-import "./paper.scss";
-import { PaperMembersTable } from "./components/members-table";
 import { SupabaseClient, User } from "@supabase/supabase-js";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { PaperMembersTable } from "./components/members-table";
+import "./paper.scss";
+import { nothing } from "./queries";
 
 const getUser = async (supabase: SupabaseClient): Promise<User> => {
   const user_data = (await supabase.auth.getUser()).data;
@@ -68,10 +67,7 @@ export default async function PaperView({
   }
 
   const paper = await getPaperById(paper_id, jwt);
-
-  const paper_issues = (await fetchApi(`/papers/${paper_id}/issues`, jwt, {
-    method: "GET",
-  })) as Issue[];
+  const paper_issues = await getPaperIssues(paper, jwt);
 
   return (
     <div id="papers-page">
@@ -90,7 +86,7 @@ export default async function PaperView({
         <Table
           headers={["issue", "creation date", "publication date"]}
           data={paper_issues}
-          rowGenerator={(issue) => makeIssueRow(issue, paper)}
+          rowGenerator={(issue) => makeIssueRow(issue)}
         />
         <RowReverse className="issue-buttons">
           <Button href={`/dashboard/papers/${paper.id}/create-issue`}>
@@ -102,14 +98,12 @@ export default async function PaperView({
   );
 }
 
-const makeIssueRow = (issue: Issue, paper: Paper) => {
+const makeIssueRow = (issue: Issue) => {
   return (
     <tr key={issue.id}>
       <td>
         <Link href={`/dashboard/issues/${issue.id}`}>
-          <div className="cell">
-            {paper.name} | {issue.name}
-          </div>
+          <div className="cell">{issue.name}</div>
         </Link>
       </td>
       <td>

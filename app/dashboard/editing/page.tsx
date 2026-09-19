@@ -1,23 +1,18 @@
-import { PageTitle } from "@/app/components/page-title/page-title";
-import { Heading2 } from "@/app/components/typography/typography";
-import { authenticatePage } from "@/app/utils/auth-utils";
-import { createClient } from "@/app/utils/supabase/server";
-import "./editing-dashboard.scss";
-import { fetchApi, getIssues } from "@/app/utils/queries";
-import { Issue, IssueExpanded, Paper } from "@/app/utils/data-types";
-import Link from "next/link";
 import { Card, CardsList } from "@/app/components/cards/cards";
 import { PageContainer } from "@/app/components/page-container/page-container";
+import { PageTitle } from "@/app/components/page-title/page-title";
+import { authenticatePage } from "@/app/utils/auth-utils";
+import { Issue } from "@/app/utils/data-types";
+import { getIssues } from "@/app/utils/queries";
+import { createClient } from "@/app/utils/supabase/server";
+import "./editing-dashboard.scss";
 
 export default async function EditingDashboardView() {
   const supabase = await createClient();
   const { jwt } = await authenticatePage(supabase);
 
-  const editableIssues: IssueExpanded[] = await getIssues(jwt, [
-    "writing",
-    "copyediting",
-    "generating",
-  ]);
+  // @todo restrict to only editable issues
+  const editableIssues: Issue[] = await getIssues(jwt);
 
   return (
     <PageContainer id="editing-dash-page">
@@ -27,9 +22,7 @@ export default async function EditingDashboardView() {
           {editableIssues.map((issue) => (
             <Card key={issue.id} href={`/dashboard/editing/${issue.id}`}>
               <div key={issue.id} className="issue-card">
-                <h2>
-                  {issue.papers.name} {issue.name}
-                </h2>
+                <h2>{issue.name}</h2>
                 <IssueStateBreadcrumb issue={issue} />
               </div>
             </Card>
