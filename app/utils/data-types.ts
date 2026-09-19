@@ -1,24 +1,35 @@
 import { z } from "zod";
 
-export type ArticleState = "draft" | "pending" | "approved" | "rejected";
+const BaseModel = z.object({
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const ArticleStateSchema = z.enum([
+  "draft",
+  "pending",
+  "copyediting",
+  "approved",
+]);
+export type ArticleState = z.infer<typeof ArticleStateSchema>;
+
+export const ArticleSchema = z.object({
+  ...BaseModel.shape,
+  id: z.uuid(),
+  user_id: z.uuid(),
+  issue_id: z.uuid().nullable(),
+  state: ArticleStateSchema,
+
+  title: z.string().nullable(),
+  body: z.string().nullable(),
+  pseudonym: z.string().nullable(),
+  postscript: z.string().nullable(),
+});
 
 /**
  * Be sure to cross-reference any updates to this schema with the version currently live in the DB
  */
-export type ArticleData = {
-  id: string;
-  user_id: string;
-  issue_id: string | null;
-  state: ArticleState;
-
-  title: string | null;
-  body: string | null;
-  pseudonym: string | null;
-  postscript: string | null;
-
-  created_at: string;
-  updated_at: string;
-};
+export type ArticleData = z.infer<typeof ArticleSchema>;
 
 export function enrichArticles(articles: ArticleData[]): Article[] {
   return articles.map((a) => new Article(a));
@@ -154,14 +165,18 @@ export type UserProfile = {
   email: string;
 };
 
-export type IssueTemplate = {
-  id: string;
-  issue_id: Issue["id"];
-};
+export const IssueTemplateSchema = z.object({
+  id: z.uuid(),
+  issue_id: z.uuid(),
+});
+export type IssueTemplate = z.infer<typeof IssueTemplateSchema>;
 
-export type IssueTemplateComponent = {
-  id: string;
-  issue_template_id: IssueTemplate["id"];
-  title: string;
-  description: string;
-};
+export const IssueTemplateComponentSchema = z.object({
+  id: z.uuid(),
+  issue_template_id: z.uuid(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+});
+export type IssueTemplateComponent = z.infer<
+  typeof IssueTemplateComponentSchema
+>;

@@ -68,6 +68,73 @@ export type Database = {
           },
         ]
       }
+      issue_template_components: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          id: number
+          issue_template_id: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: number
+          issue_template_id?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: number
+          issue_template_id?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_template_components_issue_template_id_fkey"
+            columns: ["issue_template_id"]
+            isOneToOne: false
+            referencedRelation: "issue_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      issue_templates: {
+        Row: {
+          created_at: string
+          id: string
+          issue_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          issue_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          issue_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_templates_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "issues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       issues: {
         Row: {
           created_at: string

@@ -8,6 +8,7 @@
 ## Database
 
 * `npx supabase start`
+* `npm run typegen`
 
 ## Tests
 
