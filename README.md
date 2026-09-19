@@ -8,7 +8,11 @@
 ## Database
 
 * `npx supabase start`
-* `npm run typegen`
+
+To regen types, copy the below into the terminal. There's a package script for this, but for some reason it doesn't work?
+```
+npx dotenv -- supabase gen types typescript --project-id "$PROJECT_REF" --schema public > database.types.ts
+```
 
 ## Tests
 

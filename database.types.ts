@@ -73,27 +73,27 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           description: string | null
-          id: number
+          id: string
           issue_template_id: string | null
-          title: string | null
+          title: string
           updated_at: string | null
         }
         Insert: {
           created_at?: string
           deleted_at?: string | null
           description?: string | null
-          id?: number
+          id?: string
           issue_template_id?: string | null
-          title?: string | null
+          title: string
           updated_at?: string | null
         }
         Update: {
           created_at?: string
           deleted_at?: string | null
           description?: string | null
-          id?: number
+          id?: string
           issue_template_id?: string | null
-          title?: string | null
+          title?: string
           updated_at?: string | null
         }
         Relationships: [
@@ -129,7 +129,7 @@ export type Database = {
           {
             foreignKeyName: "issue_templates_issue_id_fkey"
             columns: ["issue_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "issues"
             referencedColumns: ["id"]
           },

@@ -1,12 +1,22 @@
-import { NextRequest } from "next/server";
-import { requestBody, response, withAuthentication } from "../../_lib/server";
-import { z } from "zod";
 import { URL } from "next/dist/compiled/@edge-runtime/primitives/url";
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { requestBody, response, withAuthentication } from "../../_lib/server";
 
 const IssueTemplateComponentCreateRequest = z.object({
   components: z.array(
     z.object({
       issue_id: z.uuid(),
+      title: z.string(),
+      description: z.string().nullable(),
+    }),
+  ),
+});
+
+const IssueTemplateComponentUpdateRequest = z.object({
+  components: z.array(
+    z.object({
+      component_id: z.uuid(),
       title: z.string(),
       description: z.string().nullable(),
     }),
@@ -56,5 +66,32 @@ export async function POST(request: NextRequest) {
     if (error) throw error;
 
     return response(data);
+  });
+}
+
+export async function PATCH(request: NextRequest) {
+  return withAuthentication(request, async ({ supabase }) => {
+    const components = await requestBody(
+      request,
+      IssueTemplateComponentUpdateRequest,
+    ).then((res) => res.components);
+
+    const updatedComponents = await Promise.all(
+      components.map(async (component) => {
+        const { data, error } = await supabase
+          .from("issue_template_components")
+          .update({
+            title: component.title,
+            description: component.description,
+          })
+          .eq("id", component.component_id)
+          .select()
+          .single();
+        if (error) throw error;
+        return data;
+      }),
+    );
+
+    return response(updatedComponents);
   });
 }
