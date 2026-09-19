@@ -29,7 +29,7 @@ export const createIssueAction = async (formData: FormData) => {
     throw new Error("Issue submission deadline is in the past");
   }
 
-  await fetchApi("issues/create", jwt, {
+  await fetchApi("/issues/create", jwt, {
     method: "POST",
     body: JSON.stringify({
       issue_name: issueName,

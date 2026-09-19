@@ -30,7 +30,7 @@ export async function submitArticle(
   }
 
   // then submit
-  await fetchApi(`articles/${article.id}/submit`, jwt, {
+  await fetchApi(`/articles/${article.id}/submit`, jwt, {
     method: "PATCH",
   });
 
@@ -43,7 +43,7 @@ export async function revertArticleToDraft(
   jwt: string,
   onSuccess: () => void,
 ) {
-  await fetchApi(`articles/${article.id}/revert_to_draft`, jwt, {
+  await fetchApi(`/articles/${article.id}/revert_to_draft`, jwt, {
     method: "PATCH",
   });
 
@@ -55,7 +55,7 @@ export async function approveArticle(article: Article, jwt: string) {
   // first save current state
   updateArticle(article, jwt);
 
-  await fetchApi(`articles/${article.id}/approve`, jwt, {
+  await fetchApi(`/articles/${article.id}/approve`, jwt, {
     method: "PATCH",
   });
 

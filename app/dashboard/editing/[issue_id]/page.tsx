@@ -42,16 +42,21 @@ export default async function EditingIssuePage({
         <ArticlesTable articles={articles} />
       </section>
 
-      {pendingArticles.length === 0 ? (
-        <RowReverse className="draft-buttons">
-          <Button href={`/dashboard/editing/${issue.id}/drafting`}>
-            Begin drafting
-          </Button>
-          <Button href={`/dashboard/editing/${issue.id}/auto-draft`}>
-            Auto-draft
-          </Button>
-        </RowReverse>
-      ) : null}
+      <RowReverse className="draft-buttons">
+        <Button href={`/dashboard/editing/${issue.id}/define-template`}>
+          Define template
+        </Button>
+        {pendingArticles.length === 0 ? (
+          <>
+            <Button href={`/dashboard/editing/${issue.id}/drafting`}>
+              Begin drafting
+            </Button>
+            <Button href={`/dashboard/editing/${issue.id}/auto-draft`}>
+              Auto-draft
+            </Button>
+          </>
+        ) : null}
+      </RowReverse>
     </PageContainer>
   );
 }

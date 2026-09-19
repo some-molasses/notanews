@@ -16,7 +16,7 @@ export const getArticleById = async (
   }
 
   const articles: ArticleDataExpanded[] = await fetchApi(
-    `articles?id=${id}`,
+    `/articles?id=${id}`,
     jwt,
   );
   if (articles.length !== 1) {
@@ -31,7 +31,7 @@ export const getSubmittedArticlesForIssue = async (
   id: string,
 ): Promise<ArticleExpanded[]> => {
   const articles: ArticleDataExpanded[] = await fetchApi(
-    `issues/${id}/submitted-articles`,
+    `/issues/${id}/submitted-articles`,
     jwt,
   );
 
@@ -40,7 +40,7 @@ export const getSubmittedArticlesForIssue = async (
 
 export const getIssues = async (jwt: string, states?: string[]) => {
   const issues = (await fetchApi(
-    `issues?${states ? `state=${states.join(",")}` : ""}`,
+    `/issues?${states ? `state=${states.join(",")}` : ""}`,
     jwt,
   )) as IssueExpanded[];
 
@@ -48,7 +48,7 @@ export const getIssues = async (jwt: string, states?: string[]) => {
 };
 
 export const getIssueById = async (jwt: string, id: string) => {
-  const issues = (await fetchApi(`issues/${id}`, jwt)) as IssueExpanded;
+  const issues = (await fetchApi(`/issues/${id}`, jwt)) as IssueExpanded;
 
   return issues;
 };
@@ -58,7 +58,7 @@ export const getIssueArticles = async (
   id: string,
 ): Promise<Article[]> => {
   const articles = (await fetchApi(
-    `issues/${id}/articles`,
+    `/issues/${id}/articles`,
     jwt,
   )) as ArticleData[];
 
@@ -66,7 +66,7 @@ export const getIssueArticles = async (
 };
 
 export const getPaperById = async (paper_id: string, jwt: string) => {
-  const paper = (await fetchApi(`papers/${paper_id}`, jwt, {
+  const paper = (await fetchApi(`/papers/${paper_id}`, jwt, {
     method: "GET",
   })) as Paper;
 
@@ -88,7 +88,7 @@ export const fetchApi = async <T>(
     throw new Error(`Body cannot be an object; JSON.stringify it first`);
   }
 
-  const res = await fetch(`/api/${url}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_LOCAL_DOMAIN}/api${url}`, {
     headers: { ...options?.headers, Authorization: `Bearer ${jwt}` },
     method: options?.method ?? "GET",
     body: options?.body,

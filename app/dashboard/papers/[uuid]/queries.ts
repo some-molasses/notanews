@@ -12,7 +12,7 @@ export const updateRole = async (
   jwt: string,
 ) => {
   const updatedMembership: PaperMember[] = await fetchApi(
-    `members/${membership_id}`,
+    `/members/${membership_id}`,
     jwt,
     {
       headers: {

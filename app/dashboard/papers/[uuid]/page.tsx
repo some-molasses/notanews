@@ -57,7 +57,7 @@ export default async function PaperView({
 
   const paper_id = (await params).uuid;
 
-  const paper_members = (await fetchApi(`papers/${paper_id}/members`, jwt, {
+  const paper_members = (await fetchApi(`/papers/${paper_id}/members`, jwt, {
     method: "GET",
   })) as PaperMemberDetailed[];
 
@@ -69,7 +69,7 @@ export default async function PaperView({
 
   const paper = await getPaperById(paper_id, jwt);
 
-  const paper_issues = (await fetchApi(`papers/${paper_id}/issues`, jwt, {
+  const paper_issues = (await fetchApi(`/papers/${paper_id}/issues`, jwt, {
     method: "GET",
   })) as Issue[];
 
