@@ -75,6 +75,7 @@ export type Database = {
           description: string | null
           id: string
           issue_template_id: string | null
+          plurality: Database["public"]["Enums"]["template-component-plurality"]
           title: string
           updated_at: string | null
         }
@@ -84,6 +85,7 @@ export type Database = {
           description?: string | null
           id?: string
           issue_template_id?: string | null
+          plurality?: Database["public"]["Enums"]["template-component-plurality"]
           title: string
           updated_at?: string | null
         }
@@ -93,6 +95,7 @@ export type Database = {
           description?: string | null
           id?: string
           issue_template_id?: string | null
+          plurality?: Database["public"]["Enums"]["template-component-plurality"]
           title?: string
           updated_at?: string | null
         }
@@ -316,6 +319,7 @@ export type Database = {
       "article-state": "draft" | "submitted" | "approved" | "rejected"
       "issue-state": "writing" | "copyediting" | "generating" | "published"
       "paper-role": "contributor" | "editor"
+      "template-component-plurality": "single-item" | "multi-item"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -446,6 +450,7 @@ export const Constants = {
       "article-state": ["draft", "submitted", "approved", "rejected"],
       "issue-state": ["writing", "copyediting", "generating", "published"],
       "paper-role": ["contributor", "editor"],
+      "template-component-plurality": ["single-item", "multi-item"],
     },
   },
 } as const

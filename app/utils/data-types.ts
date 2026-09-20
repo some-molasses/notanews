@@ -1,3 +1,4 @@
+import { Constants } from "@/database.types";
 import { z } from "zod";
 
 const BaseModel = z.object({
@@ -215,11 +216,15 @@ export const IssueTemplateSchema = z.object({
 });
 export type IssueTemplate = z.infer<typeof IssueTemplateSchema>;
 
+export const IssueTemplatePluralitySchema = z.enum(
+  Constants.public.Enums["template-component-plurality"],
+);
 export const IssueTemplateComponentSchema = z.object({
   id: z.uuid(),
   issue_template_id: z.uuid(),
   title: z.string().nullable(),
   description: z.string().nullable(),
+  plurality: IssueTemplatePluralitySchema,
 });
 export type IssueTemplateComponent = z.infer<
   typeof IssueTemplateComponentSchema

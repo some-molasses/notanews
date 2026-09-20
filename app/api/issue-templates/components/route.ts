@@ -1,4 +1,3 @@
-import { URL } from "next/dist/compiled/@edge-runtime/primitives/url";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { requestBody, response, withAuthentication } from "../../_lib/server";
@@ -39,8 +38,8 @@ export async function GET(request: NextRequest) {
         id,
         issue_template_id,
         title,
-        body
-        issue_templates!inner!null ()
+        description,
+        issue_templates!inner(issue_id)
   `,
       )
       .eq("issue_templates.issue_id", issue_id);

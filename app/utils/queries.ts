@@ -5,6 +5,8 @@ import {
   ArticleExpanded,
   Issue,
   IssueData,
+  IssueTemplate,
+  IssueTemplateComponent,
   Paper,
 } from "./data-types";
 
@@ -97,6 +99,27 @@ export const getPaperById = async (paper_id: string, jwt: string) => {
 export const isEditor = async (jwt: string) => {
   return ((await fetchApi("/members/is_editor", jwt)) as { is_editor: boolean })
     .is_editor;
+};
+
+export const getIssueTemplate = async (issue_id: string, jwt: string) => {
+  return (await fetchApi(`/issue-templates?issue_id=${issue_id}`, jwt, {
+    method: "GET",
+  })) as IssueTemplate;
+};
+
+export const getIssueTemplateComponents = async (
+  issue_id: string,
+  jwt: string,
+) => {
+  const components = (await fetchApi(
+    `/issue-templates/components?issue_id=${issue_id}`,
+    jwt,
+    {
+      method: "GET",
+    },
+  )) as IssueTemplateComponent[];
+
+  return components;
 };
 
 // @example url "/papers"

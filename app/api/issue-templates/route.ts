@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
-import { requestBody, response, withAuthentication } from "../_lib/server";
 import { z } from "zod";
-import { URL } from "next/dist/compiled/@edge-runtime/primitives/url";
+import { requestBody, response, withAuthentication } from "../_lib/server";
 
 const IssueTemplateCreateRequest = z.object({
   issue_id: z.uuid(),

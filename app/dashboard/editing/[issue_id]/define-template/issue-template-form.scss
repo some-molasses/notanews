@@ -1,0 +1,21 @@
+#issue-template-form {
+  margin: 24px;
+
+  #components-list {
+    gap: 24px;
+    padding: 16px 0;
+
+    .template-component {
+      padding: 16px;
+      border: var(--border);
+
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .component-bottom-row {
+        justify-content: space-between;
+      }
+    }
+  }
+}

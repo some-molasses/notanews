@@ -1,16 +1,19 @@
 "use client";
 
+import { useJWT } from "@/app/auth/components/jwt-context";
+import { Button } from "@/app/components/button/button.client";
 import { Column, Row } from "@/app/components/layout/layout-components";
 import Tiptap from "@/app/components/tiptap/tiptap";
-import React, { useEffect, useState } from "react";
 import {
   Article,
-  ArticleData,
   ArticleDataExpanded,
   ArticleExpanded,
-  IssueExpanded,
+  Issue,
 } from "@/app/utils/data-types";
-import { Button } from "@/app/components/button/button.client";
+import { useUser } from "@/app/utils/data-util.client";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   approveArticle,
   deleteArticle,
@@ -18,14 +21,10 @@ import {
   submitArticle,
   updateArticle,
 } from "./queries";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import { useJWT } from "@/app/auth/components/jwt-context";
-import { useUser } from "@/app/utils/data-util.client";
 
 export const ArticleEditorClient: React.FC<{
   articleData: ArticleDataExpanded;
-  eligibleIssues: IssueExpanded[];
+  eligibleIssues: Issue[];
   isUserAnEditor: boolean;
 }> = ({ articleData, eligibleIssues, isUserAnEditor }) => {
   const user = useUser();
@@ -99,7 +98,7 @@ export const ArticleEditorClient: React.FC<{
             </option>
             {eligibleIssues.map((issue) => (
               <option key={issue.id} value={issue.id}>
-                {issue.papers.name} | {issue.name}
+                {issue.name}
               </option>
             ))}
           </select>
